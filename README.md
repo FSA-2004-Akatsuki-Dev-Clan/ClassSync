@@ -1,4 +1,4 @@
-# ClassSync An e-Learning Engagement Suite for Remote K-12 Classrooms
+# ClassSync: An e-Learning Engagement Suite for Remote K-12 Classrooms
 
 Goal: To provide educators a web-based tool for tracking actionable data on students’ activity and habits during live classroom sessions and home assignments.
 
