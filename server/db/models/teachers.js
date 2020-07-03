@@ -70,8 +70,8 @@ const setSaltAndPassword = teacher => {
   }
 }
 
-teacher.beforeCreate(setSaltAndPassword)
-teacher.beforeUpdate(setSaltAndPassword)
-teacher.beforeBulkCreate(teachers => {
+Teacher.beforeCreate(setSaltAndPassword)
+Teacher.beforeUpdate(setSaltAndPassword)
+Teacher.beforeBulkCreate(teachers => {
   teachers.forEach(setSaltAndPassword)
 })
