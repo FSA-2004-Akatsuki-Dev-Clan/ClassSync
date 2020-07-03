@@ -17,15 +17,14 @@ const StudentSession = require('./student-session')
 Teacher.hasMany(Class)
 Class.belongsTo(Teacher)
 
-Student.belongsToMany(Class, { through: StudentClass })
-Class.belongsToMany(Student, { through: StudentClass })
+Student.belongsToMany(Class, {through: StudentClass})
+Class.belongsToMany(Student, {through: StudentClass})
 
-Student.belongsToMany(Session, { through: StudentSession })
-Session.belongsToMany(Student, { through: StudentSession })
+Student.belongsToMany(Session, {through: StudentSession})
+Session.belongsToMany(Student, {through: StudentSession})
 
 Class.hasMany(Session)
 Session.belongsTo(Class)
-
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
