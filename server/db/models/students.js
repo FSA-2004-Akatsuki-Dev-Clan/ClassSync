@@ -19,6 +19,9 @@ const Student = db.define('students', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  comment: {
+    type: Sequelize.TEXT
+  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
