@@ -3,8 +3,8 @@ const Teacher = require('./teachers')
 const Student = require('./students')
 const Class = require('./classes')
 const Session = require('./sessions')
-const StudentClass = require('./studentClass')
-const StudentSession = require('./studentSession')
+const StudentClass = require('./student-class')
+const StudentSession = require('./student-session')
 
 
 /**
