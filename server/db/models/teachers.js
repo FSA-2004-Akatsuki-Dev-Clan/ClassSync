@@ -41,18 +41,18 @@ module.exports = Teacher
 /**
  * instanceMethods
  */
-Teacher.prototype.correctPassword = function (candidatePwd) {
+Teacher.prototype.correctPassword = function(candidatePwd) {
   return teacher.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
 /**
  * classMethods
  */
-Teacher.generateSalt = function () {
+Teacher.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }
 
-Teacher.encryptPassword = function (plainText, salt) {
+Teacher.encryptPassword = function(plainText, salt) {
   return crypto
     .createHash('RSA-SHA256')
     .update(plainText)
@@ -66,7 +66,10 @@ Teacher.encryptPassword = function (plainText, salt) {
 const setSaltAndPassword = teacher => {
   if (teacher.changed('password')) {
     teacher.salt = teacher.generateSalt()
-    teacher.password = teacher.encryptPassword(teacher.password(), teacher.salt())
+    teacher.password = teacher.encryptPassword(
+      teacher.password(),
+      teacher.salt()
+    )
   }
 }
 
