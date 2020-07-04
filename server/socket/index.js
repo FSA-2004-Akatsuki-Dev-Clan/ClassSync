@@ -5,5 +5,9 @@ module.exports = io => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
+
+    socket.on('user-devices-client', function() {
+      socket.broadcast.emit('user-devices-client')
+    })
   })
 }
