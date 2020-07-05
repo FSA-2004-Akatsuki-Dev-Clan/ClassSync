@@ -102,7 +102,7 @@ export const detectSpeech = () => {
 //When a request to activate is sent from another client, the webcam stream is accessed, the ImageCapture interface is set up, and the buttons for controlling speech and facial recognition are revealed
 socket.on('user-devices-client', function() {
   let mediaConfigObj = {
-    audio: false,
+    audio: true,
     video: true
   }
 
