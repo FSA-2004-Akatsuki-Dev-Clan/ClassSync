@@ -4,14 +4,12 @@ import * as faceapi from 'face-api.js'
 faceapi.nets.tinyFaceDetector.loadFromUri('../models')
 
 const socket = io(window.location.origin)
-// const socket = io('http://localhost:8080')
-
-//for ngrok
-// const socket = io('https://ded537cde722.ngrok.io')
 
 socket.on('connect', () => {
   console.log('Connected!')
 })
+
+const data = {faceCount: 0, wordCount: 0}
 
 //Creates an image element not appended to the DOM yet
 let image = document.createElement('img')
@@ -47,6 +45,8 @@ export const detectFace = async () => {
   document.getElementById('facetext').innerHTML = faces.length
     ? 'Face Detected!'
     : 'No Face Present'
+
+  data.faceCount += faces.length
 }
 
 //creates a text element not yet appended to the DOM
@@ -89,10 +89,15 @@ export const detectSpeech = () => {
     recognition.stop()
     console.log('no longer listening')
     console.log('counted this many words: ', words)
+    data.wordCount += words
     words = 0
   }
 
   listening = !listening
+}
+
+export const sendData = () => {
+  socket.emit('data', 'test', data)
 }
 
 // setInterval(async () => {
@@ -100,7 +105,7 @@ export const detectSpeech = () => {
 // }, 100)
 
 //When a request to activate is sent from another client, the webcam stream is accessed, the ImageCapture interface is set up, and the buttons for controlling speech and facial recognition are revealed
-socket.on('user-devices-client', function() {
+socket.on('user-devices-client', () => {
   let mediaConfigObj = {
     audio: false,
     video: true
@@ -118,10 +123,15 @@ socket.on('user-devices-client', function() {
       document.getElementById('activate').hidden = true
       document.getElementById('face').hidden = false
       document.getElementById('speech').hidden = false
+      document.getElementById('send').hidden = false
     })
     .catch(function(err) {
       console.log('ohh noooo!!', err)
     })
+})
+
+socket.on('data', (id, data) => {
+  console.log(`current data for student '${id}': `, data)
 })
 
 export default socket
