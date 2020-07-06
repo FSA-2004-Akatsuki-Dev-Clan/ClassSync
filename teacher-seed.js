@@ -2,7 +2,8 @@ const teacherSeed = [
   {
     firstName: 'Kyla',
     lastName: 'Lara',
-    email: 'kylalara1@gmail.com'
+    email: 'kylalara1@gmail.com',
+    password: '123'
   }
   // {
   //   firstName: 'Safah',
