@@ -10,6 +10,7 @@ socket.on('connect', () => {
 })
 
 const data = {faceCount: 0, wordCount: 0}
+let interval
 
 //Creates an image element not appended to the DOM yet
 let image = document.createElement('img')
@@ -59,8 +60,6 @@ const recognition = new SpeechRecognition()
 recognition.continuous = true
 recognition.lang = 'en-US'
 
-let listening = false
-
 let words = 0
 
 //when the SpeechRecognition interface recognizes a chunk of speech, we transcribe it, add it to our text element, and count the words
@@ -79,30 +78,10 @@ recognition.onresult = event => {
 }
 
 //currently this function is triggered by a button on the UserMedia page. It places our speech text element on the DOM so we can see it, and it starts or stops the SpeechRecognition interface listening to the microphone audio
-export const detectSpeech = () => {
-  document.getElementById('test').appendChild(speechText)
 
-  if (!listening) {
-    recognition.start()
-    console.log('listening for speech')
-  } else {
-    recognition.stop()
-    console.log('no longer listening')
-    console.log('counted this many words: ', words)
-    data.wordCount += words
-    words = 0
-  }
-
-  listening = !listening
+export const sendData = (studentID = socket.id) => {
+  socket.emit('data', studentID, data)
 }
-
-export const sendData = () => {
-  socket.emit('data', 'test', data)
-}
-
-// setInterval(async () => {
-//   data gathering code here
-// }, 100)
 
 //When a request to activate is sent from another client, the webcam stream is accessed, the ImageCapture interface is set up, and the buttons for controlling speech and facial recognition are revealed
 socket.on('user-devices-client', () => {
@@ -121,9 +100,21 @@ socket.on('user-devices-client', () => {
       imageCapture = new ImageCapture(video)
 
       document.getElementById('activate').hidden = true
-      document.getElementById('face').hidden = false
-      document.getElementById('speech').hidden = false
-      document.getElementById('send').hidden = false
+      // document.getElementById('face').hidden = false
+      // document.getElementById('speech').hidden = false
+      // document.getElementById('send').hidden = false
+
+      recognition.start()
+      console.log('listening for speech')
+
+      interval = setInterval(async () => {
+        await detectFace()
+
+        data.wordCount += words
+        words = 0
+
+        sendData()
+      }, 10000)
     })
     .catch(function(err) {
       console.log('ohh noooo!!', err)
