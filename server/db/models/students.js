@@ -4,16 +4,13 @@ const db = require('../db')
 
 const Student = db.define('students', {
   firstName: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   lastName: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   gradeLevel: {
-    type: Sequelize.INTEGER,
-    allowNull: false
+    type: Sequelize.INTEGER
   },
   email: {
     type: Sequelize.STRING,
@@ -48,18 +45,18 @@ module.exports = Student
 /**
  * instanceMethods
  */
-Student.prototype.correctPassword = function (candidatePwd) {
+Student.prototype.correctPassword = function(candidatePwd) {
   return Student.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
 /**
  * classMethods
  */
-Student.generateSalt = function () {
+Student.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }
 
-Student.encryptPassword = function (plainText, salt) {
+Student.encryptPassword = function(plainText, salt) {
   return crypto
     .createHash('RSA-SHA256')
     .update(plainText)
@@ -72,8 +69,11 @@ Student.encryptPassword = function (plainText, salt) {
  */
 const setSaltAndPassword = student => {
   if (student.changed('password')) {
-    student.salt = student.generateSalt()
-    student.password = student.encryptPassword(student.password(), student.salt())
+    student.salt = Student.generateSalt()
+    student.password = Student.encryptPassword(
+      student.password(),
+      student.salt()
+    )
   }
 }
 

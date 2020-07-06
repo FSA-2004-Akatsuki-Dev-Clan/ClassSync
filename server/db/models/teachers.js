@@ -4,12 +4,10 @@ const db = require('../db')
 
 const Teacher = db.define('teachers', {
   firstName: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   lastName: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   email: {
     type: Sequelize.STRING,
@@ -42,7 +40,7 @@ module.exports = Teacher
  * instanceMethods
  */
 Teacher.prototype.correctPassword = function(candidatePwd) {
-  return teacher.encryptPassword(candidatePwd, this.salt()) === this.password()
+  return Teacher.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
 /**
@@ -65,8 +63,8 @@ Teacher.encryptPassword = function(plainText, salt) {
  */
 const setSaltAndPassword = teacher => {
   if (teacher.changed('password')) {
-    teacher.salt = teacher.generateSalt()
-    teacher.password = teacher.encryptPassword(
+    teacher.salt = Teacher.generateSalt()
+    teacher.password = Teacher.encryptPassword(
       teacher.password(),
       teacher.salt()
     )
