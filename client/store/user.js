@@ -1,6 +1,9 @@
 import axios from 'axios'
 import history from '../history'
 
+let teacherSocket
+let studentSocket
+
 /**
  * ACTION TYPES
  */
@@ -40,7 +43,9 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    if (res.data.isTeacher) require('../socket/teacher')
+    else require('../socket/student')
+    history.push('/session')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -59,6 +64,25 @@ export const logout = () => async dispatch => {
 /**
  * REDUCER
  */
+
+// export const startSession = (id) => {
+//   if (window.confirm('Are you ready to start the session?')) {
+//     teacherSocket.emit('start-session', id)
+
+//     document.getElementById('start').hidden = true
+//     document.getElementById('end').hidden = false
+//   }
+// }
+
+// export const endSession = (id) => {
+//   if (window.confirm('Are you sure you want to end the session?')) {
+//     teacherSocket.emit('end-session', id)
+
+//     document.getElementById('start').hidden = false
+//     document.getElementById('end').hidden = true
+//   }
+// }
+
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:

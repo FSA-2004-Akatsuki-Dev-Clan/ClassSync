@@ -4,6 +4,7 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
-export {default as UserMedia} from './user-media'
+export {default as Session} from './session'
+export {default as StudentMonitor} from './student-monitor'
+export {default as TeacherSession} from './teacher-session'
 export {Login, Signup} from './auth-form'

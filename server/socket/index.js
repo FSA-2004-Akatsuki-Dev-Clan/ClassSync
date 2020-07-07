@@ -9,9 +9,21 @@ module.exports = io => {
       console.log(`Connection ${socket.id} has left the building`)
     })
 
-    socket.on('user-devices-client', () => {
+    socket.on('start-session', id => {
       teacherSocket = socket.id
-      socket.broadcast.emit('user-devices-client')
+      socket.broadcast.emit('start-session')
+    })
+
+    socket.on('end-session', id => {
+      socket.broadcast.emit('end-session')
+    })
+
+    socket.on('cancel', (id, first, last) => {
+      io.to(teacherSocket).emit('cancel', id, first, last)
+    })
+
+    socket.on('re-invite', id => {
+      io.to(id).emit('start-session')
     })
 
     socket.on('data', (id, data) => {

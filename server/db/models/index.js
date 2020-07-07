@@ -1,11 +1,9 @@
-const User = require('./user')
 const Teacher = require('./teachers')
 const Student = require('./students')
 const Class = require('./classes')
 const Session = require('./sessions')
 const StudentClass = require('./student-class')
 const StudentSession = require('./student-session')
-
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -33,7 +31,6 @@ Session.belongsTo(Class)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User,
   Teacher,
   Student,
   Class,
