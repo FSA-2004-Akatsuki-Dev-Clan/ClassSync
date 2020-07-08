@@ -8,7 +8,7 @@ const TeacherSession = ({teacher}) => (
       id="start"
       type="button"
       onClick={() => {
-        startSession(teacher.id)
+        startSession(teacher.id, 'test')
       }}
     >
       Start Session
@@ -18,7 +18,7 @@ const TeacherSession = ({teacher}) => (
       type="button"
       hidden={true}
       onClick={() => {
-        endSession(teacher.id)
+        endSession()
       }}
     >
       End Session

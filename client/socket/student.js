@@ -2,17 +2,15 @@ import socket from '.'
 import store from '../store'
 import * as faceapi from 'face-api.js'
 
-faceapi.nets.tinyFaceDetector.loadFromUri('../models')
-
 const studentSocket = socket
 
 const student = store.getState().user
 
-// studentSocket.emit('check-session', student.id)
-
 let data = {}
 
 let interval
+
+let listening = false
 
 const clickAdd = () => {
   data.clickCount++
@@ -25,6 +23,10 @@ const keyAdd = () => {
 }
 
 let keyListener
+
+//tinyFaceDetector model library is less accurate but faster and more optimized for mobile/web
+const loadFaceAPI = () => faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
+//const loadFaceAPI = () => faceapi.nets.tinyFaceDetector.loadFromUri('../models')
 
 let mediaStream
 
@@ -48,8 +50,13 @@ const detectFace = async () => {
   //passes the image to the face-api library and returns the faces detected
   const faces = await faceapi.detectAllFaces(
     image,
-    new faceapi.TinyFaceDetectorOptions()
+    new faceapi.SsdMobilenetv1Options()
   )
+
+  // const faces = await faceapi.detectAllFaces(
+  //   image,
+  //   new faceapi.TinyFaceDetectorOptions()
+  // )
 
   console.log('got face', faces)
   if (faces.length) console.log('score: ', faces[0].score)
@@ -96,8 +103,11 @@ const startMonitor = () => {
       imageCapture = new ImageCapture(video)
 
       //speech recognition interface starts listening to the microphone
-      recognition.start()
-      console.log('listening for speech')
+      if (!listening) {
+        recognition.start()
+        console.log('listening for speech')
+        listening = true
+      }
 
       //set up keystroke and mouse-click listeners
       clickListener = window.addEventListener('click', clickAdd)
@@ -112,7 +122,7 @@ const startMonitor = () => {
         await detectFace()
 
         studentSocket.emit('data', student.id, data)
-      }, 20000)
+      }, 10000)
     })
     .catch(function(err) {
       console.log(
@@ -122,8 +132,33 @@ const startMonitor = () => {
     })
 }
 
+const stopMonitor = () => {
+  clearInterval(interval)
+
+  if (mediaStream) {
+    mediaStream.getAudioTracks().forEach(track => {
+      track.stop()
+    })
+
+    mediaStream.getVideoTracks().forEach(track => {
+      track.stop()
+    })
+  }
+
+  if (listening) {
+    recognition.stop()
+    listening = false
+  }
+
+  window.removeEventListener('click', clickListener)
+
+  window.removeEventListener('keydown', keyListener)
+
+  data = {}
+}
+
 //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
-studentSocket.on('start-session', () => {
+studentSocket.on('start-session', async () => {
   if (
     !window.confirm(
       'Your teacher has started a live session. This will access your video and audio streams.'
@@ -131,45 +166,47 @@ studentSocket.on('start-session', () => {
   ) {
     studentSocket.emit(
       'cancel',
-      studentSocket.id,
+      student.id,
       student.firstName,
       student.lastName
     )
     return
   }
 
-  studentSocket.emit('accept', student.id)
+  await loadFaceAPI()
 
-  //If not canceled, data object is initialized and monitoring script is invoked
+  stopMonitor()
+
   data = {wordCount: 0, faceCount: 0, keyCount: 0, clickCount: 0}
+
+  studentSocket.emit('accept', student.id, data)
 
   startMonitor()
 })
 
 //if a message is received that the session is over, the timed activity logging interval is stopped
 studentSocket.on('end-session', () => {
-  clearInterval(interval)
-
-  mediaStream.getAudioTracks().forEach(track => {
-    track.stop()
-  })
-
-  mediaStream.getVideoTracks().forEach(track => {
-    track.stop()
-  })
-
-  recognition.stop()
-
-  window.removeEventListener('click', clickListener)
-
-  window.removeEventListener('keydown', keyListener)
-
-  data = {}
+  stopMonitor()
 
   document.getElementById('session-message').innerHTML =
     'The teacher has ended the class session. Please wait for the next one to start.'
 
   window.alert('The class session has ended')
 })
+
+studentSocket.on(
+  'reconnected',
+  async ({faceCount, wordCount, keyCount, clickCount}) => {
+    stopMonitor()
+
+    data = {faceCount, wordCount, keyCount, clickCount}
+
+    await loadFaceAPI()
+
+    startMonitor()
+
+    console.log('Reconnected to server!')
+  }
+)
 
 export default studentSocket
