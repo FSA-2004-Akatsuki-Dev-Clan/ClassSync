@@ -9,16 +9,16 @@ const StudentSession = db.define('studentSession', {
   faceCount: {
     type: Sequelize.INTEGER
   },
-  faceCaptureAttempts: {
+  faceDetections: {
     type: Sequelize.INTEGER
   },
-  wordsSpoken: {
+  wordCount: {
     type: Sequelize.INTEGER
   },
-  clicks: {
+  clickCount: {
     type: Sequelize.INTEGER
   },
-  keyStrokes: {
+  keyCount: {
     type: Sequelize.INTEGER
   }
 })
