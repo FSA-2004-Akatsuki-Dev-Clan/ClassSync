@@ -4,6 +4,8 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, Session} from './components'
 import {me} from './store'
+import FullWidthGrid from './components/teacher-dash/teacher-dash'
+import {AllStudents} from './components/teacher-dash/all-students'
 
 /**
  * COMPONENT
@@ -21,6 +23,11 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/allstudents" component={AllStudents} />
+        <Route path="/dashboard" component={FullWidthGrid} />
+
+        {/* <Route path="/session" component={Session} /> */}
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
