@@ -53,6 +53,11 @@ const detectFace = async () => {
     new faceapi.SsdMobilenetv1Options()
   )
 
+  // const faces = await faceapi.detectAllFaces(
+  //   image,
+  //   new faceapi.TinyFaceDetectorOptions()
+  // )
+
   console.log('got face', faces)
   if (faces.length) console.log('score: ', faces[0].score)
 

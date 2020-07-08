@@ -59,15 +59,15 @@ module.exports = io => {
     })
 
     socket.on('reconnect', userId => {
-      if (live) {
-        if (teacher.id === userId) {
-          teacher.socket = socket.id
-          io.to(socket.id).emit('reconnected')
-        } else if (sessionData[sessionId][userId]) {
-          sessionData[sessionId][userId].socket = socket.id
-          io.to(socket.id).emit('reconnected', sessionData[sessionId][userId])
-        }
-      }
+      // if (live) {
+      //   if (teacher.id === userId) {
+      //     teacher.socket = socket.id
+      //     io.to(socket.id).emit('reconnected')
+      //   } else if (sessionData[sessionId][userId]) {
+      //     sessionData[sessionId][userId].socket = socket.id
+      //     io.to(socket.id).emit('reconnected', sessionData[sessionId][userId])
+      //   }
+      // }
     })
 
     socket.on('data', (studentId, data) => {
