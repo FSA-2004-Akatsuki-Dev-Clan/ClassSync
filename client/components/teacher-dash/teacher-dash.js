@@ -27,7 +27,10 @@ export default function FullWidthGrid() {
       <h1 style={{textAlign: 'center'}}>Dashboard</h1>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
-          <Paper className={classes.paper}>
+          <Paper
+            className={classes.paper}
+            // style={{background: 'linear-gradient(to right bottom, #ff9d00, #ffd56b)'}}
+          >
             <h3>Classwork status and additional data (by student)</h3>
             <Grid container item xs={12} spacing={3}>
               <ClassworkRow />
@@ -49,9 +52,7 @@ export default function FullWidthGrid() {
             <h3>Total Activity Levels by Assignment</h3>
             <Grid container item xs={12}>
               <ActivityLevelRow />
-              <Grid container item xs={6}>
-                <ClassSumTotalsRow />
-              </Grid>
+              <Grid container item xs={6} />
             </Grid>
           </Paper>
         </Grid>

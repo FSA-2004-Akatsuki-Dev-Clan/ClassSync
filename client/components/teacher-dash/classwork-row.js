@@ -18,8 +18,7 @@ const classworkObject = {
     'Assignment 1',
     'Assignment 2',
     'Assignment 3',
-    'Assignment 4',
-    'Assignment 5'
+    'Assignment 4'
   ]
 }
 
@@ -29,7 +28,12 @@ export default function ClassworkRow() {
       {classworkObject.assignmentName.map(assignment => {
         return (
           <Grid item xs={3}>
-            <Paper className={useStyles().paper}>{assignment}</Paper>
+            <Paper
+              className={useStyles().paper}
+              // style={{background: 'linear-gradient(to right bottom, #00ff51, #94ffb6)'}}
+            >
+              {assignment}
+            </Paper>
           </Grid>
         )
       })}

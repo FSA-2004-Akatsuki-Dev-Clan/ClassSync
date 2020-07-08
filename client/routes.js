@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, UserMedia} from './components'
 import {me} from './store'
 import FullWidthGrid from './components/teacher-dash/teacher-dash'
+import {AllStudents} from './components/teacher-dash/all-students'
 
 /**
  * COMPONENT
@@ -23,7 +24,9 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/usermedia" component={UserMedia} />
+        <Route path="/allstudents" component={AllStudents} />
         <Route path="/dashboard" component={FullWidthGrid} />
+
         {/* <Route path="/session" component={Session} /> */}
         {isLoggedIn && (
           <Switch>
