@@ -25,6 +25,9 @@ const StudentSession = db.define('studentSession', {
   },
   sessionClicks: {
     type: Sequelize.INTEGER
+  },
+  sessionKeyStrokes: {
+    type: Sequelize.INTEGER
   }
 })
 
