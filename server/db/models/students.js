@@ -38,19 +38,19 @@ const Student = db.define('students', {
   googleId: {
     type: Sequelize.STRING
   },
-  faceCountTot: {
+  faceCountAvg: {
     type: Sequelize.INTEGER
   },
-  faceCaptureAttemptTot: {
+  wordsSpokenAvg: {
     type: Sequelize.INTEGER
   },
-  wordsSpokenTot: {
+  mouseClickAvg: {
     type: Sequelize.INTEGER
   },
-  mouseClickTot: {
+  keyStrokeAvg: {
     type: Sequelize.INTEGER
   },
-  keyStrokeTot: {
+  numberOfSessions: {
     type: Sequelize.INTEGER
   }
 })

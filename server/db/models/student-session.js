@@ -6,27 +6,19 @@ const StudentSession = db.define('studentSession', {
   comment: {
     type: Sequelize.TEXT
   },
-  startTime: {
-    type: Sequelize.DATE,
-    defaultValue: NOW
-  },
-  EndTime: {
-    type: Sequelize.DATE,
-    defaultValue: null
-  },
-  sessionFaceCount: {
+  faceCount: {
     type: Sequelize.INTEGER
   },
-  sessionFaceCaptureAttempts: {
+  faceCaptureAttempts: {
     type: Sequelize.INTEGER
   },
-  sessionWordsSpoken: {
+  wordsSpoken: {
     type: Sequelize.INTEGER
   },
-  sessionClicks: {
+  clicks: {
     type: Sequelize.INTEGER
   },
-  sessionKeyStrokes: {
+  keyStrokes: {
     type: Sequelize.INTEGER
   }
 })
