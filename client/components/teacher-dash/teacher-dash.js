@@ -7,6 +7,7 @@ import ClassworkRow from './classwork-row'
 import HomeworkRow from './homework-row'
 import ClassSumTotalsRow from './class-sum-totals-row'
 import ActivityLevelRow from './activity-level-row'
+import AllStudents from './all-students'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function FullWidthGrid() {
+export default function TeacherDash() {
   const classes = useStyles()
 
   return (
@@ -60,6 +61,7 @@ export default function FullWidthGrid() {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <h3>All Students</h3>
+            <AllStudents />
           </Paper>
         </Grid>
       </Grid>

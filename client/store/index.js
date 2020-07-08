@@ -4,8 +4,13 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import studentReducer from './students'
+import singleStudentReducer from './single-student'
 
-const reducer = combineReducers({user, students: studentReducer})
+const reducer = combineReducers({
+  user,
+  students: studentReducer,
+  student: singleStudentReducer
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
