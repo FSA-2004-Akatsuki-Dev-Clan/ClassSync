@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fetchStudents} from '../../store/students'
 
 export class AllStudents extends React.Component {
@@ -13,19 +14,12 @@ export class AllStudents extends React.Component {
       <div>
         {students.map(student => (
           <div key={student.id}>
-            <h3>{student.firstName}</h3>
-            <h3>{student.lastName}</h3>
+            <Link to={`/allstudents/${student.id}`}>
+              <h3>{student.firstName}</h3>
+              <h3>{student.lastName}</h3>
+            </Link>
           </div>
         ))}
-        {/* {sneakers.map(sneaker => (
-          <div key={sneaker.id}>
-            <div className="col s3 m3">
-              <Link to={`/shop/${sneaker.id}`}>
-                <ShopPageSneaker sneaker={sneaker} />
-              </Link>
-            </div>
-          </div>
-        ))} */}
       </div>
     )
   }
