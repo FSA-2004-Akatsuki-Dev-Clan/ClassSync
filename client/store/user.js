@@ -1,6 +1,8 @@
 import axios from 'axios'
 import history from '../history'
 
+let socket
+
 /**
  * ACTION TYPES
  */
@@ -40,7 +42,13 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+
+    if (res.data.isTeacher) socket = require('../socket/teacher').default
+    else socket = require('../socket/student').default
+
+    socket.emit('reconnect', res.data.id)
+
+    history.push('/session')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -50,6 +58,12 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+
+    if (socket) {
+      socket.emit('logout')
+      socket.disconnect(true)
+    }
+
     history.push('/login')
   } catch (err) {
     console.error(err)
@@ -59,6 +73,7 @@ export const logout = () => async dispatch => {
 /**
  * REDUCER
  */
+
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
