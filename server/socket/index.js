@@ -1,25 +1,3 @@
-//the sessionData will be in this format:
-// sessionData: {
-//   sessionId:  {
-//     studentId: {
-//       socketId,
-//       faceCount,
-//       faceDetects,
-//       wordCount,
-//       keyCount,
-//       clickCount
-//     },
-//     studentId: {
-//       socketId,
-//       faceCount,
-//       faceDetects,
-//       wordCount,
-//       keyCount,
-//       clickCount
-//     },
-//     etc...
-//   }
-// }
 let teacher = {id: null, socket: null}
 let sessionData = {}
 let sessionId = null
@@ -28,6 +6,8 @@ let live = false
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
+
+    let interval
 
     socket.on('disconnect', () => {
       console.log('disconnect')
@@ -70,6 +50,13 @@ module.exports = io => {
 
     socket.on('accept', (studentId, data) => {
       sessionData[sessionId][studentId] = {socket: socket.id, ...data}
+
+      interval = setInterval(() => {
+        io.to(teacher.socket).emit('student-data', studentId, {
+          time: Date.now(),
+          ...sessionData[sessionId][studentId]
+        })
+      }, 30000)
     })
 
     socket.on('cancel', (studentId, first, last) => {
@@ -92,14 +79,14 @@ module.exports = io => {
       // }
     })
 
-    socket.on('data', (studentId, data) => {
+    socket.on('student-data', (studentId, data) => {
       if (live) {
         sessionData[sessionId][studentId] = {
           ...sessionData[sessionId][studentId],
           ...data
         }
         console.log('session data', sessionData)
-        io.to(teacher.socket).emit('data', studentId, data)
+        io.to(teacher.socket).emit('data-test', studentId, data)
       }
     })
 

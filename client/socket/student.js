@@ -122,7 +122,7 @@ const startMonitor = () => {
       interval = setInterval(async () => {
         await detectFace()
 
-        studentSocket.emit('data', student.id, data)
+        studentSocket.emit('student-data', student.id, data)
       }, 10000)
     })
     .catch(function(err) {
