@@ -46,6 +46,9 @@ const Session = db.define('sessions', {
   },
   sessKeyStrokeTot: {
     type: Sequelize.INTEGER
+  },
+  numOfStudents: {
+    type: Sequelize.INTEGER
   }
 })
 
