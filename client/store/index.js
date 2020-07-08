@@ -5,7 +5,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import studentReducer from './students'
 
-const reducer = combineReducers({user, studentReducer})
+const reducer = combineReducers({user, students: studentReducer})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
