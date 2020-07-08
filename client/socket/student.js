@@ -62,6 +62,7 @@ const detectFace = async () => {
   if (faces.length) console.log('score: ', faces[0].score)
 
   data.faceCount += faces.length
+  data.faceDetects++
 }
 
 //initialize the SpeechRecognition object from the Web Speech API
@@ -177,7 +178,13 @@ studentSocket.on('start-session', async () => {
 
   stopMonitor()
 
-  data = {wordCount: 0, faceCount: 0, keyCount: 0, clickCount: 0}
+  data = {
+    wordCount: 0,
+    faceCount: 0,
+    faceDetects: 0,
+    keyCount: 0,
+    clickCount: 0
+  }
 
   studentSocket.emit('accept', student.id, data)
 
@@ -196,10 +203,10 @@ studentSocket.on('end-session', () => {
 
 studentSocket.on(
   'reconnected',
-  async ({faceCount, wordCount, keyCount, clickCount}) => {
+  async ({faceCount, faceDetects, wordCount, keyCount, clickCount}) => {
     stopMonitor()
 
-    data = {faceCount, wordCount, keyCount, clickCount}
+    data = {faceCount, faceDetects, wordCount, keyCount, clickCount}
 
     await loadFaceAPI()
 

@@ -4,7 +4,7 @@
 //     studentId: {
 //       socketId,
 //       faceCount,
-//       faceDetections,
+//       faceDetects,
 //       wordCount,
 //       keyCount,
 //       clickCount
@@ -12,7 +12,7 @@
 //     studentId: {
 //       socketId,
 //       faceCount,
-//       faceDetections,
+//       faceDetects,
 //       wordCount,
 //       keyCount,
 //       clickCount
