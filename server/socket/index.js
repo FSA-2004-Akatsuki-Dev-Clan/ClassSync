@@ -1,3 +1,25 @@
+//the sessionData will be in this format:
+// sessionData: {
+//   sessionId:  {
+//     studentId: {
+//       socketId,
+//       faceCount,
+//       faceDetections,
+//       wordCount,
+//       keyCount,
+//       clickCount
+//     },
+//     studentId: {
+//       socketId,
+//       faceCount,
+//       faceDetections,
+//       wordCount,
+//       keyCount,
+//       clickCount
+//     },
+//     etc...
+//   }
+// }
 let teacher = {id: null, socket: null}
 let sessionData = {}
 let sessionId = null
