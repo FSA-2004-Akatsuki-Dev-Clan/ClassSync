@@ -8,6 +8,21 @@ const Class = db.define('classes', {
   },
   gradeLevel: {
     type: Sequelize.INTEGER
+  },
+  classRunTotFaceCount: {
+    type: Sequelize.INTEGER
+  },
+  classRunTotFaceCaptureAttempt: {
+    type: Sequelize.INTEGER
+  },
+  classRunTotWordsSpoken: {
+    type: Sequelize.INTEGER
+  },
+  classRunTotMouseClick: {
+    type: Sequelize.INTEGER
+  },
+  classRunTotKeyStroke: {
+    type: Sequelize.INTEGER
   }
 })
 
