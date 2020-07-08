@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, Session} from './components'
+import {Login, Signup, Session, AllStudents} from './components'
 import {me} from './store'
 import FullWidthGrid from './components/teacher-dash/teacher-dash'
-import {AllStudents} from './components/teacher-dash/all-students'
+// import {AllStudents} from './components'
 
 /**
  * COMPONENT

@@ -10,9 +10,9 @@ export const getStudents = students => ({
   students
 })
 
-export const getSingleStudent = students => ({
+export const getSingleStudent = student => ({
   type: GET_SINGLE_STUDENT,
-  students
+  student
 })
 
 // THUNK CREATORS
@@ -39,15 +39,13 @@ export const fetchSingleStudent = id => {
 }
 
 // INITIAL STATE
-const initialState = {
-  students: []
-}
+const initialState = []
 
 // REDUCER
 export default function studentReducer(state = initialState, action) {
   switch (action.type) {
     case GET_STUDENTS:
-      return {...state, students: action.students}
+      return action.students
     case GET_SINGLE_STUDENT:
       return action.student
     default:

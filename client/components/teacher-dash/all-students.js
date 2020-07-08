@@ -3,14 +3,20 @@ import {connect} from 'react-redux'
 import {fetchStudents} from '../../store/students'
 
 export class AllStudents extends React.Component {
-  // componentDidMount = () => {
-  //   this.props.fetchStudents()
-  // }
+  componentDidMount = () => {
+    this.props.getStudents()
+  }
 
   render() {
-    console.log('props: ', this.props)
+    const {students} = this.props
     return (
       <div>
+        {students.map(student => (
+          <div key={student.id}>
+            <h3>{student.firstName}</h3>
+            <h3>{student.lastName}</h3>
+          </div>
+        ))}
         {/* {sneakers.map(sneaker => (
           <div key={sneaker.id}>
             <div className="col s3 m3">
@@ -33,7 +39,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchStudents: () => dispatch(fetchStudents())
+    getStudents: () => dispatch(fetchStudents())
   }
 }
 
