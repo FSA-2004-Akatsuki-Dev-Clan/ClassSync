@@ -1,8 +1,9 @@
+const axios = require('axios')
+
 let teacher = {id: null, socket: null}
 let sessionData = {}
 let sessionId = null
 let live = false
-const axios = require('axios')
 
 module.exports = io => {
   io.on('connection', socket => {
@@ -26,8 +27,8 @@ module.exports = io => {
       // }
     })
 
-    socket.on('start-session', (teacherId, sessionDetails) => {
-      //if there is unsaved data from an old session, save it now
+    socket.on('start-session', async (teacherId, sessionDetails) => {
+      //?if there is unsaved data from an old session, save it now?
 
       teacher = {id: null, socket: null}
       sessionData = {}
@@ -35,22 +36,35 @@ module.exports = io => {
       teacher.id = teacherId
       teacher.socket = socket.id
 
-      //create session in database here, and get its id
+      try {
+        // const {data} = await axios.post('api/session', sessionDetails)
+        // sessionDataId = data
 
-      //const {data} = axios.post('api/session', sessionDetails)
-      //sessionId = data.id
-    
-      sessionId = 'test'
-      sessionData[sessionId] = {attendance: 0, students: {}}
+        sessionId = 'test'
+        sessionData[sessionId] = {attendance: 0, students: {}}
 
-      socket.broadcast.emit('start-session')
-      live = true
+        socket.broadcast.emit('start-session')
+        live = true
+      } catch (err) {
+        console.log(
+          'There was a problem trying to create a new session in the database',
+          err
+        )
+      }
     })
 
-    socket.on('end-session', sessioData => {
-      //axios.put('api/session', sessioData)
-      socket.broadcast.emit('end-session')
+    socket.on('end-session', async () => {
+      socket.broadcast.emit('end-session', interval)
       live = false
+
+      // try {
+      //   await axios.put(`api/session/:${sessionId}`, sessionData)
+      // } catch (err) {
+      //   console.log(
+      //     'There was a problem saving the session data in the database',
+      //     err
+      //   )
+      // }
     })
 
     socket.on('accept', (studentId, metrics) => {
@@ -71,6 +85,10 @@ module.exports = io => {
             {...sessionData[sessionId].averages}
           )
       }, 20000)
+    })
+
+    socket.on('stop-sending', () => {
+      clearInterval(interval)
     })
 
     // socket.on('cancel', (studentId, first, last) => {

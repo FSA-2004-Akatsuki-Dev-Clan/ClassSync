@@ -17,7 +17,7 @@ export const addSessionData = data => ({type: ADD_SESSION_DATA, data})
 /**
  * REDUCER
  */
-//this reducer function deals with the maintenance of the liveSession object; it provides the most current combined data values for all students combined, and an array of times that hold the data values collected at every interval during the session
+//this reducer function deals with the maintenance of the liveSession object; it provides the most current combined data values for all students, and an array of times that hold the data values collected at every interval during the session
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_SESSION_DATA:

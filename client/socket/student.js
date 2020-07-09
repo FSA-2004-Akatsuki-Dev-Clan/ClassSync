@@ -199,6 +199,8 @@ studentSocket.on('start-session', async () => {
 studentSocket.on('end-session', () => {
   stopMonitor()
 
+  studentSocket.emit('stop-sending')
+
   document.getElementById('session-message').innerHTML =
     'The teacher has ended the class session. Please wait for the next one to start.'
 
