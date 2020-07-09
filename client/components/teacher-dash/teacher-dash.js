@@ -8,6 +8,7 @@ import HomeworkRow from './homework-row'
 import ClassSumTotalsRow from './class-sum-totals-row'
 import ActivityLevelRow from './activity-level-row'
 import AllStudents from './all-students'
+import {startSession, endSession} from '../../socket/teacher'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,12 +21,38 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function TeacherDash() {
+export default function TeacherDash({teacher}) {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
       <h1 style={{textAlign: 'center'}}>Dashboard</h1>
+
+      <Grid item xs={12} sm={12}>
+        <div id="teacher-session">
+          <h1>Hello! Your students await your tutelage</h1>
+          <button
+            id="start"
+            type="button"
+            onClick={() => {
+              startSession(teacher.id, 'test')
+            }}
+          >
+            Start Session
+          </button>
+          <button
+            id="end"
+            type="button"
+            hidden={true}
+            onClick={() => {
+              endSession()
+            }}
+          >
+            End Session
+          </button>
+        </div>
+      </Grid>
+
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
           <Paper
