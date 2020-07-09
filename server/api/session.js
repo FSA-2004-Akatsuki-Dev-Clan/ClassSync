@@ -1,3 +1,31 @@
+//req.body or sessionData Format
+// {
+//   "id":2,
+//   "faceCount":40,
+//   "faceDetects":70,
+//   "wordCount":300,
+//   "keyCount":1023,
+//   "clickCount":59,
+//   "students": {
+//   	"1":{
+// 	    "socketId": "sdff340",
+// 	    "faceCount": 10,
+// 	    "faceDetects": 20,
+// 	    "wordCount": 40,
+// 	   "keyCount": 988,
+// 	    "clickCount": 21
+//   	},
+//   	"2":{
+//   		"socketId": "nvjimervi382",
+// 	    "faceCount": 30,
+// 	    "faceDetects": 50,
+// 	    "wordCount": 40,
+// 	   "keyCount": 90,
+// 	    "clickCount": 21
+//   	}
+//   }
+// }
+
 const router = require('express').Router()
 const {Session, Student, StudentSession, Class} = require('../db/models')
 
