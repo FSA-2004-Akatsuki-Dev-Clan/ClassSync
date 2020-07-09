@@ -48,11 +48,9 @@ module.exports = io => {
     })
 
     socket.on('end-session', sessioData => {
-      axios.put('api/session', sessioData)
+      //axios.put('api/session', sessioData)
       socket.broadcast.emit('end-session')
       live = false
-
-      //save data here
     })
 
     socket.on('accept', (studentId, metrics) => {
