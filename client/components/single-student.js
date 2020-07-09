@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Line} from 'react-chartjs-2'
 import {fetchSingleStudent} from '../store/single-student'
+import SimpleTable from './table'
 
 export class SingleStudent extends React.Component {
   componentDidMount() {
@@ -14,18 +15,18 @@ export class SingleStudent extends React.Component {
     const student = this.props.student
 
     const chartData = {
-      labels: ['1', '2', '3'],
+      labels: ['1', '2', '3', '4', '5'],
       datasets: [
         {
           label: ['Rem Sleep Time (in Hours)'],
-          data: ['1', '2', '3'],
+          data: ['1', '2', '3', '4', '15'],
           backgroundColor: ['rgb(195, 190, 204)'],
           fontColor: 'rgb(195, 190, 204)'
         },
 
         {
           label: ['Rem Sleep Time for Current Tag (in Hours)'],
-          data: ['1', '2', '3'],
+          data: ['1', '2', '3', '4', '20'],
           borderColor: ['rgb(179, 255, 0)'],
           borderWidth: 6,
           fontColor: 'rgb(195, 190, 204)',
@@ -39,6 +40,8 @@ export class SingleStudent extends React.Component {
         {student.firstName}
         {student.lastName}
         {student.email}
+
+        <SimpleTable />
 
         <div className="chart">
           <Line
