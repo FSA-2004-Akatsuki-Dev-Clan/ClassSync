@@ -11,15 +11,17 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => (
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/session">Session</Link>
+          <Link to="/session">
+            {isTeacher ? 'Dashboard' : 'Student Session'}
+          </Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
-          {isTeacher && (
-            <a href="/dashboard" target="_self">
-              Dashboard
-            </a>
-          )}
+          {/* {isTeacher && (
+             <a href="/session" target="_self">
+               Dashboard
+             </a>
+           )} */}
         </div>
       ) : (
         <div>
