@@ -2,9 +2,15 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Line} from 'react-chartjs-2'
+import {fetchSingleStudent} from '../store/single-student'
 
 export class SingleStudent extends React.Component {
+  componentDidMount() {
+    this.props.getSingleStudent(this.props.match.params.id)
+  }
+
   render() {
+    console.log('props:', this.props)
     const student = this.props.student
 
     const chartData = {
@@ -30,7 +36,9 @@ export class SingleStudent extends React.Component {
 
     return (
       <div>
-        {`${student.firstName} ${student.lastName}`}
+        {student.firstName}
+        {student.lastName}
+        {student.email}
 
         <div className="chart">
           <Line
@@ -75,3 +83,17 @@ export class SingleStudent extends React.Component {
     )
   }
 }
+
+const mapState = state => {
+  return {
+    student: state.student
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    getSingleStudent: id => dispatch(fetchSingleStudent(id))
+  }
+}
+
+export default connect(mapState, mapDispatch)(SingleStudent)

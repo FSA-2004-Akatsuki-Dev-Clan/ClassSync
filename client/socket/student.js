@@ -6,7 +6,15 @@ const studentSocket = socket
 
 const student = store.getState().user
 
-let data = {}
+const initialData = {
+  wordCount: 0,
+  faceCount: 0,
+  faceDetects: 0,
+  keyCount: 0,
+  clickCount: 0
+}
+
+let data = {...initialData}
 
 let interval
 
@@ -62,6 +70,7 @@ const detectFace = async () => {
   if (faces.length) console.log('score: ', faces[0].score)
 
   data.faceCount += faces.length
+  data.faceDetects++
 }
 
 //initialize the SpeechRecognition object from the Web Speech API
@@ -121,8 +130,10 @@ const startMonitor = () => {
       interval = setInterval(async () => {
         await detectFace()
 
-        studentSocket.emit('data', student.id, data)
-      }, 10000)
+        studentSocket.emit('student-data', student.id, data)
+
+        data = {...initialData}
+      }, 8000)
     })
     .catch(function(err) {
       console.log(
@@ -154,7 +165,7 @@ const stopMonitor = () => {
 
   window.removeEventListener('keydown', keyListener)
 
-  data = {}
+  data = {initialData}
 }
 
 //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
@@ -177,7 +188,7 @@ studentSocket.on('start-session', async () => {
 
   stopMonitor()
 
-  data = {wordCount: 0, faceCount: 0, keyCount: 0, clickCount: 0}
+  data = {...initialData}
 
   studentSocket.emit('accept', student.id, data)
 
@@ -194,19 +205,16 @@ studentSocket.on('end-session', () => {
   window.alert('The class session has ended')
 })
 
-studentSocket.on(
-  'reconnected',
-  async ({faceCount, wordCount, keyCount, clickCount}) => {
-    stopMonitor()
+studentSocket.on('reconnected', async data => {
+  stopMonitor()
 
-    data = {faceCount, wordCount, keyCount, clickCount}
+  data = {...data}
 
-    await loadFaceAPI()
+  await loadFaceAPI()
 
-    startMonitor()
+  startMonitor()
 
-    console.log('Reconnected to server!')
-  }
-)
+  console.log('Reconnected to server!')
+})
 
 export default studentSocket

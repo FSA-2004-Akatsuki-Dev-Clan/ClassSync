@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, isTeacher}) => (
   <div>
     <h1>ClassSync</h1>
     <nav>
@@ -15,6 +15,11 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <a href="#" onClick={handleClick}>
             Logout
           </a>
+          {isTeacher && (
+            <a href="/dashboard" target="_self">
+              Dashboard
+            </a>
+          )}
         </div>
       ) : (
         <div>
@@ -33,7 +38,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isTeacher: state.user.isTeacher
   }
 }
 

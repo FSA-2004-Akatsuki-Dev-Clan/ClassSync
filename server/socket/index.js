@@ -1,27 +1,3 @@
-//the sessionData will be in this format:
-// sessionData:
-//{
-//   students:  {
-//     studentId: {
-//       socketId,
-//       faceCount,
-//       faceDetections,
-//       wordCount,
-//       keyCount,
-//       clickCount
-//     },
-//     studentId: {
-//       socketId,
-//       faceCount,
-//       faceDetections,
-//       wordCount,
-//       keyCount,
-//       clickCount
-//     },
-//     etc...
-//   }
-// }
-
 let teacher = {id: null, socket: null}
 let sessionData = {}
 let sessionId = null
@@ -31,6 +7,8 @@ const axios = require('axios')
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
+
+    let interval
 
     socket.on('disconnect', () => {
       console.log('disconnect')
@@ -58,9 +36,13 @@ module.exports = io => {
       teacher.socket = socket.id
 
       //create session in database here, and get its id
-      const {data} = axios.post('api/session', sessionDetails)
-      sessionId = data.id
-      sessionData[sessionId] = {}
+
+      //const {data} = axios.post('api/session', sessionDetails)
+      //sessionId = data.id
+    
+      sessionId = 'test'
+      sessionData[sessionId] = {attendance: 0, students: {}}
+
       socket.broadcast.emit('start-session')
       live = true
     })
@@ -69,15 +51,33 @@ module.exports = io => {
       axios.put('api/session', sessioData)
       socket.broadcast.emit('end-session')
       live = false
+
+      //save data here
     })
 
-    socket.on('accept', (studentId, data) => {
-      sessionData[sessionId][studentId] = {socket: socket.id, ...data}
+    socket.on('accept', (studentId, metrics) => {
+      sessionData[sessionId].students[studentId] = {socket: socket.id}
+      if (!sessionData[sessionId].rawTotals) {
+        sessionData[sessionId].rawTotals = {...metrics}
+        sessionData[sessionId].averages = {...metrics}
+      }
+
+      interval = setInterval(() => {
+        io
+          .to(teacher.socket)
+          .emit(
+            'student-data',
+            studentId,
+            Date.now(),
+            {...sessionData[sessionId].students[studentId].data},
+            {...sessionData[sessionId].averages}
+          )
+      }, 20000)
     })
 
-    socket.on('cancel', (studentId, first, last) => {
-      io.to(teacher.socket).emit('cancel', socket.id, studentId, first, last)
-    })
+    // socket.on('cancel', (studentId, first, last) => {
+    //   io.to(teacher.socket).emit('cancel', socket.id, studentId, first, last)
+    // })
 
     socket.on('re-invite', socketId => {
       io.to(socketId).emit('start-session')
@@ -95,14 +95,33 @@ module.exports = io => {
       // }
     })
 
-    socket.on('data', (studentId, data) => {
+    socket.on('student-data', (studentId, newData) => {
       if (live) {
-        sessionData[sessionId][studentId] = {
-          ...sessionData[sessionId][studentId],
-          ...data
+        if (!sessionData[sessionId].students[studentId].data) {
+          sessionData[sessionId].students[studentId].data = {...newData}
+          sessionData[sessionId].attendance++
+        } else {
+          for (metric in newData) {
+            sessionData[sessionId].students[studentId].data[metric] +=
+              newData[metric]
+          }
         }
+
+        for (metric in newData) {
+          sessionData[sessionId].rawTotals[metric] += newData[metric]
+          sessionData[sessionId].averages[metric] =
+            sessionData[sessionId].rawTotals[metric] /
+            sessionData[sessionId].attendance
+        }
+
         console.log('session data', sessionData)
-        io.to(teacher.socket).emit('data', studentId, data)
+        io
+          .to(teacher.socket)
+          .emit(
+            'data-test',
+            studentId,
+            sessionData[sessionId].students[studentId]
+          )
       }
     })
 
