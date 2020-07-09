@@ -2,6 +2,7 @@ let teacher = {id: null, socket: null}
 let sessionData = {}
 let sessionId = null
 let live = false
+const axios = require('axios')
 
 module.exports = io => {
   io.on('connection', socket => {
@@ -30,24 +31,26 @@ module.exports = io => {
 
       teacher = {id: null, socket: null}
       sessionData = {}
-      sessionId = null
 
       teacher.id = teacherId
       teacher.socket = socket.id
 
       //create session in database here, and get its id
 
+      //const {data} = axios.post('api/session', sessionDetails)
+      //sessionId = data.id
+    
       sessionId = 'test'
       sessionData[sessionId] = {attendance: 0, students: {}}
+
       socket.broadcast.emit('start-session')
       live = true
     })
 
-    socket.on('end-session', () => {
+    socket.on('end-session', sessioData => {
+      //axios.put('api/session', sessioData)
       socket.broadcast.emit('end-session')
       live = false
-
-      //save data here
     })
 
     socket.on('accept', (studentId, metrics) => {

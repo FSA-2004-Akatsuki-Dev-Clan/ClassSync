@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const {NOW} = require('sequelize')
 
 const StudentSession = db.define('studentSession', {
   comment: {
@@ -9,16 +8,16 @@ const StudentSession = db.define('studentSession', {
   faceCount: {
     type: Sequelize.INTEGER
   },
-  faceCaptureAttempts: {
+  faceDetects: {
     type: Sequelize.INTEGER
   },
-  wordsSpoken: {
+  wordCount: {
     type: Sequelize.INTEGER
   },
-  clicks: {
+  clickCount: {
     type: Sequelize.INTEGER
   },
-  keyStrokes: {
+  keyCount: {
     type: Sequelize.INTEGER
   }
 })

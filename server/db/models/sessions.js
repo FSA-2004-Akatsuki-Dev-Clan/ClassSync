@@ -33,19 +33,28 @@ const Session = db.define('sessions', {
     defaultValue: null
   },
   sessFaceCountTot: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   sessFaceAttemptTot: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   sessWordsSpokenTot: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
-  sessMouseClickTot: {
-    type: Sequelize.INTEGER
+  sessClickTot: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   sessKeyStrokeTot: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  numOfStudents: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 })
 
