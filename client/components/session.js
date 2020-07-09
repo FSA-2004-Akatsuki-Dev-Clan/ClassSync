@@ -1,5 +1,5 @@
 import React from 'react'
-import {TeacherSession, StudentMonitor} from '../components'
+import {TeacherDash, StudentMonitor} from '../components'
 import {connect} from 'react-redux'
 
 class Session extends React.Component {
@@ -7,7 +7,7 @@ class Session extends React.Component {
     const user = this.props.user
 
     return user.isTeacher ? (
-      <TeacherSession teacher={user} />
+      <TeacherDash teacher={user} />
     ) : (
       <StudentMonitor student={user} />
     )

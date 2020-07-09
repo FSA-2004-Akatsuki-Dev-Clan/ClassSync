@@ -6,7 +6,6 @@
 export {default as Navbar} from './navbar'
 export {default as Session} from './session'
 export {default as StudentMonitor} from './student-monitor'
-export {default as TeacherSession} from './teacher-session'
 export {default as AllStudents} from '../components/teacher-dash/all-students'
 export {default as TeacherDash} from '../components/teacher-dash/teacher-dash'
 export {default as SingleStudent} from '../components/single-student'
