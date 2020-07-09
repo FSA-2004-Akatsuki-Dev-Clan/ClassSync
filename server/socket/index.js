@@ -1,6 +1,7 @@
 //the sessionData will be in this format:
-// sessionData: {
-//   sessionId:  {
+// sessionData:
+//{
+//   students:  {
 //     studentId: {
 //       socketId,
 //       faceCount,

@@ -9,7 +9,7 @@ const StudentSession = db.define('studentSession', {
   faceCount: {
     type: Sequelize.INTEGER
   },
-  faceDetections: {
+  faceDetects: {
     type: Sequelize.INTEGER
   },
   wordCount: {
