@@ -14,8 +14,8 @@ const useStyles = makeStyles({
   }
 })
 
-function createData(name, calories, fat, carbs, protein) {
-  return {name, calories, fat, carbs, protein}
+function createData(name, student, session, percentile) {
+  return {name, student, session, percentile}
 }
 
 const rows = [
@@ -45,10 +45,9 @@ export default function SimpleTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.student}</TableCell>
+              <TableCell align="right">{row.session}</TableCell>
+              <TableCell align="right">{row.percentile}</TableCell>
             </TableRow>
           ))}
         </TableBody>

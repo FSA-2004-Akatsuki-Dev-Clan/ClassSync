@@ -3,7 +3,8 @@ const studentSeed = [
     firstName: 'Pierre',
     lastName: 'Parkes',
     gradeLevel: 5,
-    email: 'pierreparkes1@gmail.com'
+    email: 'pierreparkes1@gmail.com',
+    password: '123'
   },
   {
     firstName: 'Omar',

@@ -21,7 +21,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/allstudents/:id" component={SingleStudent} />
+
         {/* <Route path="/dashboard" component={TeacherDash} /> */}
 
         {isLoggedIn && (
@@ -31,9 +31,15 @@ class Routes extends Component {
 
             {isTeacher && (
               <Switch>
+                <Route
+                  exact
+                  path="/allstudents/:id"
+                  component={SingleStudent}
+                />
                 <Route exact path="/dashboard" component={TeacherDash} />
               </Switch>
             )}
+            <Route component={Session} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

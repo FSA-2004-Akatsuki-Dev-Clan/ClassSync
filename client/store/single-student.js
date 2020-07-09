@@ -14,6 +14,7 @@ export const fetchSingleStudent = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/students/${id}`)
+      console.log('got single student', data)
       dispatch(getSingleStudent(data))
     } catch (error) {
       console.log('ERROR IN FETCHSTUDENTS THUNK')
