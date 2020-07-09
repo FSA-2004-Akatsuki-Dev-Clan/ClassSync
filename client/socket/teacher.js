@@ -1,5 +1,5 @@
 import socket from '.'
-import store, {addLiveData} from '../store'
+import store, {addStudentData, addSessionData} from '../store'
 
 const teacherSocket = socket
 
@@ -41,9 +41,13 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   }
 })
 
-teacherSocket.on('student-data', (studentId, dataPoint) => {
-  store.dispatch(addLiveData(studentId, dataPoint))
-})
+teacherSocket.on(
+  'student-data',
+  (studentId, time, studentData, sessionData) => {
+    store.dispatch(addStudentData(studentId, {time, ...studentData}))
+    store.dispatch(addSessionData({time, ...sessionData}))
+  }
+)
 
 teacherSocket.on('data-test', (id, data) => {
   console.log(`current data for student '${id}': `, data)
