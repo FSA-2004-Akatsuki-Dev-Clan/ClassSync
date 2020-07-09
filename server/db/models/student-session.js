@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const {NOW} = require('sequelize')
 
 const StudentSession = db.define('studentSession', {
   comment: {

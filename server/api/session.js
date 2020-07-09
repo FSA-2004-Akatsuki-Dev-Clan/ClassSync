@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const {Session, Student, StudentSession, Class} = require('../db/models')
-const {raw} = require('express')
 
 router.post('/', async (req, res, next) => {
   try {
@@ -33,7 +32,6 @@ router.put('/', async (req, res, next) => {
     for (let i = 0; i < studentsArr.length; i++) {
       const studentSess = rawData.students[studentsArr[i]]
       const studId = Number(studentsArr[i])
-      console.log('this->', studId)
       delete studentSess.socketId
       delete studentSess.time
       const student = await Student.findOne({where: {id: studId}})
