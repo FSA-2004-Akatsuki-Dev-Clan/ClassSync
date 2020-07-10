@@ -14,6 +14,26 @@ export default class Chart extends React.Component {
 
     const firstTime = data.times ? data.times[0].time : 0
 
+    let yMin, yMax
+
+    switch (this.state.metric) {
+      case 'faceScore':
+        yMin = 0
+        yMax = 100
+
+      case 'wordCount':
+        yMin = 0
+        yMax = 100
+
+      case 'clickCount':
+        yMin = 0
+        yMax = 40
+
+      case 'keyCount':
+        yMin = 0
+        yMax = 50
+    }
+
     const chartData = {
       labels: data.times ? data.times.map(time => time.time - firstTime) : [],
       datasets: [
@@ -34,8 +54,8 @@ export default class Chart extends React.Component {
         data: compare.times
           ? compare.times.map(time => time[this.state.metric])
           : [],
-        backgroundColor: ['rgb(195, 190, 204)'],
-        fontColor: 'rgb(195, 190, 204)'
+        backgroundColor: ['rgb(250, 240, 260)'],
+        fontColor: 'rgb(215, 230, 240)'
       })
     }
 
@@ -65,6 +85,10 @@ export default class Chart extends React.Component {
               scales: {
                 yAxes: [
                   {
+                    ticks: {
+                      suggestedMin: yMin,
+                      suggestedMax: yMax
+                    },
                     scaleLabel: {
                       display: true,
                       fontSize: 20,
