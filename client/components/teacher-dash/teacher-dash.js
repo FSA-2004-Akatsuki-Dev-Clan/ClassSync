@@ -27,31 +27,6 @@ const TeacherDash = ({teacher, liveSession}) => {
     <div className={classes.root}>
       <h1 style={{textAlign: 'center'}}>Dashboard</h1>
 
-      <Grid item xs={12} sm={12}>
-        <div id="teacher-session">
-          <h1>Hello! Your students await your tutelage</h1>
-          <button
-            id="start"
-            type="button"
-            onClick={() => {
-              startSession(teacher.id, 'test')
-            }}
-          >
-            Start Session
-          </button>
-          <button
-            id="end"
-            type="button"
-            hidden={true}
-            onClick={() => {
-              endSession()
-            }}
-          >
-            End Session
-          </button>
-        </div>
-      </Grid>
-
       <Grid container spacing={3}>
         {/*<Grid item xs={12} sm={12}>
           <Paper
@@ -76,6 +51,30 @@ const TeacherDash = ({teacher, liveSession}) => {
 
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+            <Grid item xs={12} sm={12}>
+              <div id="teacher-session">
+                <h1>Hello! Your students await your tutelage</h1>
+                <button
+                  id="start"
+                  type="button"
+                  onClick={() => {
+                    startSession(teacher.id, 'test')
+                  }}
+                >
+                  Start Session
+                </button>
+                <button
+                  id="end"
+                  type="button"
+                  hidden={true}
+                  onClick={() => {
+                    endSession()
+                  }}
+                >
+                  End Session
+                </button>
+              </div>
+            </Grid>
             <h3>Current Session Data</h3>
             <Grid container item xs={12}>
               <ActivityLevelRow session={liveSession} />

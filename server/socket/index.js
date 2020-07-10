@@ -18,13 +18,15 @@ module.exports = io => {
       // if (socket.id === teacher.socket)
       //   console.log(`The teacher disconnected from socket ${socket.id}`)
       // else {
-      //   for (studentId in sessionData[sessionId]) {
-      //     if (socket.id === sessionData[sessionId][studentId].socket)
-      //       console.log(
-      //         `Student ${studentId} disconnected from socket ${socket.id}`
-      //       )
-      //     io.to(teacher.socket).emit('student-disconnect', studentId)
-      //     return
+      //   for (let studentId in sessionData[sessionId]) {
+      //     if (sessionData[sessionId].hasOwnProperty(studentId)){
+      //             if (socket.id === sessionData[sessionId][studentId].socket)
+      //             console.log(
+      //               `Student ${studentId} disconnected from socket ${socket.id}`
+      //             )
+      //           io.to(teacher.socket).emit('student-disconnect', studentId)
+      //           return
+      //     }
       //   }
       // }
     })
