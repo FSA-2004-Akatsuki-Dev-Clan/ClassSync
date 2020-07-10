@@ -1,6 +1,8 @@
 import React from 'react'
 import SimpleTable from './table'
 import Chart from './teacher-dash/chart'
+import ClassSumTotalsRow from '../components/teacher-dash/class-sum-totals-row'
+import SingleTable from './single-stud-table'
 
 export default class SingleStudent extends React.Component {
   render() {
@@ -12,7 +14,7 @@ export default class SingleStudent extends React.Component {
         {student.lastName}
         {student.email}
 
-        {/* <SimpleTable student={student} /> */}
+        <SingleTable data={liveSession} />
 
         <div className="chart">
           <Chart data={student} compare={liveSession} />
