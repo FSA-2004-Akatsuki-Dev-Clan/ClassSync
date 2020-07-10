@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Chart from './chart'
 import ClassSumTotalsRow from './class-sum-totals-row'
 
-const useStyles = makeStyles(theme => ({
+const myStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -15,27 +15,25 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ActivityLevelRow() {
+export default function ActivityLevelRow({session}) {
   return (
     <React.Fragment>
       <Grid item xs={6}>
-        <p>
-          <h2>25</h2>
-          Total number of students
-          <Grid item xs={12} container direction="row">
-            &nbsp;
-          </Grid>
-          <Grid item xs={12} container direction="row">
-            &nbsp;
-          </Grid>
-          <Grid item xs={12} container direction="row">
-            <ClassSumTotalsRow />
-          </Grid>
-        </p>
+        <h2>{session.attendance || 0}</h2>
+        Totals Students in Attendance
+        <Grid item xs={12} container direction="row">
+          &nbsp;
+        </Grid>
+        <Grid item xs={12} container direction="row">
+          &nbsp;
+        </Grid>
+        <Grid item xs={12} container direction="row">
+          <ClassSumTotalsRow session={session} />
+        </Grid>
       </Grid>
       <Grid item xs={6}>
-        <Paper className={useStyles().paper}>
-          <Chart />
+        <Paper className={myStyles().paper}>
+          <Chart data={session} />
         </Paper>
       </Grid>
     </React.Fragment>

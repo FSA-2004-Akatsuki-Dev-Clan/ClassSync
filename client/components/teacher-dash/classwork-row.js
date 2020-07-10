@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid, Paper} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const myStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -29,7 +29,7 @@ export default function ClassworkRow() {
         return (
           <Grid item xs={3}>
             <Paper
-              className={useStyles().paper}
+              className={myStyles().paper}
               // style={{background: 'linear-gradient(to right bottom, #00ff51, #94ffb6)'}}
             >
               {assignment}

@@ -1,31 +1,57 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import {Line} from 'react-chartjs-2'
 
 export default class Chart extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      metric: 'faceScore'
+    }
+  }
+
   render() {
+    const {data, compare} = this.props
+
+    const firstTime = data.times ? data.times[0].time : 0
+
     const chartData = {
-      labels: ['1', '2', '3'],
+      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
       datasets: [
         {
-          label: ['Rem Sleep Time (in Hours)'],
-          data: ['1', '2', '3'],
+          label: [this.state.metric],
+          data: data.times
+            ? data.times.map(time => time[this.state.metric])
+            : [],
           backgroundColor: ['rgb(195, 190, 204)'],
           fontColor: 'rgb(195, 190, 204)'
-        },
-
-        {
-          label: ['Rem Sleep Time for Current Tag (in Hours)'],
-          data: ['1', '2', '3'],
-          borderColor: ['rgb(179, 255, 0)'],
-          borderWidth: 6,
-          fontColor: 'rgb(195, 190, 204)',
-          backgroundColor: ['rgb(179, 255, 0)']
         }
       ]
     }
+
+    if (compare) {
+      chartData.datasets.push({
+        label: [this.state.metric],
+        data: compare.times
+          ? compare.times.map(time => time[this.state.metric])
+          : [],
+        backgroundColor: ['rgb(195, 190, 204)'],
+        fontColor: 'rgb(195, 190, 204)'
+      })
+    }
+
     return (
       <div>
+        <label htmlFor="metric">Select Metric:</label>
+        <select
+          name="metric"
+          value={this.state.metric}
+          onChange={evt => this.setState({metric: evt.target.value})}
+        >
+          <option value="faceScore">Face Score</option>
+          <option value="wordCount">Words Spoken</option>
+          <option value="keyCount">Key Presses</option>
+          <option value="clickCount">Mouse Clicks</option>
+        </select>
         <div className="chart">
           <Line
             data={chartData}
@@ -57,7 +83,7 @@ export default class Chart extends React.Component {
                 ]
               },
               title: {
-                text: 'REM Sleep Time by Tag',
+                text: this.state.metric,
                 fontSize: 25,
                 spanGaps: true,
                 fontColor: 'rgb(195, 190, 204)'

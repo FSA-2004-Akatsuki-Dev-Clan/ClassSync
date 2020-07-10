@@ -41,16 +41,18 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   }
 })
 
-teacherSocket.on(
-  'student-data',
-  (studentId, time, studentData, sessionData) => {
-    store.dispatch(addStudentData(studentId, {time, ...studentData}))
-    store.dispatch(addSessionData({time, ...sessionData}))
-  }
-)
-
-teacherSocket.on('data-test', (id, data) => {
-  console.log(`current data for student '${id}': `, data)
+teacherSocket.on('session-data', (time, sessionData) => {
+  store.dispatch(addStudentData(time, sessionData.students))
+  store.dispatch(
+    addSessionData({
+      time,
+      attendance: sessionData.attendance,
+      ...sessionData.averages,
+      faceScore: Math.ceil(
+        sessionData.averages.faceCount / sessionData.averages.faceDetects * 100
+      )
+    })
+  )
 })
 
 teacherSocket.on('student-disconnect', id => {

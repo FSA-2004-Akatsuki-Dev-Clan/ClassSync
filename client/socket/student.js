@@ -133,7 +133,7 @@ const startMonitor = () => {
         studentSocket.emit('student-data', student.id, data)
 
         data = {...initialData}
-      }, 8000)
+      }, 7500)
     })
     .catch(function(err) {
       console.log(
@@ -190,7 +190,7 @@ studentSocket.on('start-session', async () => {
 
   data = {...initialData}
 
-  studentSocket.emit('accept', student.id, data)
+  studentSocket.emit('accept', student, data)
 
   startMonitor()
 })
@@ -198,8 +198,6 @@ studentSocket.on('start-session', async () => {
 //if a message is received that the session is over, the timed activity logging interval is stopped
 studentSocket.on('end-session', () => {
   stopMonitor()
-
-  studentSocket.emit('stop-sending')
 
   document.getElementById('session-message').innerHTML =
     'The teacher has ended the class session. Please wait for the next one to start.'
