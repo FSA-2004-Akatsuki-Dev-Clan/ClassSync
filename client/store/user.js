@@ -66,14 +66,14 @@ export const auth = (email, password, method) => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     const user = await axios.post('/auth/logout')
-    dispatch(removeUser())
+    await dispatch(removeUser())
 
     if (socket) {
       socket.emit('logout', user)
       socket.disconnect(true)
     }
 
-    history.push('/login')
+    history.push('/')
   } catch (err) {
     console.error(err)
   }
