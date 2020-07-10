@@ -27,6 +27,15 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
+
+    if (res.data) {
+      if (res.data.isTeacher) socket = require('../socket/teacher').default
+      else socket = require('../socket/student').default
+
+      socket.emit('reconnect', res.data.id)
+
+      history.push('/session')
+    }
   } catch (err) {
     console.error(err)
   }
@@ -56,11 +65,11 @@ export const auth = (email, password, method) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post('/auth/logout')
+    const user = await axios.post('/auth/logout')
     dispatch(removeUser())
 
     if (socket) {
-      socket.emit('logout')
+      socket.emit('logout', user)
       socket.disconnect(true)
     }
 
