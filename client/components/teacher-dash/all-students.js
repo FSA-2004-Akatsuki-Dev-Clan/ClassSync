@@ -43,7 +43,7 @@ class AllStudents extends React.Component {
                 key={student.id}
                 onClick={() => this.setState({selectedStudent: student})}
               >
-                <h3>{student.firstName}</h3>
+                <h3>{student.firstName || 'New Student'}</h3>
                 <h3>{student.lastName}</h3>
               </div>
             ))}
