@@ -17,7 +17,7 @@ export const fetchSingleStudent = id => {
       console.log('got single student', data)
       dispatch(getSingleStudent(data))
     } catch (error) {
-      console.log('ERROR IN FETCHSTUDENTS THUNK')
+      console.log('ERROR IN FETCHSTUDENT THUNK')
     }
   }
 }

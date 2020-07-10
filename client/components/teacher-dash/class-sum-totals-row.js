@@ -1,24 +1,24 @@
 import React from 'react'
 import {Grid} from '@material-ui/core'
 
-export default function ClassSumTotalsRow() {
+export default function ClassSumTotalsRow({session}) {
   return (
     <React.Fragment>
       <Grid item xs={3}>
-        <p>100</p>
-        <p>Mouse Clicks</p>
+        <p>{session.faceScore || '--'}</p>
+        <p>Average Percent Time In Front of Webcam</p>
       </Grid>
       <Grid item xs={3}>
-        <p>100</p>
-        <p>Keyboard Clicks</p>
+        <p>{session.wordCount || '--'}</p>
+        <p>Average Words Spoken</p>
       </Grid>
       <Grid item xs={3}>
-        <p>5:23:12</p>
-        <p>Webcam Time</p>
+        <p>{session.clickCount || '--'}</p>
+        <p>Average Mouse Clicks</p>
       </Grid>
       <Grid item xs={3}>
-        <p>3:34:23</p>
-        <p>Time Speaking</p>
+        <p>{session.keyCount || '--'}</p>
+        <p>Average Key Presses</p>
       </Grid>
     </React.Fragment>
   )

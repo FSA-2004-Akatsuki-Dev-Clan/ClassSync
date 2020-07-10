@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-const useStyles = makeStyles({
+const myStyles = makeStyles({
   table: {
     minWidth: 650
   }
@@ -26,7 +26,7 @@ const rows = [
 ]
 
 export default function SimpleTable() {
-  const classes = useStyles()
+  const classes = myStyles()
 
   return (
     <TableContainer component={Paper}>

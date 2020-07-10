@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid, Paper} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const myStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -29,7 +29,7 @@ export default function HomeworkRow() {
       {homeworkObject.assignmentName.map(assignment => {
         return (
           <Grid item xs={3}>
-            <Paper className={useStyles().paper}>{assignment}</Paper>
+            <Paper className={myStyles().paper}>{assignment}</Paper>
           </Grid>
         )
       })}

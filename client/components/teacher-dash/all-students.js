@@ -1,45 +1,48 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import {fetchStudents} from '../../store/students'
+import {connect} from 'react-redux'
 import {SingleStudent} from '../'
 
-export class AllStudents extends React.Component {
+class AllStudents extends React.Component {
   constructor() {
     super()
     this.state = {
-      studentId: null
+      selectedStudent: {}
     }
-    this.handle = this.handle.bind(this)
   }
-  componentDidMount = () => {
+
+  componentDidMount() {
     this.props.getStudents()
   }
 
-  handle = id => {
-    // if (this.state.studentId) {
-    //   this.setState({studentId: null})
-    // } else {
-    this.setState({studentId: id})
-    // }
-  }
-
   render() {
-    const {students} = this.props
-    // <div onClick={()=>this.handle()}><button type="button">Close graphs</button></div>
-    // const selectedStudent = students.find(student => student.id ===this.state.studentId)
+    const {students, liveStudents, liveSession} = this.props
+
+    console.log('liveStudents, liveSession', liveStudents, liveSession)
+
     return (
       <div>
-        {this.state.studentId ? (
+        {this.state.selectedStudent.id ? (
           <div>
-            <button type="button" onClick={() => this.handle(null)}>
-              Close graphs
+            <button
+              type="button"
+              onClick={() => this.setState({selectedStudent: {}})}
+            >
+              Back to Student List
             </button>
-            <SingleStudent studentId={this.state.studentId} />
+            <SingleStudent
+              student={this.state.selectedStudent}
+              liveStudents={liveStudents}
+              liveSession={liveSession}
+            />
           </div>
         ) : (
           <div>
-            {students.map(student => (
-              <div key={student.id} onClick={() => this.handle(student.id)}>
+            {liveStudents.map(student => (
+              <div
+                key={student.id}
+                onClick={() => this.setState({selectedStudent: student})}
+              >
                 <h3>{student.firstName}</h3>
                 <h3>{student.lastName}</h3>
               </div>
@@ -53,7 +56,9 @@ export class AllStudents extends React.Component {
 
 const mapState = state => {
   return {
-    students: state.students
+    students: state.students,
+    liveStudents: state.liveStudents,
+    liveSession: state.liveSession
   }
 }
 
