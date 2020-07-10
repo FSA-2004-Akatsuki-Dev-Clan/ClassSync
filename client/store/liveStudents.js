@@ -2,7 +2,7 @@
  * ACTION TYPES
  */
 const ADD_STUDENT_DATA = 'ADD_STUDENT_DATA'
-
+const RESET_STUDENT_DATA = 'RESET_STUDENT_DATA'
 /**
  * INITIAL STATE
  */
@@ -17,6 +17,7 @@ export const addStudentData = (time, students) => ({
   time,
   students
 })
+export const resetStudentData = () => ({type: RESET_STUDENT_DATA})
 
 /**
  * REDUCER
@@ -60,6 +61,8 @@ export default function(state = initialState, action) {
 
       return liveStudents
     //otherwise, copy the array with the new time point added to that student
+    case RESET_STUDENT_DATA:
+      return initialState
 
     default:
       return state

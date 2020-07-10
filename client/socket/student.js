@@ -91,7 +91,7 @@ recognition.onresult = event => {
 }
 
 //monitoring/activity logging script
-const startMonitor = () => {
+const startMonitor = async () => {
   let mediaConfigObj = {
     audio: true,
     video: true
@@ -100,20 +100,20 @@ const startMonitor = () => {
   //The webcam/microphone streams are accessed
   navigator.mediaDevices
     .getUserMedia(mediaConfigObj)
-    .then(mediaStreamObj => {
+    .then(async mediaStreamObj => {
       console.log('connected to media stream!', mediaStreamObj)
 
       mediaStream = mediaStreamObj
 
       //The video track is isolated
-      let video = mediaStreamObj.getVideoTracks()[0]
+      let video = await mediaStreamObj.getVideoTracks()[0]
 
       //the ImageCapture interface is instantiated
       imageCapture = new ImageCapture(video)
 
       //speech recognition interface starts listening to the microphone
       if (!listening) {
-        recognition.start()
+        await recognition.start()
         console.log('listening for speech')
         listening = true
       }
@@ -143,21 +143,21 @@ const startMonitor = () => {
     })
 }
 
-const stopMonitor = () => {
+const stopMonitor = async () => {
   clearInterval(interval)
 
   if (mediaStream) {
-    mediaStream.getAudioTracks().forEach(track => {
-      track.stop()
+    mediaStream.getAudioTracks().forEach(async track => {
+      await track.stop()
     })
 
-    mediaStream.getVideoTracks().forEach(track => {
-      track.stop()
+    mediaStream.getVideoTracks().forEach(async track => {
+      await track.stop()
     })
   }
 
   if (listening) {
-    recognition.stop()
+    await recognition.stop()
     listening = false
   }
 
@@ -186,18 +186,18 @@ studentSocket.on('start-session', async () => {
 
   await loadFaceAPI()
 
-  stopMonitor()
+  await stopMonitor()
 
   data = {...initialData}
 
-  studentSocket.emit('accept', student, data)
+  await startMonitor()
 
-  startMonitor()
+  studentSocket.emit('accept', student, data)
 })
 
 //if a message is received that the session is over, the timed activity logging interval is stopped
-studentSocket.on('end-session', () => {
-  stopMonitor()
+studentSocket.on('end-session', async () => {
+  await stopMonitor()
 
   document.getElementById('session-message').innerHTML =
     'The teacher has ended the class session. Please wait for the next one to start.'
@@ -205,15 +205,7 @@ studentSocket.on('end-session', () => {
   window.alert('The class session has ended')
 })
 
-studentSocket.on('reconnected', async data => {
-  stopMonitor()
-
-  data = {...data}
-
-  await loadFaceAPI()
-
-  startMonitor()
-
+studentSocket.on('reconnected', () => {
   console.log('Reconnected to server!')
 })
 

@@ -1,5 +1,10 @@
 import socket from '.'
-import store, {addStudentData, addSessionData} from '../store'
+import store, {
+  addStudentData,
+  addSessionData,
+  resetSessionData,
+  resetStudentData
+} from '../store'
 
 const teacherSocket = socket
 
@@ -18,6 +23,9 @@ export const endSession = () => {
 
     document.getElementById('start').hidden = false
     document.getElementById('end').hidden = true
+
+    store.dispatch(resetSessionData())
+    store.dispatch(resetStudentData())
   }
 }
 
@@ -55,8 +63,10 @@ teacherSocket.on('session-data', (time, sessionData) => {
   )
 })
 
-teacherSocket.on('student-disconnect', id => {
-  window.alert(`Student disconnected from server, ID: ${id}`)
+teacherSocket.on('student-disconnect', ({id, firstName, lastName}) => {
+  window.alert(
+    `Student ${firstName} ${lastName} disconnected from server, ID: ${id}`
+  )
 })
 
 teacherSocket.on('reconnected', () => {
