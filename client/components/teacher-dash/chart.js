@@ -23,7 +23,7 @@ export default class Chart extends React.Component {
 
       case 'wordCount':
         yMin = 0
-        yMax = 100
+        yMax = 300
 
       case 'clickCount':
         yMin = 0
@@ -50,7 +50,7 @@ export default class Chart extends React.Component {
 
     if (compare) {
       chartData.datasets.push({
-        label: [this.state.metric],
+        label: ['Class Average'],
         data: compare.times
           ? compare.times.map(time => time[this.state.metric])
           : [],
