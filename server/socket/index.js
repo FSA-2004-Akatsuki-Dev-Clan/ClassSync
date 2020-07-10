@@ -131,9 +131,10 @@ module.exports = io => {
 
         for (metric in newData) {
           sessionData[sessionId].rawTotals[metric] += newData[metric]
-          sessionData[sessionId].averages[metric] =
+          sessionData[sessionId].averages[metric] = Math.ceil(
             sessionData[sessionId].rawTotals[metric] /
-            sessionData[sessionId].attendance
+              sessionData[sessionId].attendance
+          )
         }
       }
     })
