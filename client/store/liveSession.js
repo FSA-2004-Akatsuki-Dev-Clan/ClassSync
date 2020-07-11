@@ -14,6 +14,7 @@ const initialState = {}
  */
 //receives a time-stamped data point from the live session, and creates an action to add it to the liveSession object on store
 export const addSessionData = data => ({type: ADD_SESSION_DATA, data})
+
 export const resetSessionData = () => ({type: RESET_SESSION_DATA})
 
 /**

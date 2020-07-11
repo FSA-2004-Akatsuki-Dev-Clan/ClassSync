@@ -6,8 +6,11 @@ import store, {
   resetStudentData
 } from '../store'
 
-const teacherSocket = socket
-let sessionStarted = null
+
+let teacherSocket = socket
+
+//if confirmed, sends start message to server with teacher's ID and details for the session
+
 export const startSession = (teacherId, sessionDetails) => {
   if (window.confirm('Are you ready to start the session?')) {
     teacherSocket.emit('start-session', teacherId, sessionDetails)
@@ -17,6 +20,7 @@ export const startSession = (teacherId, sessionDetails) => {
   }
 }
 
+//if confirmed, sends message to server to end the session
 export const endSession = () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     teacherSocket.emit('end-session')
@@ -29,6 +33,7 @@ export const endSession = () => {
   }
 }
 
+//if cancel message from student => give option to resend a start message from server, or create a button to do so later
 teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   if (
     window.confirm(
@@ -49,6 +54,7 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   }
 })
 
+//on receipt of session-data update, dispatch to redux store
 teacherSocket.on('session-data', (time, sessionData) => {
   store.dispatch(addStudentData(time, sessionData.students))
   store.dispatch(
