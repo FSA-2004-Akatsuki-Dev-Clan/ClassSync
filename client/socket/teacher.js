@@ -7,7 +7,7 @@ import store, {
 } from '../store'
 
 const teacherSocket = socket
-
+let sessionStarted = null
 export const startSession = (teacherId, sessionDetails) => {
   if (window.confirm('Are you ready to start the session?')) {
     teacherSocket.emit('start-session', teacherId, sessionDetails)
