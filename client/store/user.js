@@ -68,7 +68,7 @@ export const auth = (email, password, method) => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     const user = await axios.post('/auth/logout')
-    await dispatch(removeUser())
+    dispatch(removeUser())
 
     //On logout, send logout message to the server
     if (socket) {

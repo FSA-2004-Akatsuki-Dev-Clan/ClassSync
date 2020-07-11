@@ -65,10 +65,8 @@ teacherSocket.on('session-data', (time, sessionData, studentData) => {
   )
 })
 
-teacherSocket.on('student-disconnect', ({id, firstName, lastName}) => {
-  window.alert(
-    `Student ${firstName} ${lastName} disconnected from server, ID: ${id}`
-  )
+teacherSocket.on('student-disconnect', ({id, first, last}) => {
+  window.alert(`Student ${first} ${last} disconnected from server, ID: ${id}`)
 })
 
 teacherSocket.on('reconnected', () => {
