@@ -2,9 +2,9 @@ import socket from '.'
 import store from '../store'
 import * as faceapi from 'face-api.js'
 
-const studentSocket = socket
+let studentSocket = socket
 
-const student = store.getState().user
+let student = store.getState().user
 
 const initialData = {
   wordCount: 0,
@@ -20,20 +20,21 @@ let interval
 
 let listening = false
 
-const clickAdd = () => {
+let clickAdd = () => {
   data.clickCount++
 }
 
 let clickListener
 
-const keyAdd = () => {
+let keyAdd = () => {
   data.keyCount++
 }
 
 let keyListener
 
 //tinyFaceDetector model library is less accurate but faster and more optimized for mobile/web
-const loadFaceAPI = () => faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
+let loadFaceAPI = async () =>
+  await faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
 //const loadFaceAPI = () => faceapi.nets.tinyFaceDetector.loadFromUri('../models')
 
 let mediaStream
@@ -44,7 +45,7 @@ let image = document.createElement('img')
 //This will hold the ImageCapture instance for taking snaps of the video stream
 let imageCapture
 
-const detectFace = async () => {
+let detectFace = async () => {
   if (imageCapture === undefined) return
 
   //grab a snapshot from our video stream as a 'blob' (binary large object)
@@ -69,13 +70,14 @@ const detectFace = async () => {
   console.log('got face', faces)
   if (faces.length) console.log('score: ', faces[0].score)
 
+  //update student's facial monitoring data
   data.faceCount += faces.length
   data.faceDetects++
 }
 
 //initialize the SpeechRecognition object from the Web Speech API
-const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-const recognition = new SpeechRecognition()
+let SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+let recognition = new SpeechRecognition()
 recognition.continuous = true
 recognition.lang = 'en-US'
 
@@ -91,7 +93,7 @@ recognition.onresult = event => {
 }
 
 //monitoring/activity logging script
-const startMonitor = async () => {
+let startMonitor = async () => {
   let mediaConfigObj = {
     audio: true,
     video: true
@@ -143,7 +145,8 @@ const startMonitor = async () => {
     })
 }
 
-const stopMonitor = async () => {
+//stops all monitoring functions and clears the data-sending interval, resets data object
+let stopMonitor = async () => {
   clearInterval(interval)
 
   if (mediaStream) {
@@ -184,6 +187,7 @@ studentSocket.on('start-session', async () => {
     return
   }
 
+  //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
   await loadFaceAPI()
 
   await stopMonitor()
@@ -195,7 +199,7 @@ studentSocket.on('start-session', async () => {
   studentSocket.emit('accept', student, data)
 })
 
-//if a message is received that the session is over, the timed activity logging interval is stopped
+//if a message is received that the session is over, the timed activity logging interval and  is stopped
 studentSocket.on('end-session', async () => {
   await stopMonitor()
 
