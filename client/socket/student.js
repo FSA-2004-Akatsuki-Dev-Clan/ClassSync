@@ -122,18 +122,15 @@ let startMonitor = async () => {
 
       //set up keystroke and mouse-click listeners
       clickListener = window.addEventListener('click', clickAdd)
-
       keyListener = window.addEventListener('keydown', keyAdd)
-
-      document.getElementById('session-message').innerHTML =
-        'The class session is live!'
+      //change of header
+      const header = document.getElementById('session-message')
+      header.innerHTML = 'The class session is live!'
 
       //We set up our timed interval for checking for a face on webcam, and sending a data ping to the server
       interval = setInterval(async () => {
         await detectFace()
-
         studentSocket.emit('student-data', student.id, data)
-
         data = {...initialData}
       }, 7500)
     })
@@ -195,6 +192,9 @@ studentSocket.on('start-session', async () => {
   data = {...initialData}
 
   await startMonitor()
+  // load up the quiz
+  const assignmentCont = document.getElementById('is-Live')
+  assignmentCont.hidden = false
 
   studentSocket.emit('accept', student, data)
 })

@@ -6,9 +6,11 @@ import store, {
   resetStudentData
 } from '../store'
 
+
 let teacherSocket = socket
 
 //if confirmed, sends start message to server with teacher's ID and details for the session
+
 export const startSession = (teacherId, sessionDetails) => {
   if (window.confirm('Are you ready to start the session?')) {
     teacherSocket.emit('start-session', teacherId, sessionDetails)
