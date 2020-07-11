@@ -166,7 +166,7 @@ const stopMonitor = async () => {
 }
 
 //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
-studentSocket.on('start-session', async () => {
+studentSocket.on('start-session', async (teacherId, sessionDetails) => {
   if (
     !window.confirm(
       'Your teacher has started a live session. This will access your video and audio streams.'
@@ -180,7 +180,7 @@ studentSocket.on('start-session', async () => {
     )
     return
   }
-
+  document.getElementById('student-assignment').url = sessionDetails
   await loadFaceAPI()
 
   await stopMonitor()
@@ -188,11 +188,10 @@ studentSocket.on('start-session', async () => {
   data = {...initialData}
 
   await startMonitor()
+  studentSocket.emit('accept', student, data)
   // load up the quiz
   const assignmentCont = document.getElementById('is-Live')
   assignmentCont.hidden = false
-
-  studentSocket.emit('accept', student, data)
 })
 
 //if a message is received that the session is over, the timed activity logging interval is stopped

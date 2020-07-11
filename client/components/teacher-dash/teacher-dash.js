@@ -20,7 +20,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({teacher, liveSession}) => {
+const TeacherDash = ({teacher, liveSession, GformHandle, GformLink}) => {
   const classes = myStyles()
 
   return (
@@ -30,11 +30,12 @@ const TeacherDash = ({teacher, liveSession}) => {
       <Grid item xs={12} sm={12}>
         <div id="teacher-session">
           <h1>Hello! Your students await your tutelage</h1>
+          <input name="Gform" onChange={GformHandle} />
           <button
             id="start"
             type="button"
             onClick={() => {
-              startSession(teacher.id, 'test')
+              startSession(teacher.id, GformLink)
             }}
           >
             Start Session

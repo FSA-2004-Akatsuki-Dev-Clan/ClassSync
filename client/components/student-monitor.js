@@ -8,7 +8,10 @@ const StudentMonitor = ({student}) => (
     </h1>
     <div id="is-Live" hidden={true}>
       <Iframe
-        url="https://docs.google.com/forms/d/e/1FAIpQLSfOzBcCZd61vHVLGe_f9BlOnWrILPx6G_dT9Ahz3fOE5ikUCQ/viewform?usp=sf_link"
+        url={
+          null ||
+          'https://docs.google.com/forms/d/e/1FAIpQLSfOzBcCZd61vHVLGe_f9BlOnWrILPx6G_dT9Ahz3fOE5ikUCQ/viewform?usp=sf_link'
+        }
         SameSite="None"
         Secure
         width="600px"
