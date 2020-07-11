@@ -8,7 +8,7 @@ import liveSession from './liveSession'
 import studentReducer from './students'
 import singleStudentReducer from './single-student'
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   user,
   students: studentReducer,
   student: singleStudentReducer,

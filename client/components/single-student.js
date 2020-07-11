@@ -1,7 +1,5 @@
 import React from 'react'
-import SimpleTable from './table'
 import Chart from './teacher-dash/chart'
-import ClassSumTotalsRow from '../components/teacher-dash/class-sum-totals-row'
 import SingleTable from './single-stud-table'
 import {Grid} from '@material-ui/core'
 
