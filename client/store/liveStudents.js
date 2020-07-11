@@ -33,11 +33,6 @@ export default function(state = initialState, action) {
         firstName: action.students[studentId].firstName,
         lastName: action.students[studentId].lastName,
         time: action.time,
-        faceScore: Math.ceil(
-          action.students[studentId].data.faceCount /
-            action.students[studentId].data.faceDetects *
-            100
-        ),
         ...action.students[studentId].data
       }))
 
