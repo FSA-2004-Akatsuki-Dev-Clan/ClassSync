@@ -192,6 +192,7 @@ studentSocket.on('start-session', async () => {
   data = {...initialData}
 
   await startMonitor()
+
   // load up the quiz
   const assignmentCont = document.getElementById('is-Live')
   assignmentCont.hidden = false

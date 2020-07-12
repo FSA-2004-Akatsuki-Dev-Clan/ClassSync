@@ -6,7 +6,6 @@ import store, {
   resetStudentData
 } from '../store'
 
-
 let teacherSocket = socket
 
 //if confirmed, sends start message to server with teacher's ID and details for the session
@@ -55,16 +54,13 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
 })
 
 //on receipt of session-data update, dispatch to redux store
-teacherSocket.on('session-data', (time, sessionData) => {
-  store.dispatch(addStudentData(time, sessionData.students))
+teacherSocket.on('session-data', (time, sessionData, studentData) => {
+  store.dispatch(addStudentData(time, studentData))
   store.dispatch(
     addSessionData({
       time,
       attendance: sessionData.attendance,
-      ...sessionData.averages,
-      faceScore: Math.ceil(
-        sessionData.averages.faceCount / sessionData.averages.faceDetects * 100
-      )
+      ...sessionData.averages
     })
   )
 })

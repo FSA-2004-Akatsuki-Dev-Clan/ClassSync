@@ -3,7 +3,7 @@ const axios = require('axios')
 //data relevant to live sessions is stored here
 let teacher = {id: null, socket: null}
 let sessionData = {}
-let sessionId = null
+let studentData = {}
 let live = false
 let startTime
 let endTime
@@ -20,15 +20,15 @@ module.exports = io => {
       if (socket.id === teacher.socket)
         console.log(`The teacher disconnected from socket ${socket.id}`)
       else if (live) {
-        for (studentId in sessionData[sessionId].students) {
-          if (socket.id === sessionData[sessionId].students[studentId].socket) {
+        for (studentId in studentData) {
+          if (socket.id === studentData[studentId].socket) {
             console.log(
               `Student ${studentId} disconnected from socket ${socket.id}`
             )
             io.to(teacher.socket).emit('student-disconnect', {
               id: studentId,
-              firstName: sessionData[sessionId].students[studentId].firstName,
-              lastName: sessionData[sessionId].students[studentId].lastName
+              firstName: studentData[studentId].firstName,
+              lastName: studentData[studentId].lastName
             })
             return
           }
@@ -43,6 +43,7 @@ module.exports = io => {
 
       teacher = {id: null, socket: null}
       sessionData = {}
+      studentData = {}
 
       teacher.id = teacherId
       teacher.socket = socket.id
@@ -52,7 +53,8 @@ module.exports = io => {
         // sessionDataId = data
 
         sessionId = 'test'
-        sessionData[sessionId] = {attendance: 0, students: {}}
+        sessionData.id = sessionId
+        sessionData.attendance = 0
 
         socket.broadcast.emit('start-session')
         live = true
@@ -64,7 +66,8 @@ module.exports = io => {
             .emit(
               'session-data',
               Math.floor(Date.now() / 60000),
-              sessionData[sessionId]
+              sessionData,
+              studentData
             )
         }, 15000)
       } catch (err) {
@@ -98,15 +101,16 @@ module.exports = io => {
     // accept message from student => their data on the session is initialized
     //if this is the first accept for the session, session data is also initialized
     socket.on('accept', (student, metrics) => {
-      sessionData[sessionId].students[student.id] = {
+      studentData[student.id] = {
+        id: student.id,
         socket: socket.id,
         firstName: student.firstName,
         lastName: student.lastName,
         data: {}
       }
-      if (!sessionData[sessionId].rawTotals) {
-        sessionData[sessionId].rawTotals = {...metrics}
-        sessionData[sessionId].averages = {...metrics}
+      if (!sessionData.rawTotals) {
+        sessionData.rawTotals = {...metrics}
+        sessionData.averages = {...metrics}
       }
     })
 
@@ -129,8 +133,8 @@ module.exports = io => {
           io
             .to(socket.id)
             .emit('Reconnected to live session, should continue receiving data')
-        } else if (sessionData[sessionId].students[userId]) {
-          sessionData[sessionId].students[userId].socket = socket.id
+        } else if (studentData[userId]) {
+          studentData[userId].socket = socket.id
           io.to(socket.id).emit('Reconnected to live session')
           io.to(socket.id).emit('start-session')
         }
@@ -140,21 +144,42 @@ module.exports = io => {
     //data point from student => if session is live, add the data
     socket.on('student-data', (studentId, newData) => {
       if (live) {
-        if (!sessionData[sessionId].students[studentId].data.faceDetects) {
-          sessionData[sessionId].students[studentId].data = {...newData}
-          sessionData[sessionId].attendance++
+        //if no data for this student yet, copy values, calculate faceScore, and session attendance variable
+        if (!studentData[studentId].data.faceDetects) {
+          studentData[studentId].data = {...newData}
+          studentData[studentId].data.faceScore = Math.ceil(
+            studentData[studentId].data.faceCount /
+              studentData[studentId].data.faceDetects *
+              100
+          )
+          sessionData.attendance++
         } else {
+          //if data exists for student, add the new numbers and recalculate faceScore
           for (metric in newData) {
-            sessionData[sessionId].students[studentId].data[metric] +=
-              newData[metric]
+            studentData[studentId].data[metric] += newData[metric]
+            studentData[studentId].data.faceScore = Math.ceil(
+              studentData[studentId].data.faceCount /
+                studentData[studentId].data.faceDetects *
+                100
+            )
           }
         }
 
+        //add new numbers to session data totals, calculate faceScore, and calculate average values for all students in attendance
         for (metric in newData) {
-          sessionData[sessionId].rawTotals[metric] += newData[metric]
-          sessionData[sessionId].averages[metric] = Math.ceil(
-            sessionData[sessionId].rawTotals[metric] /
-              sessionData[sessionId].attendance
+          sessionData.rawTotals[metric] += newData[metric]
+          sessionData.rawTotals.faceScore = Math.ceil(
+            sessionData.rawTotals.faceCount /
+              sessionData.rawTotals.faceDetects *
+              100
+          )
+          sessionData.averages[metric] = Math.ceil(
+            sessionData.rawTotals[metric] / sessionData.attendance
+          )
+          sessionData.averages.faceScore = Math.ceil(
+            sessionData.averages.faceCount /
+              sessionData.averages.faceDetects *
+              100
           )
         }
       }
