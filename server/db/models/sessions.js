@@ -40,6 +40,10 @@ const Session = db.define('sessions', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
+  sessFaceScore: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   sessWordsSpokenTot: {
     type: Sequelize.INTEGER,
     defaultValue: 0

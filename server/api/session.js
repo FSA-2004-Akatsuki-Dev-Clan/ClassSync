@@ -33,44 +33,29 @@ router.post('/', async (req, res, next) => {
   try {
     const newSession = await Session.create(req.body)
 
-    res.json(newSession)
+    res.json(newSession.id)
   } catch (error) {
     next(error)
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/save', async (req, res, next) => {
   try {
-    const rawData = req.body
+    const rawData = req.body.rawTotals
     const sessionData = {}
-    const {students} = req.body
     console.log(req.body)
-    const studentsArr = Object.keys(students)
     const sessionToClose = await Session.findOne({
-      where: {id: rawData.id}
+      where: {id: req.body.id}
     })
     sessionData.sessFaceCountTot = rawData.faceCount
     sessionData.sessFaceAttemptTot = rawData.faceDetects
+    sessionData.sessFaceScore = rawData.faceScore
     sessionData.sessWordsSpokenTot = rawData.wordCount
     sessionData.sessClickTot = rawData.clickCount
     sessionData.sessKeyStrokeTot = rawData.keyCount
-    sessionData.EndTime = Date.now()
-    sessionData.numOfStudents = studentsArr.length
-    sessionToClose.update(sessionData)
-    for (let i = 0; i < studentsArr.length; i++) {
-      const studentSess = rawData.students[studentsArr[i]]
-      const studId = Number(studentsArr[i])
-      delete studentSess.socketId
-      delete studentSess.time
-      const student = await Student.findOne({where: {id: studId}})
-      await sessionToClose.addStudent(student)
-      await StudentSession.update(studentSess, {
-        where: {
-          studentId: studId,
-          sessionId: rawData.id
-        }
-      })
-    }
+    sessionData.sessFaceScore = rawData.sessFaceScore
+    sessionData.numOfStudents = req.body.attendance
+    await sessionToClose.update(sessionData)
 
     res.json(sessionToClose)
   } catch (error) {

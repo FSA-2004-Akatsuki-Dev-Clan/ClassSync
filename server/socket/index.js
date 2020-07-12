@@ -49,9 +49,6 @@ module.exports = io => {
       teacher.socket = socket.id
 
       try {
-        // const {data} = await axios.post('api/session', sessionDetails)
-        // sessionDataId = data
-
         sessionId = 'test'
         sessionData.id = sessionId
         sessionData.attendance = 0
@@ -59,6 +56,8 @@ module.exports = io => {
         socket.broadcast.emit('start-session')
         live = true
         startTime = Date.now()
+        // const {data} = await axios.post('api/session', startTime)
+        // sessionDataId = data.id
 
         interval = setInterval(() => {
           io
@@ -89,7 +88,8 @@ module.exports = io => {
       endTime = Date.now()
 
       // try {
-      //   await axios.put(`api/session/:${sessionId}`, sessionData, startTime, endTime)
+      await axios.put(`api/session/:${sessionId}`, sessionData)
+      await axios.put('api/students/save', studentData)
       // } catch (err) {
       //   console.log(
       //     'There was a problem saving the session data in the database',

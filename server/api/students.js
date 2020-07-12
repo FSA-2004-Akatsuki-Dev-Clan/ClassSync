@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Student} = require('../db/models')
+const {Student, Session} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -19,6 +19,24 @@ router.get('/:studentid', async (req, res, next) => {
       }
     })
     res.json(singleStudent)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/save', async (req, res, next) => {
+  try {
+    const studentData = req.body
+
+    for (let id in studentData) {
+      if (studentData.hasOwnProperty(id)) {
+        const student = await Student.findByPk(id)
+        const updatedObj = await student.avgData({...studentData[id].data})
+        await student.update(updatedObj)
+      }
+    }
+
+    res.sendStatus(200)
   } catch (error) {
     next(error)
   }
