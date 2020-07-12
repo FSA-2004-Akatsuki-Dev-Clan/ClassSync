@@ -2,6 +2,14 @@ import openSocket from '.'
 import store from '../store'
 import {loadFaceAPI, startMonitor, stopMonitor} from '../student-monitor'
 
+const initialData = {
+  wordCount: 0,
+  faceCount: 0,
+  faceDetects: 0,
+  keyCount: 0,
+  clickCount: 0
+}
+
 const openStudentSocket = () => {
   let studentSocket = openSocket()
 
@@ -28,8 +36,6 @@ const openStudentSocket = () => {
 
     await stopMonitor()
 
-    data = {...initialData}
-
     await startMonitor(studentSocket, student)
 
     // load up the quiz
@@ -40,7 +46,7 @@ const openStudentSocket = () => {
     const header = document.getElementById('session-message')
     header.innerHTML = 'The class session is live!'
 
-    studentSocket.emit('accept', student, data)
+    studentSocket.emit('accept', student, initialData)
   })
 
   //if a message is received that the session is over, the timed activity logging interval and  is stopped

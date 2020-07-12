@@ -3,6 +3,7 @@ import history from '../history'
 import store from '.'
 import openTeacherSocket from '../socket/teacher'
 import openStudentSocket from '../socket/student'
+import {resetSessionData, resetStudentData} from '.'
 
 let socket
 
@@ -28,9 +29,9 @@ export const endSession = () => {
 
     document.getElementById('start').hidden = false
     document.getElementById('end').hidden = true
-    document.getElementsByClassName('re-invite').forEach(button => {
-      button.parentNode.removeChild(button)
-    })
+    // document.getElementsByClassName('re-invite').forEach((button) => {
+    //   button.parentNode.removeChild(button)
+    // })
   }
 }
 

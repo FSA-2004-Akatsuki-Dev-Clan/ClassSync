@@ -100,6 +100,8 @@ export const startMonitor = async (studentSocket, student) => {
     .then(async mediaStreamObj => {
       console.log('connected to media stream!', mediaStreamObj)
 
+      data = {...initialData}
+
       mediaStream = mediaStreamObj
 
       //The video track is isolated
@@ -126,8 +128,8 @@ export const startMonitor = async (studentSocket, student) => {
 
         studentSocket.emit('student-data', student.id, data)
 
-        await recognition.stop()
-        await recognition.start()
+        // await recognition.stop()
+        // await recognition.start()
 
         data = {...initialData}
       }, 7500)

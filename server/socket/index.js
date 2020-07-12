@@ -34,8 +34,8 @@ module.exports = io => {
           io.to(socket.id).emit('start-session')
         } else if (user.id) {
           logouts[user.id] = false
-          io.to(socket.id).emit('start-session')
           io.to(teacher.socket).emit('student-join', user)
+          io.to(socket.id).emit('start-session')
         }
       }
     })
