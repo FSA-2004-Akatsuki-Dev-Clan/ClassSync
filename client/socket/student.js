@@ -222,4 +222,8 @@ studentSocket.on('reconnected', () => {
   console.log('Reconnected to server!')
 })
 
+studentSocket.on('error', err => {
+  console.log('Socket error:', err)
+})
+
 export default studentSocket

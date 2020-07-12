@@ -16,6 +16,9 @@ export const startSession = (teacherId, sessionDetails) => {
 
     document.getElementById('start').hidden = true
     document.getElementById('end').hidden = false
+
+    store.dispatch(resetSessionData())
+    store.dispatch(resetStudentData())
   }
 }
 
@@ -26,9 +29,9 @@ export const endSession = () => {
 
     document.getElementById('start').hidden = false
     document.getElementById('end').hidden = true
-
-    store.dispatch(resetSessionData())
-    store.dispatch(resetStudentData())
+    document.getElementsByClassName('re-invite').forEach(button => {
+      button.parentNode.removeChild(button)
+    })
   }
 }
 
@@ -43,12 +46,13 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   else {
     const reInvite = document.createElement('button')
     reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
+    reInvite.className = 're-invite'
 
     document.getElementById('teacher-session').appendChild(reInvite)
 
     reInvite.onclick = () => {
       socket.emit('re-invite', socketId)
-      document.getElementById('teacher-session').removeChild(reInvite)
+      reInvite.parentNode.removeChild(reInvite)
     }
   }
 })
@@ -71,6 +75,10 @@ teacherSocket.on('student-disconnect', ({id, first, last}) => {
 
 teacherSocket.on('reconnected', () => {
   console.log('Reconnected to the server!')
+})
+
+teacherSocket.on('error', err => {
+  console.log('Socket error:', err)
 })
 
 export default teacherSocket

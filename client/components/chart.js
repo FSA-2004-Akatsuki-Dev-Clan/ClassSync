@@ -108,8 +108,12 @@ export default class Chart extends React.Component {
                       suggestedMax: yMax
                     },
                     scaleLabel: {
+                      labelString:
+                        this.state.metric === 'faceScore'
+                          ? 'Percentage of successful face detections'
+                          : 'Count',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }
@@ -124,8 +128,9 @@ export default class Chart extends React.Component {
                     //   suggestedMax: 30,
                     // },
                     scaleLabel: {
+                      labelString: 'Session Minutes',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }
