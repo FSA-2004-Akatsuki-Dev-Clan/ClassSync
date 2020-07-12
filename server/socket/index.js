@@ -6,9 +6,8 @@ let sessionData = {}
 let studentData = {}
 let live = false
 let logouts = {}
-let interval
-let startTime
-let endTime
+let dataInterval
+let endInterval
 
 module.exports = io => {
   io.on('connection', socket => {
@@ -23,6 +22,7 @@ module.exports = io => {
         teacher.id = user.id
         teacher.socket = socket.id
         teacher.logout = false
+        clearTimeout(endInterval)
       }
 
       if (live) {
@@ -52,7 +52,7 @@ module.exports = io => {
           socket.broadcast.emit('end-session')
           live = false
 
-          clearInterval(interval)
+          clearInterval(dataInterval)
         }
       } else if (studentData[user.id]) {
         console.log(`Student ${user.id} logged out`)
@@ -63,12 +63,20 @@ module.exports = io => {
       socket.disconnect(true)
     })
 
-    //On socket disconnect without having logged out, identify whether student or teacher. If student in session, inform the teacher
+    //On socket disconnect without having logged out, identify whether student or teacher =>
+    //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
     socket.on('disconnect', () => {
       console.log('disconnect')
 
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
+
+        endInterval = setTimeout(() => {
+          socket.broadcast.emit('end-session')
+          live = false
+
+          clearInterval(dataInterval)
+        }, 30000)
       } else if (live) {
         for (studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
@@ -82,7 +90,7 @@ module.exports = io => {
                 lastName: studentData[studentId].lastName
               })
               return
-            }
+            } else console.log(`student disconnected from socket ${socket.id}`)
           }
         }
       }
@@ -98,8 +106,8 @@ module.exports = io => {
       logouts = {}
 
       try {
-        // const {data} = await axios.post('api/session', sessionDetails)
-        // sessionDataId = data
+        // const {data} = await axios.post('/api/session', sessionDetails)
+        // sessionId = data
 
         sessionId = 'test'
         sessionData.id = sessionId
@@ -107,9 +115,8 @@ module.exports = io => {
 
         socket.broadcast.emit('start-session')
         live = true
-        startTime = Date.now()
 
-        interval = setInterval(() => {
+        dataInterval = setInterval(() => {
           io
             .to(teacher.socket)
             .emit(
@@ -167,7 +174,7 @@ module.exports = io => {
           sessionData.attendance++
         } else {
           //if data exists for student, add the new numbers and recalculate faceScore
-          for (metric in newData) {
+          for (let metric in newData) {
             studentData[studentId].data[metric] += newData[metric]
             studentData[studentId].data.faceScore = Math.ceil(
               studentData[studentId].data.faceCount /
@@ -178,7 +185,7 @@ module.exports = io => {
         }
 
         //add new numbers to session data totals, calculate faceScore, and calculate average values for all students in attendance
-        for (metric in newData) {
+        for (let metric in newData) {
           sessionData.rawTotals[metric] += newData[metric]
           sessionData.rawTotals.faceScore = Math.ceil(
             sessionData.rawTotals.faceCount /
@@ -203,12 +210,11 @@ module.exports = io => {
       socket.broadcast.emit('end-session')
       live = false
 
-      clearInterval(interval)
-
-      endTime = Date.now()
+      clearInterval(dataInterval)
 
       // try {
-      //   await axios.put(`api/session/:${sessionId}`, sessionData, startTime, endTime)
+      //   await axios.put(`api/session/save`, sessionData)
+      //   await axios.put('api/students/save', studentData)
       // } catch (err) {
       //   console.log(
       //     'There was a problem saving the session data in the database',

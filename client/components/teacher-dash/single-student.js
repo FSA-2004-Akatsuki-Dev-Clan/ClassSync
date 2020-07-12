@@ -6,7 +6,7 @@ const SingleStudent = ({student, session}) => (
   <div>
     <Grid item xs={12} container direction="row">
       <Grid item xs={6}>
-        <SingleTable data={student} />
+        <Table data={student} />
       </Grid>
       <Grid item xs={6}>
         <div className="chart">

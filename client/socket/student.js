@@ -61,7 +61,11 @@ const openStudentSocket = () => {
 
   //on disconnect while still logged in, attempt reconnection
   studentSocket.on('disconnect', () => {
-    if (store.getState().user.id) studentSocket = openSocket()
+    console.log('student disconnect')
+    if (store.getState().user.id) {
+      console.log('attempting reconnect')
+      studentSocket = openSocket()
+    }
   })
 
   return studentSocket

@@ -31,12 +31,12 @@ export default class Chart extends React.Component {
       ]
     }
 
-    chartData.datasets.push({
-      label: ['Class Average'],
-      data: [20, 40, 60, 80, 100],
-      backgroundColor: ['rgb(250, 240, 260, .2)'],
-      fontColor: 'rgb(215, 230, 240)'
-    })
+    // chartData.datasets.push({
+    //   label: ['Class Average'],
+    //   data: [20, 40, 60, 80, 100],
+    //   backgroundColor: ['rgb(250, 240, 260, .2)'],
+    //   fontColor: 'rgb(215, 230, 240)'
+    // })
 
     if (compare) {
       chartData.datasets.push({

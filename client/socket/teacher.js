@@ -13,16 +13,14 @@ const openTeacherSocket = () => {
     )
       teacherSocket.emit('re-invite', socketId)
     else {
-      const reInvite = document.createElement('button')
-      reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
-      reInvite.className = 're-invite'
-
-      document.getElementById('teacher-session').appendChild(reInvite)
-
-      reInvite.onclick = () => {
-        teacherSocket.emit('re-invite', socketId)
-        reInvite.parentNode.removeChild(reInvite)
-      }
+      // const reInvite = document.createElement('button')
+      // reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
+      // reInvite.className = 're-invite'
+      // document.getElementById('teacher-session').appendChild(reInvite)
+      // reInvite.onclick = () => {
+      //   teacherSocket.emit('re-invite', socketId)
+      //   reInvite.parentNode.removeChild(reInvite)
+      // }
     }
   })
 
@@ -59,7 +57,11 @@ const openTeacherSocket = () => {
 
   //on disconnect while still logged in, attempt reconnection
   teacherSocket.on('disconnect', () => {
-    if (store.getState().user.id) teacherSocket = openSocket()
+    console.log('teacher disconnect')
+    if (store.getState().user.id) {
+      console.log('attempting reconnect')
+      teacherSocket = openSocket()
+    }
   })
 
   return teacherSocket
