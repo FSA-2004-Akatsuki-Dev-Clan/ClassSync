@@ -49,7 +49,7 @@ describe('Student model', () => {
         expect(bruce.lastName).to.equal('Wayne')
       })
 
-      it('comment is a string', () => {
+      it('comment is a typeOf string', () => {
         let result = bruce.comment
         assert.typeOf(result, 'string')
       })
@@ -106,6 +106,33 @@ describe('Student thunks', () => {
       await store.dispatch(fetchSingleStudent(1))
       const state = store.getState()
       expect(state.student).to.deep.equal({id: 1, firstName: 'Pierre'})
+    })
+  })
+
+  describe('GET /students', () => {
+    beforeEach(() => {
+      mockAxios
+        .onGet('/api/students')
+        .reply(200, [
+          {id: 1, firstName: 'Pierre', email: 'pierreparkes1@gmail.com'},
+          {id: 2, firstName: 'Omar', email: 'omarmartin1@gmail.com'},
+          {id: 3, firstName: 'Milly', email: 'millycain1@gmail.com'}
+        ])
+    })
+    it('sets the recieved students to the state', async () => {
+      await store.dispatch(fetchStudents())
+      const state = store.getState()
+      expect(state.students).to.deep.equal([
+        {id: 1, firstName: 'Pierre', email: 'pierreparkes1@gmail.com'},
+        {id: 2, firstName: 'Omar', email: 'omarmartin1@gmail.com'},
+        {id: 3, firstName: 'Milly', email: 'millycain1@gmail.com'}
+      ])
+    })
+
+    it('sets the recieved students to the state', async () => {
+      await store.dispatch(fetchStudents())
+      const state = store.getState()
+      expect(state.students).to.have.lengthOf(3)
     })
   })
 })
