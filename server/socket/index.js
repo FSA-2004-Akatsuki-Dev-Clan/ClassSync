@@ -5,14 +5,13 @@ let teacher = {id: null, socket: null}
 let sessionData = {}
 let studentData = {}
 let live = false
+let interval
 let startTime
 let endTime
 
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-
-    let interval
 
     //On socket disconnect, identify whether student or teacher. If student, inform the teacher
     socket.on('disconnect', () => {
@@ -198,6 +197,8 @@ module.exports = io => {
         console.log(`Student ${user.id} logged out`)
         io.to(teacher.socket).emit('student-disconnect', user)
       }
+
+      socket.disconnect(true)
     })
   })
 }

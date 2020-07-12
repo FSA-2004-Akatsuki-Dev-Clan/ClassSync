@@ -68,6 +68,7 @@ let detectFace = async () => {
   // )
 
   console.log('got face', faces)
+
   if (faces.length) console.log('score: ', faces[0].score)
 
   //update student's facial monitoring data
@@ -122,7 +123,9 @@ let startMonitor = async () => {
 
       //set up keystroke and mouse-click listeners
       clickListener = window.addEventListener('click', clickAdd)
+
       keyListener = window.addEventListener('keydown', keyAdd)
+
       //change of header
       const header = document.getElementById('session-message')
       header.innerHTML = 'The class session is live!'
@@ -130,7 +133,12 @@ let startMonitor = async () => {
       //We set up our timed interval for checking for a face on webcam, and sending a data ping to the server
       interval = setInterval(async () => {
         await detectFace()
+
         studentSocket.emit('student-data', student.id, data)
+
+        await recognition.stop()
+        await recognition.start()
+
         data = {...initialData}
       }, 7500)
     })

@@ -71,10 +71,7 @@ export const logout = () => async dispatch => {
     dispatch(removeUser())
 
     //On logout, send logout message to the server
-    if (socket) {
-      socket.emit('logout', user)
-      socket.disconnect(true)
-    }
+    if (socket) socket.emit('logout', user)
 
     history.push('/')
   } catch (err) {
