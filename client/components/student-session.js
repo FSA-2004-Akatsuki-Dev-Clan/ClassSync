@@ -1,7 +1,7 @@
 import React from 'react'
 import Iframe from 'react-iframe'
 
-const StudentMonitor = ({student}) => (
+const StudentSession = ({student}) => (
   <div id="student-session">
     <h1 id="session-message">
       Hello! Please await class session start by the teacher
@@ -22,4 +22,4 @@ const StudentMonitor = ({student}) => (
   </div>
 )
 
-export default StudentMonitor
+export default StudentSession

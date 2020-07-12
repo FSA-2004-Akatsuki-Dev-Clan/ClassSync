@@ -5,6 +5,7 @@ let teacher = {id: null, socket: null}
 let sessionData = {}
 let studentData = {}
 let live = false
+let logouts = {}
 let interval
 let startTime
 let endTime
@@ -13,23 +14,75 @@ module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
+    //check-in message sent whenever a new socket is opened for a logged-in user
+    //if user is teacher => set teacher id and socket
+    //if there is a live session => if student and they have data on session, socket ID is attached to that data
+    //if not on session yet, send start session message to student and student join message to teacher
+    socket.on('check-in', user => {
+      if (user.isTeacher) {
+        teacher.id = user.id
+        teacher.socket = socket.id
+        teacher.logout = false
+      }
+
+      if (live) {
+        if (user.isTeacher) io.to(socket.id).emit('rejoin')
+        else if (studentData[user.id]) {
+          studentData[user.id].socket = socket.id
+          logouts[user.id] = false
+          io.to(socket.id).emit('rejoin')
+          io.to(socket.id).emit('start-session')
+        } else if (user.id) {
+          logouts[user.id] = false
+          io.to(socket.id).emit('start-session')
+          io.to(teacher.socket).emit('student-join', user)
+        }
+      }
+    })
+
+    //on user logout => if teacher, end the session; if student, inform the teacher; close socket
+    socket.on('logout', user => {
+      console.log('logout')
+
+      if (user.id === teacher.id) {
+        console.log(`The teacher logged out`)
+        teacher.logout = true
+
+        if (live) {
+          socket.broadcast.emit('end-session')
+          live = false
+
+          clearInterval(interval)
+        }
+      } else if (studentData[user.id]) {
+        console.log(`Student ${user.id} logged out`)
+        logouts[user.id] = true
+        if (live) io.to(teacher.socket).emit('student-logout', user)
+      }
+
+      socket.disconnect(true)
+    })
+
     //On socket disconnect, identify whether student or teacher. If student, inform the teacher
     socket.on('disconnect', () => {
       console.log('disconnect')
-      if (socket.id === teacher.socket)
+
+      if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
-      else if (live) {
+      } else if (live) {
         for (studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
-            console.log(
-              `Student ${studentId} disconnected from socket ${socket.id}`
-            )
-            io.to(teacher.socket).emit('student-disconnect', {
-              id: studentId,
-              firstName: studentData[studentId].firstName,
-              lastName: studentData[studentId].lastName
-            })
-            return
+            if (!logouts[studentId]) {
+              console.log(
+                `Student ${studentId} disconnected from socket ${socket.id}`
+              )
+              io.to(teacher.socket).emit('student-disconnect', {
+                id: studentId,
+                firstName: studentData[studentId].firstName,
+                lastName: studentData[studentId].lastName
+              })
+              return
+            }
           }
         }
       }
@@ -40,12 +93,8 @@ module.exports = io => {
     socket.on('start-session', async (teacherId, sessionDetails) => {
       //?if there is unsaved data from an old session, save it now?
 
-      teacher = {id: null, socket: null}
       sessionData = {}
       studentData = {}
-
-      teacher.id = teacherId
-      teacher.socket = socket.id
 
       try {
         // const {data} = await axios.post('api/session', sessionDetails)
@@ -77,26 +126,6 @@ module.exports = io => {
       }
     })
 
-    //end message from teacher => end message is sent to students, data message interval is cleared
-    //session data is saved in the database
-    socket.on('end-session', async () => {
-      socket.broadcast.emit('end-session')
-      live = false
-
-      clearInterval(interval)
-
-      endTime = Date.now()
-
-      // try {
-      //   await axios.put(`api/session/:${sessionId}`, sessionData, startTime, endTime)
-      // } catch (err) {
-      //   console.log(
-      //     'There was a problem saving the session data in the database',
-      //     err
-      //   )
-      // }
-    })
-
     // accept message from student => their data on the session is initialized
     //if this is the first accept for the session, session data is also initialized
     socket.on('accept', (student, metrics) => {
@@ -121,23 +150,6 @@ module.exports = io => {
     //re-invites routed to students from teacher
     socket.on('re-invite', socketId => {
       io.to(socketId).emit('start-session')
-    })
-
-    //reconnect message sent whenever a socket is opened for a logged-in user => if there is a live session =>
-    //if user is teacher, teacher socket is reset; if student and they have associated data on session, socket ID is associated to that data
-    socket.on('reconnect', userId => {
-      if (live) {
-        if (teacher.id === userId) {
-          teacher.socket = socket.id
-          io
-            .to(socket.id)
-            .emit('Reconnected to live session, should continue receiving data')
-        } else if (studentData[userId]) {
-          studentData[userId].socket = socket.id
-          io.to(socket.id).emit('Reconnected to live session')
-          io.to(socket.id).emit('start-session')
-        }
-      }
     })
 
     //data point from student => if session is live, add the data
@@ -184,21 +196,24 @@ module.exports = io => {
       }
     })
 
-    //on user logout => if teacher, end the session; if student, inform the teacher
-    socket.on('logout', user => {
-      console.log('logout')
-      if (user.id === teacher.id) {
-        console.log(`The teacher logged out`)
-        socket.broadcast.emit('end-session')
-        live = false
+    //end message from teacher => end message is sent to students, data message interval is cleared
+    //session data is saved in the database
+    socket.on('end-session', async () => {
+      socket.broadcast.emit('end-session')
+      live = false
 
-        clearInterval(interval)
-      } else {
-        console.log(`Student ${user.id} logged out`)
-        io.to(teacher.socket).emit('student-disconnect', user)
-      }
+      clearInterval(interval)
 
-      socket.disconnect(true)
+      endTime = Date.now()
+
+      // try {
+      //   await axios.put(`api/session/:${sessionId}`, sessionData, startTime, endTime)
+      // } catch (err) {
+      //   console.log(
+      //     'There was a problem saving the session data in the database',
+      //     err
+      //   )
+      // }
     })
   })
 }

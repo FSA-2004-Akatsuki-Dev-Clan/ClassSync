@@ -5,7 +5,7 @@ import {Grid, Paper} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 import HomeworkRow from './homework-row'
 import {LiveSession, AllStudents} from '../'
-import {startSession, endSession} from '../../socket/teacher'
+import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +32,11 @@ const TeacherDash = ({teacher, liveSession}) => {
             id="start"
             type="button"
             onClick={() => {
-              startSession(teacher.id, 'test')
+              startSession(teacher.id, {
+                title: 'test',
+                activity: 'test',
+                details: 'test'
+              })
             }}
           >
             Start Session
