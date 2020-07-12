@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-//data relevant to live sessions is stored here
+//data relevant to live sessions is declared here
 let teacher = {id: null, socket: null}
 let sessionData = {}
 let studentData = {}
@@ -63,7 +63,7 @@ module.exports = io => {
       socket.disconnect(true)
     })
 
-    //On socket disconnect, identify whether student or teacher. If student, inform the teacher
+    //On socket disconnect without having logged out, identify whether student or teacher. If student in session, inform the teacher
     socket.on('disconnect', () => {
       console.log('disconnect')
 
@@ -95,6 +95,7 @@ module.exports = io => {
 
       sessionData = {}
       studentData = {}
+      logouts = {}
 
       try {
         // const {data} = await axios.post('api/session', sessionDetails)
