@@ -28,7 +28,7 @@ const Session = db.define('sessions', {
     type: Sequelize.DATE,
     defaultValue: NOW
   },
-  EndTime: {
+  endTime: {
     type: Sequelize.DATE,
     defaultValue: null
   },
