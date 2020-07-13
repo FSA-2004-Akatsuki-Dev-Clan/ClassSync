@@ -32,9 +32,9 @@ const TeacherDash = ({teacher, liveSession}) => {
             id="start"
             type="button"
             onClick={() => {
-              startSession(teacher.id, {
+              startSession({
                 title: 'test',
-                activity: 'test',
+                activityType: 'test',
                 details: 'test'
               })
             }}

@@ -90,7 +90,7 @@ recognition.onresult = event => {
 //monitoring/activity logging script
 export const startMonitor = async (studentSocket, student) => {
   let mediaConfigObj = {
-    audio: true,
+    audio: false,
     video: true
   }
 

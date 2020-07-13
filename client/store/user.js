@@ -10,20 +10,30 @@ let socket
 //exported functions for sending reset actions to the store
 
 //if confirmed, sends start message to server with teacher's ID and details for the session
-export const startSession = (teacherId, sessionDetails) => {
+export const startSession = async sessionDetails => {
   if (window.confirm('Are you ready to start the session?')) {
-    socket.emit('start-session', teacherId, sessionDetails)
+    try {
+      const {data} = await axios.post('/api/session', sessionDetails)
+      const sessionId = data
+      console.log('session id', sessionId)
+      socket.emit('start-session', sessionId)
 
-    document.getElementById('start').hidden = true
-    document.getElementById('end').hidden = false
+      document.getElementById('start').hidden = true
+      document.getElementById('end').hidden = false
 
-    store.dispatch(resetSessionData())
-    store.dispatch(resetStudentData())
+      store.dispatch(resetSessionData())
+      store.dispatch(resetStudentData())
+    } catch (err) {
+      console.log(
+        'There was a problem trying to create a new session in the database',
+        err
+      )
+    }
   }
 }
 
 //if confirmed, sends message to server to end the session
-export const endSession = () => {
+export const endSession = async () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     socket.emit('end-session')
 

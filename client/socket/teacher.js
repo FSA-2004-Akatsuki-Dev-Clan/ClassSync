@@ -1,6 +1,6 @@
 import openSocket from '.'
 import store, {addStudentData, addSessionData} from '../store'
-
+import axios from 'axios'
 const openTeacherSocket = () => {
   let teacherSocket = openSocket()
 
@@ -34,6 +34,18 @@ const openTeacherSocket = () => {
         ...sessionData.averages
       })
     )
+  })
+
+  teacherSocket.on('save-data', async (session, student) => {
+    try {
+      await axios.put(`api/session/save`, session)
+      await axios.put('api/students/save', student)
+    } catch (err) {
+      console.log(
+        'There was a problem saving the session data in the database',
+        err
+      )
+    }
   })
 
   teacherSocket.on('student-logout', ({id, first, last}) => {

@@ -78,7 +78,7 @@ module.exports = io => {
           clearInterval(dataInterval)
         }, 30000)
       } else if (live) {
-        for (studentId in studentData) {
+        for (let studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
             if (!logouts[studentId]) {
               console.log(
@@ -98,40 +98,25 @@ module.exports = io => {
 
     //start message from teacher => session data is initialized, new session instance is created in database
     //Students are sent start message; Interval is set to send the teacher data pings
-    socket.on('start-session', async (teacherId, sessionDetails) => {
-      //?if there is unsaved data from an old session, save it now?
-
-      sessionData = {}
+    socket.on('start-session', async id => {
+      sessionData = {id}
       studentData = {}
       logouts = {}
+      sessionData.attendance = 0
 
-      try {
-        // const {data} = await axios.post('/api/session', sessionDetails)
-        // sessionId = data
+      socket.broadcast.emit('start-session')
+      live = true
 
-        sessionId = 'test'
-        sessionData.id = sessionId
-        sessionData.attendance = 0
-
-        socket.broadcast.emit('start-session')
-        live = true
-
-        dataInterval = setInterval(() => {
-          io
-            .to(teacher.socket)
-            .emit(
-              'session-data',
-              Math.floor(Date.now() / 60000),
-              sessionData,
-              studentData
-            )
-        }, 15000)
-      } catch (err) {
-        console.log(
-          'There was a problem trying to create a new session in the database',
-          err
-        )
-      }
+      dataInterval = setInterval(() => {
+        io
+          .to(teacher.socket)
+          .emit(
+            'session-data',
+            Math.floor(Date.now() / 60000),
+            sessionData,
+            studentData
+          )
+      }, 15000)
     })
 
     // accept message from student => their data on the session is initialized
@@ -212,15 +197,7 @@ module.exports = io => {
 
       clearInterval(dataInterval)
 
-      // try {
-      //   await axios.put(`api/session/save`, sessionData)
-      //   await axios.put('api/students/save', studentData)
-      // } catch (err) {
-      //   console.log(
-      //     'There was a problem saving the session data in the database',
-      //     err
-      //   )
-      // }
+      io.to(socket.id).emit('save-data', sessionData, studentData)
     })
   })
 }
