@@ -22,6 +22,7 @@ module.exports = io => {
         teacher.id = user.id
         teacher.socket = socket.id
         teacher.logout = false
+        //this stops the timeout set to end data transmission after the teacher disconnects
         clearTimeout(endInterval)
       }
 
@@ -71,6 +72,7 @@ module.exports = io => {
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
+        //if the teacher disconnects, we set a timeout that will end data transmission
         endInterval = setTimeout(() => {
           socket.broadcast.emit('end-session')
           live = false
@@ -190,7 +192,7 @@ module.exports = io => {
     })
 
     //end message from teacher => end message is sent to students, data message interval is cleared
-    //session data is saved in the database
+    //session data is transmitted to the teacher client for axios save requests
     socket.on('end-session', async () => {
       socket.broadcast.emit('end-session')
       live = false
