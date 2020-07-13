@@ -1,7 +1,27 @@
 import React from 'react'
-// import {fetchStudents} from '../../store/students'
+import {makeStyles} from '@material-ui/core/styles'
+import {fetchStudents} from '../../store/students'
 import {connect} from 'react-redux'
 import {SingleStudent} from '../'
+import {
+  Card,
+  Grid,
+  CardActionArea,
+  CardContent,
+  Typography
+} from '@material-ui/core'
+import {StudentsCard} from './students-card'
+
+// const useStyles = makeStyles({
+//   root: {
+//     maxWidth: 345
+//   },
+//   media: {
+//     height: 140
+//   }
+// })
+
+// const classes = useStyles()
 
 class AllStudents extends React.Component {
   constructor() {
@@ -37,10 +57,33 @@ class AllStudents extends React.Component {
                 key={student.id}
                 onClick={() => this.setState({selectedStudentId: student.id})}
               >
-                <h3>
-                  {`${student.firstName || 'New'} ${student.lastName ||
-                    'Student'}`}
-                </h3>
+                <Grid item xs={2}>
+                  <Card maxWidth="345px">
+                    <CardActionArea>
+                      <img
+                        src="../../default-profile-pic.jpg"
+                        height="150px"
+                        title="Contemplative Reptile"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {`${student.firstName} ${student.lastName}` ||
+                            'New Student'}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {student.grade}
+                          {student.email}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+                <h3>{student.firstName || 'New Student'}</h3>
+                <h3>{student.lastName}</h3>
               </div>
             ))}
           </div>

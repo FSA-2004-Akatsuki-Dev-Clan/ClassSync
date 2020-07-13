@@ -1,5 +1,3 @@
-const axios = require('axios')
-
 //data relevant to live sessions is declared here
 let teacher = {id: null, socket: null}
 let sessionData = {}
@@ -163,38 +161,42 @@ module.exports = io => {
         } else {
           //if data exists for student, add the new numbers and recalculate faceScore
           for (let metric in newData) {
-            studentData[studentId].data[metric] += newData[metric]
-            studentData[studentId].data.faceScore = Math.ceil(
-              studentData[studentId].data.faceCount /
-                studentData[studentId].data.faceDetects *
-                100
-            )
+            if (newData.hasOwnProperty(metric)) {
+              studentData[studentId].data[metric] += newData[metric]
+              studentData[studentId].data.faceScore = Math.ceil(
+                studentData[studentId].data.faceCount /
+                  studentData[studentId].data.faceDetects *
+                  100
+              )
+            }
           }
         }
 
         //add new numbers to session data totals, calculate faceScore, and calculate average values for all students in attendance
         for (let metric in newData) {
-          sessionData.rawTotals[metric] += newData[metric]
-          sessionData.rawTotals.faceScore = Math.ceil(
-            sessionData.rawTotals.faceCount /
-              sessionData.rawTotals.faceDetects *
-              100
-          )
-          sessionData.averages[metric] = Math.ceil(
-            sessionData.rawTotals[metric] / sessionData.attendance
-          )
-          sessionData.averages.faceScore = Math.ceil(
-            sessionData.averages.faceCount /
-              sessionData.averages.faceDetects *
-              100
-          )
+          if (newData.hasOwnProperty(metric)) {
+            sessionData.rawTotals[metric] += newData[metric]
+            sessionData.rawTotals.faceScore = Math.ceil(
+              sessionData.rawTotals.faceCount /
+                sessionData.rawTotals.faceDetects *
+                100
+            )
+            sessionData.averages[metric] = Math.ceil(
+              sessionData.rawTotals[metric] / sessionData.attendance
+            )
+            sessionData.averages.faceScore = Math.ceil(
+              sessionData.averages.faceCount /
+                sessionData.averages.faceDetects *
+                100
+            )
+          }
         }
       }
     })
 
     //end message from teacher => end message is sent to students, data message interval is cleared
     //session data is transmitted to the teacher client for axios save requests
-    socket.on('end-session', async () => {
+    socket.on('end-session', () => {
       socket.broadcast.emit('end-session')
       live = false
 

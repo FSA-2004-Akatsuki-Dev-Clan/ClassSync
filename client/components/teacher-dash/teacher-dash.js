@@ -1,20 +1,42 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
-import {Grid, Paper} from '@material-ui/core'
-// import ClassworkRow from './classwork-row'
-// import HomeworkRow from './homework-row'
+import {Grid, Paper, Button, Container, Card, Divider} from '@material-ui/core'
+import ClassworkRow from './classwork-row'
+import HomeworkRow from './homework-row'
+import {StudentsCard} from './students-card'
 import {LiveSession, AllStudents} from '../'
 import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    background: 'linear-gradient(45deg, #FE6888, #FF8E53, 90%)',
+    border: 0,
+    color: 'red'
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.primary
+  },
+  dashboardGrid: {
+    display: 'flex',
+    background: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonStyle: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+  },
+  gridStyling: {
+    textAlign: 'center'
   }
 }))
 
@@ -30,27 +52,81 @@ const TeacherDash = ({
   const classes = myStyles()
 
   return (
-    <div className={classes.root}>
-      <h1 style={{textAlign: 'center'}}>Dashboard</h1>
-
-      <Grid item xs={12} sm={12}>
+    <div>
+      <Grid item xs={12}>
+        <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
         <div id="teacher-session">
-          <div id="start-end">
-            <h1>Hello! Your students await your tutelage</h1>
-            <button
-              id="create-session"
-              type="button"
-              onClick={() => {
-                startSession({
-                  title: 'test',
-                  activityType: 'test',
-                  details: 'test'
-                })
-              }}
-            >
-              Start Session
-            </button>
-            {/* <form id="create-session" onSubmit={createSession}>
+          <h1>Hello! Your students await your tutelage</h1>
+
+          <Grid item xs={12} className={classes.gridStyling}>
+            <Grid item xs={12} sm={12}>
+              <div id="start-end">
+                <div id="create-session">
+                  <Button
+                    className={classes.buttonStyle}
+                    type="button"
+                    onClick={() => {
+                      startSession({
+                        title: 'test',
+                        activityType: 'test',
+                        details: 'test'
+                      })
+                    }}
+                  >
+                    Start New Assignment
+                  </Button>
+                </div>
+                <div id="end" hidden={true}>
+                  <Button
+                    className={classes.buttonStyle}
+                    type="button"
+                    onClick={() => {
+                      endSession()
+                    }}
+                  >
+                    End Session
+                  </Button>
+                </div>
+              </div>
+              <div id="re-invites"> </div>
+            </Grid>
+            <Grid item xs={12} container direction="row">
+              &nbsp;
+            </Grid>
+            <Grid container item xs={12}>
+              <h3>Current Session Data Averages</h3>
+
+              <LiveSession session={liveSession} />
+              <Grid container item xs={6} />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Current Students</h3>
+              <AllStudents />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={12} className={classes.gridStyling}>
+            <h3>Classwork status and additional data (by student)</h3>
+            <Grid container item xs={12} spacing={3}>
+              <ClassworkRow />
+            </Grid>
+          </Grid>
+        </div>
+      </Grid>
+    </div>
+  )
+}
+
+const mapState = state => {
+  return {
+    liveSession: state.liveSession
+  }
+}
+
+export default connect(mapState)(TeacherDash)
+
+{
+  /* <form id="create-session" onSubmit={createSession}>
               <label htmlFor="title">
                 Title:{' '}
                 {title === '' && (
@@ -89,69 +165,5 @@ const TeacherDash = ({
               <button type="submit" disabled={title === ''}>
                 Start Session
               </button>
-            </form> */}
-            <button
-              id="end"
-              type="button"
-              hidden={true}
-              onClick={() => {
-                endSession()
-              }}
-            >
-              End Session
-            </button>
-          </div>
-          <div id="re-invites" />
-        </div>
-      </Grid>
-
-      <Grid container spacing={3}>
-        {/*<Grid item xs={12} sm={12}>
-          <Paper
-            className={classes.paper}
-            // style={{background: 'linear-gradient(to right bottom, #ff9d00, #ffd56b)'}}
-          >
-            <h3>Classwork status and additional data (by student)</h3>
-            <Grid container item xs={12} spacing={3}>
-              <ClassworkRow />
-            </Grid>
-          </Paper>
-        </Grid> */}
-
-        {/* <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>
-            Homework status and additional data (by student)
-            <Grid container item xs={12} spacing={3}>
-              <HomeworkRow />
-            </Grid>
-          </Paper>
-        </Grid> */}
-
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <h3>Current Session Data Averages</h3>
-            <Grid container item xs={12}>
-              <LiveSession session={liveSession} />
-              <Grid container item xs={6} />
-            </Grid>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <h3>All Students</h3>
-            <AllStudents />
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
-  )
+            </form> */
 }
-
-const mapState = state => {
-  return {
-    liveSession: state.liveSession
-  }
-}
-
-export default connect(mapState)(TeacherDash)

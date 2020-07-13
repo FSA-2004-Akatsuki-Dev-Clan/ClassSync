@@ -6,14 +6,45 @@ export default class Chart extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'faceScore'
+      metric: 'Face Score'
     }
   }
 
   render() {
+    const camelCase = str => {
+      return str
+        .replace(/\s(.)/g, function(a) {
+          return a.toUpperCase()
+        })
+        .replace(/\s/g, '')
+        .replace(/^(.)/, function(b) {
+          return b.toLowerCase()
+        })
+    }
+
     const {data, compare} = this.props
 
     const firstTime = data.times ? data.times[0].time : 0
+
+    let yMin, yMax
+
+    switch (this.state.metric) {
+      case 'Face Score':
+        yMin = 0
+        yMax = 100
+
+      case 'Word Count':
+        yMin = 0
+        yMax = 300
+
+      case 'Click Count':
+        yMin = 0
+        yMax = 40
+
+      case 'Key Count':
+        yMin = 0
+        yMax = 50
+    }
 
     const chartData = {
       labels: data.times
@@ -23,9 +54,9 @@ export default class Chart extends React.Component {
         {
           label: [this.state.metric],
           data: data.times
-            ? data.times.map(time => time[this.state.metric])
-            : [10, 20, 30, 40, 50],
-          backgroundColor: ['rgb(195, 190, 204, .2)'],
+            ? data.times.map(time => time[camelCase(this.state.metric)])
+            : [],
+          backgroundColor: ['rgb(195, 190, 204)'],
           fontColor: 'rgb(195, 190, 204)'
         }
       ]
@@ -42,31 +73,11 @@ export default class Chart extends React.Component {
       chartData.datasets.push({
         label: ['Class Average'],
         data: compare.times
-          ? compare.times.map(time => time[this.state.metric])
+          ? compare.times.map(time => time[camelCase(this.state.metric)])
           : [],
         backgroundColor: ['rgb(250, 240, 260, .2)'],
         fontColor: 'rgb(215, 230, 240)'
       })
-    }
-
-    let yMin, yMax
-
-    switch (this.state.metric) {
-      case 'faceScore':
-        yMin = 0
-        yMax = 100
-
-      case 'wordCount':
-        yMin = 0
-        yMax = 300
-
-      case 'clickCount':
-        yMin = 0
-        yMax = 40
-
-      case 'keyCount':
-        yMin = 0
-        yMax = 50
     }
 
     return (
