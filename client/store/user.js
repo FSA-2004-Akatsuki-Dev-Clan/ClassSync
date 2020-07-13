@@ -55,6 +55,7 @@ export const auth = (
 
   try {
     dispatch(getUser(res.data))
+    console.log(res.data)
 
     if (res.data.isTeacher) socket = require('../socket/teacher').default
     else socket = require('../socket/student').default

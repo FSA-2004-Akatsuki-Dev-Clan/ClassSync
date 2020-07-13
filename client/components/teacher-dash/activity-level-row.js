@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Paper} from '@material-ui/core'
+import {Grid, Paper, Card} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import Chart from './chart'
 import ClassSumTotalsRow from './class-sum-totals-row'
@@ -12,30 +12,59 @@ const myStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary
+  },
+  fragment: {
+    textAlign: 'center',
+    justify: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  cardStyling: {
+    color: 'white',
+    background: 'linear-gradient(45deg, #8bfe6b 30%, #53ebff 90%)'
   }
 }))
 
 export default function ActivityLevelRow({session}) {
+  const classes = myStyles()
   return (
-    <React.Fragment>
-      <Grid item xs={6}>
-        <h2>{session.attendance || 0}</h2>
-        Totals Students in Attendance
-        <Grid item xs={12} container direction="row">
-          &nbsp;
+    <Grid className={classes.fragment} container direction="row">
+      <React.Fragment className={classes.fragment}>
+        <Grid item xs={5}>
+          <Card>
+            <Grid
+              item
+              xs={12}
+              className={classes.fragment}
+              container
+              direction="row"
+            >
+              <Grid item xs={8}>
+                <Card className={classes.cardStyling}>
+                  <img src="../../graph.png" height="50px" />
+                </Card>
+              </Grid>
+            </Grid>
+            <h1>{session.attendance || 0}</h1>
+            Totals Students in Attendance
+            <Grid item xs={12} container direction="row">
+              &nbsp;
+            </Grid>
+            <Grid item xs={12} container direction="row">
+              &nbsp;
+            </Grid>
+            <Grid item xs={12} container direction="row">
+              <ClassSumTotalsRow session={session} />
+            </Grid>
+          </Card>
         </Grid>
-        <Grid item xs={12} container direction="row">
-          &nbsp;
+        <Grid>&nbsp; &nbsp; &nbsp; &nbsp;</Grid>
+        <Grid item xs={5}>
+          <Card className={classes.cardStyling}>
+            <Chart data={session} />
+          </Card>
         </Grid>
-        <Grid item xs={12} container direction="row">
-          <ClassSumTotalsRow session={session} />
-        </Grid>
-      </Grid>
-      <Grid item xs={6}>
-        <Paper className={myStyles().paper}>
-          <Chart data={session} />
-        </Paper>
-      </Grid>
-    </React.Fragment>
+      </React.Fragment>
+    </Grid>
   )
 }

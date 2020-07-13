@@ -11,11 +11,7 @@ import {
   Link,
   Grid,
   Box,
-  Container,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel
+  Container
 } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import {makeStyles} from '@material-ui/styles'
@@ -52,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const AuthForm = props => {
+const LoginForm = props => {
   const classes = useStyles()
   const {name, displayName, handleSubmit, error} = props
 
@@ -65,7 +61,7 @@ const AuthForm = props => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign in
           </Typography>
           <form
             // margin={0}
@@ -74,62 +70,6 @@ const AuthForm = props => {
             onSubmit={handleSubmit}
             name={name}
           >
-            <Grid item xs={12} container direction="row">
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="First Name"
-                  name="firstName"
-                  type="text"
-                  autoComplete="firstName"
-                  autoFocus
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Last Name"
-                  name="lastName"
-                  type="text"
-                  autoComplete="lastName"
-                  autoFocus
-                  align="right"
-                />
-              </Grid>
-            </Grid>
-
-            <FormControl fullWidth={true}>
-              <InputLabel>Grade Level</InputLabel>
-              <Select
-                variant="outlined"
-                required
-                id="gradeLevel"
-                label="Grade Level"
-                name="gradeLevel"
-                type="text"
-                autoComplete="gradeLevel"
-                autoFocus
-              >
-                <MenuItem value="1">1</MenuItem>
-                <MenuItem value="2">2</MenuItem>
-                <MenuItem value="3">3</MenuItem>
-                <MenuItem value="4">4</MenuItem>
-                <MenuItem value="5">5</MenuItem>
-                <MenuItem value="6">6</MenuItem>
-                <MenuItem value="7">7</MenuItem>
-                <MenuItem value="8">8</MenuItem>
-                <MenuItem value="9">9</MenuItem>
-                <MenuItem value="10">10</MenuItem>
-                <MenuItem value="11">11</MenuItem>
-                <MenuItem value="12">12</MenuItem>
-              </Select>
-            </FormControl>
-
             <TextField
               variant="outlined"
               required
@@ -159,7 +99,7 @@ const AuthForm = props => {
               color="primary"
               className={classes.submit}
             >
-              Sign Up
+              Sign In
             </Button>
             <Grid container>
               <Grid item xs>
@@ -168,8 +108,8 @@ const AuthForm = props => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/login" variant="body2">
-                  {'Already have an account? Sign In'}
+                <Link href="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
@@ -200,22 +140,14 @@ const mapLogin = state => {
   }
 }
 
-const mapSignup = state => {
-  return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.error
-  }
-}
-
 const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
-      const firstName = evt.target.firstName.value
-      const lastName = evt.target.lastName.value
-      const gradeLevel = evt.target.gradeLevel.value
+      const firstName = null
+      const lastName = null
+      const gradeLevel = null
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(firstName, lastName, gradeLevel, email, password, formName))
@@ -223,13 +155,12 @@ const mapDispatch = dispatch => {
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(LoginForm)
 
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
+LoginForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
