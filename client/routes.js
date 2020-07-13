@@ -18,18 +18,20 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-
-        {/* <Route path="/dashboard" component={TeacherDash} /> */}
+        {!isLoggedIn && (
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route component={Login} />
+          </Switch>
+        )}
 
         {isLoggedIn && (
           <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/session" component={Session} />
+            <Route component={Session} />
+            {/* <Route path="/session" component={Session} /> */}
 
-            {isTeacher && (
+            {/* {isTeacher && (
               <Switch>
                 <Route
                   exact
@@ -38,12 +40,10 @@ class Routes extends Component {
                 />
                 <Route exact path="/dashboard" component={TeacherDash} />
               </Switch>
-            )}
-            <Route component={Session} />
+            )} */}
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
       </Switch>
     )
   }

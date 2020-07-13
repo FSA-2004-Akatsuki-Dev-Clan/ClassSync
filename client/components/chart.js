@@ -1,5 +1,6 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 export default class Chart extends React.Component {
   constructor() {
@@ -13,6 +14,40 @@ export default class Chart extends React.Component {
     const {data, compare} = this.props
 
     const firstTime = data.times ? data.times[0].time : 0
+
+    const chartData = {
+      labels: data.times
+        ? data.times.map(time => time.time - firstTime)
+        : [1, 2, 3, 4, 5],
+      datasets: [
+        {
+          label: [this.state.metric],
+          data: data.times
+            ? data.times.map(time => time[this.state.metric])
+            : [10, 20, 30, 40, 50],
+          backgroundColor: ['rgb(195, 190, 204, .2)'],
+          fontColor: 'rgb(195, 190, 204)'
+        }
+      ]
+    }
+
+    // chartData.datasets.push({
+    //   label: ['Class Average'],
+    //   data: [20, 40, 60, 80, 100],
+    //   backgroundColor: ['rgb(250, 240, 260, .2)'],
+    //   fontColor: 'rgb(215, 230, 240)'
+    // })
+
+    if (compare) {
+      chartData.datasets.push({
+        label: ['Class Average'],
+        data: compare.times
+          ? compare.times.map(time => time[this.state.metric])
+          : [],
+        backgroundColor: ['rgb(250, 240, 260, .2)'],
+        fontColor: 'rgb(215, 230, 240)'
+      })
+    }
 
     let yMin, yMax
 
@@ -32,31 +67,6 @@ export default class Chart extends React.Component {
       case 'keyCount':
         yMin = 0
         yMax = 50
-    }
-
-    const chartData = {
-      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
-      datasets: [
-        {
-          label: [this.state.metric],
-          data: data.times
-            ? data.times.map(time => time[this.state.metric])
-            : [],
-          backgroundColor: ['rgb(195, 190, 204)'],
-          fontColor: 'rgb(195, 190, 204)'
-        }
-      ]
-    }
-
-    if (compare) {
-      chartData.datasets.push({
-        label: ['Class Average'],
-        data: compare.times
-          ? compare.times.map(time => time[this.state.metric])
-          : [],
-        backgroundColor: ['rgb(250, 240, 260)'],
-        fontColor: 'rgb(215, 230, 240)'
-      })
     }
 
     return (
@@ -82,6 +92,14 @@ export default class Chart extends React.Component {
                   backgroundColor: 'rgb(179, 255, 0)'
                 }
               },
+              // time: {
+              //   unit: 'minute',
+              // },
+              plugins: {
+                datalabels: {
+                  align: 260
+                }
+              },
               scales: {
                 yAxes: [
                   {
@@ -90,17 +108,29 @@ export default class Chart extends React.Component {
                       suggestedMax: yMax
                     },
                     scaleLabel: {
+                      labelString:
+                        this.state.metric === 'faceScore'
+                          ? 'Percentage of successful face detections'
+                          : 'Count',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }
                 ],
                 xAxes: [
                   {
+                    // time: {
+                    //   unit: 'minute',
+                    // },
+                    // ticks: {
+                    //   suggestedMin: 0,
+                    //   suggestedMax: 30,
+                    // },
                     scaleLabel: {
+                      labelString: 'Session Minutes',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }

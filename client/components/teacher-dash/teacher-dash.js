@@ -4,10 +4,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Grid, Paper} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 import HomeworkRow from './homework-row'
-import ClassSumTotalsRow from './class-sum-totals-row'
-import ActivityLevelRow from './activity-level-row'
-import AllStudents from './all-students'
-import {startSession, endSession} from '../../socket/teacher'
+import {LiveSession, AllStudents} from '../'
+import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -34,7 +32,11 @@ const TeacherDash = ({teacher, liveSession}) => {
             id="start"
             type="button"
             onClick={() => {
-              startSession(teacher.id, 'test')
+              startSession(teacher.id, {
+                title: 'test',
+                activity: 'test',
+                details: 'test'
+              })
             }}
           >
             Start Session
@@ -76,9 +78,9 @@ const TeacherDash = ({teacher, liveSession}) => {
 
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <h3>Current Session Data</h3>
+            <h3>Current Session Data Averages</h3>
             <Grid container item xs={12}>
-              <ActivityLevelRow session={liveSession} />
+              <LiveSession session={liveSession} />
               <Grid container item xs={6} />
             </Grid>
           </Paper>

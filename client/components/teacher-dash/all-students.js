@@ -16,9 +16,7 @@ class AllStudents extends React.Component {
   }
 
   render() {
-    const {students, liveStudents, liveSession} = this.props
-
-    console.log('liveStudents, liveSession', liveStudents, liveSession)
+    const {liveStudents, liveSession} = this.props
 
     return (
       <div>
@@ -33,7 +31,7 @@ class AllStudents extends React.Component {
             <SingleStudent
               student={this.state.selectedStudent}
               liveStudents={liveStudents}
-              liveSession={liveSession}
+              session={liveSession}
             />
           </div>
         ) : (
@@ -43,8 +41,9 @@ class AllStudents extends React.Component {
                 key={student.id}
                 onClick={() => this.setState({selectedStudent: student})}
               >
-                <h3>{student.firstName || 'New Student'}</h3>
-                <h3>{student.lastName}</h3>
+                <h3>
+                  {`${student.firstName} ${student.lastName}` || 'New Student'}
+                </h3>
               </div>
             ))}
           </div>
