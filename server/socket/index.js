@@ -6,23 +6,24 @@ let sessionData = {}
 let studentData = {}
 let live = false
 let logouts = {}
-let dataInterval
-let endInterval
+let teacherTransmitInterval
+let dataTimeout
 
-module.exports = (io) => {
-  io.on('connection', (socket) => {
+module.exports = io => {
+  io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
     //check-in message sent whenever a new socket is opened for a logged-in user
     //if user is teacher => set teacher id and socket
     //if there is a live session => if student and they have data on session, socket ID is attached to that data
     //if not on session yet, send start session message to student and student join message to teacher
-    socket.on('check-in', (user) => {
+    socket.on('check-in', user => {
       if (user.isTeacher) {
         teacher.id = user.id
         teacher.socket = socket.id
         teacher.logout = false
-        clearTimeout(endInterval)
+        //this stops the timeout set to end data transmission after the teacher disconnects
+        clearTimeout(dataTimeout)
       }
 
       if (live) {
@@ -31,6 +32,7 @@ module.exports = (io) => {
           studentData[user.id].socket = socket.id
           logouts[user.id] = false
           io.to(socket.id).emit('rejoin')
+          io.to(teacher.socket).emit('student-rejoin', user)
           io.to(socket.id).emit('start-session')
         } else if (user.id) {
           logouts[user.id] = false
@@ -41,7 +43,7 @@ module.exports = (io) => {
     })
 
     //on user logout => if teacher, end the session; if student, inform the teacher; close socket
-    socket.on('logout', (user) => {
+    socket.on('logout', user => {
       console.log('logout')
 
       if (user.id === teacher.id) {
@@ -52,7 +54,7 @@ module.exports = (io) => {
           socket.broadcast.emit('end-session')
           live = false
 
-          clearInterval(dataInterval)
+          clearInterval(teacherTransmitInterval)
         }
       } else if (studentData[user.id]) {
         console.log(`Student ${user.id} logged out`)
@@ -60,7 +62,7 @@ module.exports = (io) => {
         if (live) io.to(teacher.socket).emit('student-logout', user)
       }
 
-      socket.disconnect(true)
+      io.to(socket.id).emit('logout')
     })
 
     //On socket disconnect without having logged out, identify whether student or teacher =>
@@ -71,14 +73,15 @@ module.exports = (io) => {
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
-        endInterval = setTimeout(() => {
+        //if the teacher disconnects, we set a timeout that will end data transmission
+        dataTimeout = setTimeout(() => {
           socket.broadcast.emit('end-session')
           live = false
 
-          clearInterval(dataInterval)
+          clearInterval(teacherTransmitInterval)
         }, 30000)
       } else if (live) {
-        for (studentId in studentData) {
+        for (let studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
             if (!logouts[studentId]) {
               console.log(
@@ -87,7 +90,7 @@ module.exports = (io) => {
               io.to(teacher.socket).emit('student-disconnect', {
                 id: studentId,
                 firstName: studentData[studentId].firstName,
-                lastName: studentData[studentId].lastName,
+                lastName: studentData[studentId].lastName
               })
               return
             } else console.log(`student disconnected from socket ${socket.id}`)
@@ -98,33 +101,24 @@ module.exports = (io) => {
 
     //start message from teacher => session data is initialized, new session instance is created in database
     //Students are sent start message; Interval is set to send the teacher data pings
-    socket.on('start-session', async (sessionDetails) => {
-      // try {
-      //   const {data} = await axios.post('/api/session', sessionDetails)
-      //   const sessionId = data
-      //   console.log('session id', sessionId)
-      // } catch (err) {
-      //   console.log(
-      //     'There was a problem trying to create a new session in the database',
-      //     err
-      //   )
-      // }
-      let sessionId = 'test'
-      sessionData = {id: sessionId}
+    socket.on('start-session', async (id, url) => {
+      sessionData = {id}
       studentData = {}
       logouts = {}
       sessionData.attendance = 0
 
-      socket.broadcast.emit('start-session')
+      socket.broadcast.emit('start-session', url)
       live = true
 
-      dataInterval = setInterval(() => {
-        io.to(teacher.socket).emit(
-          'session-data',
-          Math.floor(Date.now() / 60000),
-          sessionData,
-          studentData
-        )
+      teacherTransmitInterval = setInterval(() => {
+        io
+          .to(teacher.socket)
+          .emit(
+            'session-data',
+            Math.floor(Date.now() / 60000),
+            sessionData,
+            studentData
+          )
       }, 15000)
     })
 
@@ -136,7 +130,7 @@ module.exports = (io) => {
         socket: socket.id,
         firstName: student.firstName,
         lastName: student.lastName,
-        data: {},
+        data: {}
       }
       if (!sessionData.rawTotals) {
         sessionData.rawTotals = {...metrics}
@@ -150,7 +144,7 @@ module.exports = (io) => {
     })
 
     //re-invites routed to students from teacher
-    socket.on('re-invite', (socketId) => {
+    socket.on('re-invite', socketId => {
       io.to(socketId).emit('start-session')
     })
 
@@ -161,8 +155,8 @@ module.exports = (io) => {
         if (!studentData[studentId].data.faceDetects) {
           studentData[studentId].data = {...newData}
           studentData[studentId].data.faceScore = Math.ceil(
-            (studentData[studentId].data.faceCount /
-              studentData[studentId].data.faceDetects) *
+            studentData[studentId].data.faceCount /
+              studentData[studentId].data.faceDetects *
               100
           )
           sessionData.attendance++
@@ -171,8 +165,8 @@ module.exports = (io) => {
           for (let metric in newData) {
             studentData[studentId].data[metric] += newData[metric]
             studentData[studentId].data.faceScore = Math.ceil(
-              (studentData[studentId].data.faceCount /
-                studentData[studentId].data.faceDetects) *
+              studentData[studentId].data.faceCount /
+                studentData[studentId].data.faceDetects *
                 100
             )
           }
@@ -182,16 +176,16 @@ module.exports = (io) => {
         for (let metric in newData) {
           sessionData.rawTotals[metric] += newData[metric]
           sessionData.rawTotals.faceScore = Math.ceil(
-            (sessionData.rawTotals.faceCount /
-              sessionData.rawTotals.faceDetects) *
+            sessionData.rawTotals.faceCount /
+              sessionData.rawTotals.faceDetects *
               100
           )
           sessionData.averages[metric] = Math.ceil(
             sessionData.rawTotals[metric] / sessionData.attendance
           )
           sessionData.averages.faceScore = Math.ceil(
-            (sessionData.averages.faceCount /
-              sessionData.averages.faceDetects) *
+            sessionData.averages.faceCount /
+              sessionData.averages.faceDetects *
               100
           )
         }
@@ -199,22 +193,15 @@ module.exports = (io) => {
     })
 
     //end message from teacher => end message is sent to students, data message interval is cleared
-    //session data is saved in the database
+    //session data is transmitted to the teacher client for axios save requests
     socket.on('end-session', async () => {
       socket.broadcast.emit('end-session')
       live = false
 
-      clearInterval(dataInterval)
+      clearInterval(teacherTransmitInterval)
 
-      try {
-        // await axios.put(`api/session/save`, sessionData)
-        // await axios.put('api/students/save', studentData)
-      } catch (err) {
-        console.log(
-          'There was a problem saving the session data in the database',
-          err
-        )
-      }
+      if (sessionData.rawTotals.faceDetects)
+        io.to(socket.id).emit('save-data', sessionData, studentData)
     })
   })
 }

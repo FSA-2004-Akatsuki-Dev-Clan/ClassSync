@@ -1,5 +1,5 @@
 import React from 'react'
-import {fetchStudents} from '../../store/students'
+// import {fetchStudents} from '../../store/students'
 import {connect} from 'react-redux'
 import {SingleStudent} from '../'
 
@@ -7,44 +7,40 @@ class AllStudents extends React.Component {
   constructor() {
     super()
     this.state = {
-      selectedStudent: {}
+      selectedStudentId: null
     }
   }
 
-  componentDidMount() {
-    this.props.getStudents()
-  }
+  // componentDidMount() {
+  //   this.props.getStudents()
+  // }
 
   render() {
-    const {students, liveStudents, liveSession} = this.props
-
-    console.log('liveStudents, liveSession', liveStudents, liveSession)
+    const {liveStudents, liveSession} = this.props
 
     return (
       <div>
-        {this.state.selectedStudent.id ? (
+        {this.state.selectedStudentId ? (
           <div>
             <button
               type="button"
-              onClick={() => this.setState({selectedStudent: {}})}
+              onClick={() => this.setState({selectedStudentId: null})}
             >
               Back to Student List
             </button>
-            <SingleStudent
-              student={this.state.selectedStudent}
-              liveStudents={liveStudents}
-              liveSession={liveSession}
-            />
+            <SingleStudent studentId={this.state.selectedStudentId} />
           </div>
         ) : (
           <div>
             {liveStudents.map(student => (
               <div
                 key={student.id}
-                onClick={() => this.setState({selectedStudent: student})}
+                onClick={() => this.setState({selectedStudentId: student.id})}
               >
-                <h3>{student.firstName || 'New Student'}</h3>
-                <h3>{student.lastName}</h3>
+                <h3>
+                  {`${student.firstName || 'New'} ${student.lastName ||
+                    'Student'}`}
+                </h3>
               </div>
             ))}
           </div>
@@ -56,16 +52,16 @@ class AllStudents extends React.Component {
 
 const mapState = state => {
   return {
-    students: state.students,
+    // students: state.students,
     liveStudents: state.liveStudents,
     liveSession: state.liveSession
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    getStudents: () => dispatch(fetchStudents())
-  }
-}
+// const mapDispatch = (dispatch) => {
+//   return {
+//     getStudents: () => dispatch(fetchStudents()),
+//   }
+// }
 
-export default connect(mapState, mapDispatch)(AllStudents)
+export default connect(mapState)(AllStudents)

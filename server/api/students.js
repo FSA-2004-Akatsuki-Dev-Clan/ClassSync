@@ -30,7 +30,7 @@ router.put('/save', async (req, res, next) => {
 
     for (let id in studentData) {
       if (studentData.hasOwnProperty(id)) {
-        const student = await Student.findByPk(id)
+        const student = await Student.findByPk(+id)
         const updatedObj = await student.avgData({...studentData[id].data})
         await student.update(updatedObj)
       }
