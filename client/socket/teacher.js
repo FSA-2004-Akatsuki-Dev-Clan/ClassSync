@@ -13,14 +13,15 @@ const openTeacherSocket = () => {
     )
       teacherSocket.emit('re-invite', socketId)
     else {
-      // const reInvite = document.createElement('button')
-      // reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
-      // reInvite.className = 're-invite'
-      // document.getElementById('teacher-session').appendChild(reInvite)
-      // reInvite.onclick = () => {
-      //   teacherSocket.emit('re-invite', socketId)
-      //   reInvite.parentNode.removeChild(reInvite)
-      // }
+      const reInvite = document.createElement('button')
+      reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
+
+      reInvite.onclick = () => {
+        teacherSocket.emit('re-invite', socketId)
+        reInvite.parentNode.removeChild(reInvite)
+      }
+
+      document.getElementById('re-invites').appendChild(reInvite)
     }
   })
 
@@ -61,10 +62,21 @@ const openTeacherSocket = () => {
     }
   )
 
+  teacherSocket.on('student-rejoin', ({id, first, last}) => {
+    window.alert(
+      `Student ${first} ${last} has re-connected to the session, ID: ${id}`
+    )
+  })
+
   teacherSocket.on('student-join', ({id, first, last}) => {
     window.alert(
       `Student ${first} ${last} has joined after session start, ID: ${id}`
     )
+  })
+
+  teacherSocket.on('logout', () => {
+    console.log('logged out')
+    teacherSocket.disconnect(true)
   })
 
   //on disconnect while still logged in, attempt reconnection

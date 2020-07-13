@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import {Grid, Paper} from '@material-ui/core'
-import ClassworkRow from './classwork-row'
-import HomeworkRow from './homework-row'
+// import ClassworkRow from './classwork-row'
+// import HomeworkRow from './homework-row'
 import {LiveSession, AllStudents} from '../'
 import {startSession, endSession} from '../../store/user'
 
@@ -18,7 +18,15 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({teacher, liveSession}) => {
+const TeacherDash = ({
+  title,
+  activityType,
+  details,
+  url,
+  liveSession,
+  createSession,
+  handleChange
+}) => {
   const classes = myStyles()
 
   return (
@@ -27,30 +35,73 @@ const TeacherDash = ({teacher, liveSession}) => {
 
       <Grid item xs={12} sm={12}>
         <div id="teacher-session">
-          <h1>Hello! Your students await your tutelage</h1>
-          <button
-            id="start"
-            type="button"
-            onClick={() => {
-              startSession({
-                title: 'test',
-                activityType: 'test',
-                details: 'test'
-              })
-            }}
-          >
-            Start Session
-          </button>
-          <button
-            id="end"
-            type="button"
-            hidden={true}
-            onClick={() => {
-              endSession()
-            }}
-          >
-            End Session
-          </button>
+          <div id="start-end">
+            <h1>Hello! Your students await your tutelage</h1>
+            <button
+              id="create-session"
+              type="button"
+              onClick={() => {
+                startSession({
+                  title: 'test',
+                  activityType: 'test',
+                  details: 'test'
+                })
+              }}
+            >
+              Start Session
+            </button>
+            {/* <form id="create-session" onSubmit={createSession}>
+              <label htmlFor="title">
+                Title:{' '}
+                {title === '' && (
+                  <span>(Enter a title for the new session)</span>
+                )}
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={title}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <label htmlFor="activityType">Activity Type:</label>
+              <select
+                name="activityType"
+                onChange={(evt) => handleChange(evt.target)}
+              >
+                <option value="writing">Writing</option>
+                <option value="reading">Reading</option>
+                <option value="discussion">Discussion</option>
+              </select>
+              <label htmlFor="details">Details:</label>
+              <input
+                type="text"
+                name="details"
+                value={details}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <label htmlFor="url">Assignment URL:</label>
+              <input
+                type="text"
+                name="url"
+                value={url}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <button type="submit" disabled={title === ''}>
+                Start Session
+              </button>
+            </form> */}
+            <button
+              id="end"
+              type="button"
+              hidden={true}
+              onClick={() => {
+                endSession()
+              }}
+            >
+              End Session
+            </button>
+          </div>
+          <div id="re-invites" />
         </div>
       </Grid>
 

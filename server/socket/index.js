@@ -6,8 +6,8 @@ let sessionData = {}
 let studentData = {}
 let live = false
 let logouts = {}
-let dataInterval
-let endInterval
+let teacherTransmitInterval
+let dataTimeout
 
 module.exports = io => {
   io.on('connection', socket => {
@@ -23,7 +23,7 @@ module.exports = io => {
         teacher.socket = socket.id
         teacher.logout = false
         //this stops the timeout set to end data transmission after the teacher disconnects
-        clearTimeout(endInterval)
+        clearTimeout(dataTimeout)
       }
 
       if (live) {
@@ -32,6 +32,7 @@ module.exports = io => {
           studentData[user.id].socket = socket.id
           logouts[user.id] = false
           io.to(socket.id).emit('rejoin')
+          io.to(teacher.socket).emit('student-rejoin', user)
           io.to(socket.id).emit('start-session')
         } else if (user.id) {
           logouts[user.id] = false
@@ -53,7 +54,7 @@ module.exports = io => {
           socket.broadcast.emit('end-session')
           live = false
 
-          clearInterval(dataInterval)
+          clearInterval(teacherTransmitInterval)
         }
       } else if (studentData[user.id]) {
         console.log(`Student ${user.id} logged out`)
@@ -61,7 +62,7 @@ module.exports = io => {
         if (live) io.to(teacher.socket).emit('student-logout', user)
       }
 
-      socket.disconnect(true)
+      io.to(socket.id).emit('logout')
     })
 
     //On socket disconnect without having logged out, identify whether student or teacher =>
@@ -73,11 +74,11 @@ module.exports = io => {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
         //if the teacher disconnects, we set a timeout that will end data transmission
-        endInterval = setTimeout(() => {
+        dataTimeout = setTimeout(() => {
           socket.broadcast.emit('end-session')
           live = false
 
-          clearInterval(dataInterval)
+          clearInterval(teacherTransmitInterval)
         }, 30000)
       } else if (live) {
         for (let studentId in studentData) {
@@ -100,16 +101,16 @@ module.exports = io => {
 
     //start message from teacher => session data is initialized, new session instance is created in database
     //Students are sent start message; Interval is set to send the teacher data pings
-    socket.on('start-session', async id => {
+    socket.on('start-session', async (id, url) => {
       sessionData = {id}
       studentData = {}
       logouts = {}
       sessionData.attendance = 0
 
-      socket.broadcast.emit('start-session')
+      socket.broadcast.emit('start-session', url)
       live = true
 
-      dataInterval = setInterval(() => {
+      teacherTransmitInterval = setInterval(() => {
         io
           .to(teacher.socket)
           .emit(
@@ -197,9 +198,10 @@ module.exports = io => {
       socket.broadcast.emit('end-session')
       live = false
 
-      clearInterval(dataInterval)
+      clearInterval(teacherTransmitInterval)
 
-      io.to(socket.id).emit('save-data', sessionData, studentData)
+      if (sessionData.rawTotals.faceDetects)
+        io.to(socket.id).emit('save-data', sessionData, studentData)
     })
   })
 }

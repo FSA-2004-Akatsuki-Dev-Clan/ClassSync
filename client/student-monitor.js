@@ -10,7 +10,7 @@ const initialData = {
 
 let data = {...initialData}
 
-let interval
+let serverTransmitInterval
 
 let listening = false
 
@@ -123,7 +123,7 @@ export const startMonitor = async (studentSocket, student) => {
       keyListener = window.addEventListener('keydown', keyAdd)
 
       //We set up our timed interval for checking for a face on webcam, and sending a data ping to the server
-      interval = setInterval(async () => {
+      serverTransmitInterval = setInterval(async () => {
         await detectFace()
 
         studentSocket.emit('student-data', student.id, data)
@@ -144,7 +144,7 @@ export const startMonitor = async (studentSocket, student) => {
 
 //stops all monitoring functions and clears the data-sending interval, resets data object
 export const stopMonitor = async () => {
-  clearInterval(interval)
+  clearInterval(serverTransmitInterval)
 
   if (mediaStream) {
     mediaStream.getAudioTracks().forEach(async track => {

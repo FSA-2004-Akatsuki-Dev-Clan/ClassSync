@@ -10,15 +10,19 @@ let socket
 //exported functions for sending reset actions to the store
 
 //if confirmed, sends start message to server with teacher's ID and details for the session
-export const startSession = async sessionDetails => {
+export const startSession = async ({title, activityType, details, url}) => {
   if (window.confirm('Are you ready to start the session?')) {
     try {
-      const {data} = await axios.post('/api/session', sessionDetails)
+      const {data} = await axios.post('/api/session', {
+        title,
+        activityType,
+        details
+      })
       const sessionId = data
       console.log('session id', sessionId)
-      socket.emit('start-session', sessionId)
+      socket.emit('start-session', sessionId, url)
 
-      document.getElementById('start').hidden = true
+      document.getElementById('create-session').hidden = true
       document.getElementById('end').hidden = false
 
       store.dispatch(resetSessionData())
@@ -37,11 +41,14 @@ export const endSession = async () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     socket.emit('end-session')
 
-    document.getElementById('start').hidden = false
+    document.getElementById('create-session').hidden = false
     document.getElementById('end').hidden = true
-    // document.getElementsByClassName('re-invite').forEach((button) => {
-    //   button.parentNode.removeChild(button)
-    // })
+
+    const reInvites = document.getElementById('re-invites')
+
+    while (reInvites.childNodes.length) {
+      reInvites.removeChild(reInvites.childNodes[0])
+    }
   }
 }
 

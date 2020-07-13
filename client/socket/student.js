@@ -10,12 +10,17 @@ const initialData = {
   clickCount: 0
 }
 
+let monitorTimeout
+
 const openStudentSocket = () => {
   let studentSocket = openSocket()
 
   //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
-  studentSocket.on('start-session', async () => {
+  studentSocket.on('start-session', async url => {
     const student = store.getState().user
+
+    //load in the assignment
+    if (url) document.getElementById('student-assignment').url = url
 
     if (
       !window.confirm(
@@ -38,13 +43,11 @@ const openStudentSocket = () => {
 
     await startMonitor(studentSocket, student)
 
-    // load up the quiz
-    const assignmentCont = document.getElementById('is-Live')
-    assignmentCont.hidden = false
+    // reveal the assignment
+    document.getElementById('is-Live').hidden = false
 
-    //change of header
-    const header = document.getElementById('session-message')
-    header.innerHTML = 'The class session is live!'
+    document.getElementById('session-message').innerHTML =
+      'The class session is live!'
 
     studentSocket.emit('accept', student, initialData)
   })
@@ -53,18 +56,32 @@ const openStudentSocket = () => {
   studentSocket.on('end-session', async () => {
     await stopMonitor()
 
+    document.getElementById('is-Live').hidden = true
+
     document.getElementById('session-message').innerHTML =
       'The teacher has ended the class session. Please wait for the next one to start.'
 
     window.alert('The class session has ended')
   })
 
+  studentSocket.on('logout', async () => {
+    console.log('logged out')
+
+    await stopMonitor()
+
+    teacherSocket.disconnect(true)
+  })
+
   //on disconnect while still logged in, attempt reconnection
   studentSocket.on('disconnect', () => {
     console.log('student disconnect')
     if (store.getState().user.id) {
+      monitorTimeout = setTimeout(async () => {
+        await stopMonitor()
+      }, 60000)
+
       console.log('attempting reconnect')
-      studentSocket = openSocket()
+      studentSocket = openSocket(monitorTimeout)
     }
   })
 
