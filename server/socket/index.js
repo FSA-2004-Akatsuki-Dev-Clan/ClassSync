@@ -1,162 +1,209 @@
-const axios = require('axios')
-
+//data relevant to live sessions is declared here
 let teacher = {id: null, socket: null}
 let sessionData = {}
-let sessionId = null
+let studentData = {}
 let live = false
-let startTime
-let endTime
+let logouts = {}
+let teacherTransmitInterval
+let dataTimeout
 
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    let interval
+    //check-in message sent whenever a new socket is opened for a logged-in user
+    //if user is teacher => set teacher id and socket
+    //if there is a live session => if student and they have data on session, socket ID is attached to that data
+    //if not on session yet, send start session message to student and student join message to teacher
+    socket.on('check-in', user => {
+      if (user.isTeacher) {
+        teacher.id = user.id
+        teacher.socket = socket.id
+        teacher.logout = false
+        //this stops the timeout set to end data transmission after the teacher disconnects
+        clearTimeout(dataTimeout)
+      }
 
-    socket.on('disconnect', () => {
-      console.log('disconnect')
-      // if (socket.id === teacher.socket)
-      //   console.log(`The teacher disconnected from socket ${socket.id}`)
-      // else {
-      //   for (let studentId in sessionData[sessionId]) {
-      //     if (sessionData[sessionId].hasOwnProperty(studentId)){
-      //             if (socket.id === sessionData[sessionId][studentId].socket)
-      //             console.log(
-      //               `Student ${studentId} disconnected from socket ${socket.id}`
-      //             )
-      //           io.to(teacher.socket).emit('student-disconnect', studentId)
-      //           return
-      //     }
-      //   }
-      // }
-    })
-
-    socket.on('start-session', async (teacherId, sessionDetails) => {
-      //?if there is unsaved data from an old session, save it now?
-
-      teacher = {id: null, socket: null}
-      sessionData = {}
-
-      teacher.id = teacherId
-      teacher.socket = socket.id
-
-      try {
-        // const {data} = await axios.post('api/session', sessionDetails)
-        // sessionDataId = data
-
-        sessionId = 'test'
-        sessionData[sessionId] = {attendance: 0, students: {}}
-
-        socket.broadcast.emit('start-session')
-        live = true
-        startTime = Date.now()
-
-        interval = setInterval(() => {
-          io
-            .to(teacher.socket)
-            .emit(
-              'session-data',
-              Math.floor(Date.now() / 60000),
-              sessionData[sessionId]
-            )
-        }, 15000)
-      } catch (err) {
-        console.log(
-          'There was a problem trying to create a new session in the database',
-          err
-        )
+      if (live) {
+        if (user.isTeacher) io.to(socket.id).emit('rejoin')
+        else if (studentData[user.id]) {
+          studentData[user.id].socket = socket.id
+          logouts[user.id] = false
+          io.to(socket.id).emit('rejoin')
+          io.to(teacher.socket).emit('student-rejoin', user)
+          io.to(socket.id).emit('start-session')
+        } else if (user.id) {
+          logouts[user.id] = false
+          io.to(teacher.socket).emit('student-join', user)
+          io.to(socket.id).emit('start-session')
+        }
       }
     })
 
-    socket.on('end-session', async () => {
-      socket.broadcast.emit('end-session', interval)
-      live = false
+    //on user logout => if teacher, end the session; if student, inform the teacher; close socket
+    socket.on('logout', user => {
+      console.log('logout')
 
-      clearInterval(interval)
+      if (user.id === teacher.id) {
+        console.log(`The teacher logged out`)
+        teacher.logout = true
 
-      endTime = Date.now()
+        if (live) {
+          socket.broadcast.emit('end-session')
+          live = false
 
-      // try {
-      //   await axios.put(`api/session/:${sessionId}`, sessionData, startTime, endTime)
-      // } catch (err) {
-      //   console.log(
-      //     'There was a problem saving the session data in the database',
-      //     err
-      //   )
-      // }
+          clearInterval(teacherTransmitInterval)
+        }
+      } else if (studentData[user.id]) {
+        console.log(`Student ${user.id} logged out`)
+        logouts[user.id] = true
+        if (live) io.to(teacher.socket).emit('student-logout', user)
+      }
+
+      io.to(socket.id).emit('logout')
     })
 
+    //On socket disconnect without having logged out, identify whether student or teacher =>
+    //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
+    socket.on('disconnect', () => {
+      console.log('disconnect')
+
+      if (socket.id === teacher.socket && !teacher.logout) {
+        console.log(`The teacher disconnected from socket ${socket.id}`)
+
+        //if the teacher disconnects, we set a timeout that will end data transmission
+        dataTimeout = setTimeout(() => {
+          socket.broadcast.emit('end-session')
+          live = false
+
+          clearInterval(teacherTransmitInterval)
+        }, 30000)
+      } else if (live) {
+        for (let studentId in studentData) {
+          if (socket.id === studentData[studentId].socket) {
+            if (!logouts[studentId]) {
+              console.log(
+                `Student ${studentId} disconnected from socket ${socket.id}`
+              )
+              io.to(teacher.socket).emit('student-disconnect', {
+                id: studentId,
+                firstName: studentData[studentId].firstName,
+                lastName: studentData[studentId].lastName
+              })
+              return
+            } else console.log(`student disconnected from socket ${socket.id}`)
+          }
+        }
+      }
+    })
+
+    //start message from teacher => session data is initialized, new session instance is created in database
+    //Students are sent start message; Interval is set to send the teacher data pings
+    socket.on('start-session', async (id, url) => {
+      sessionData = {id}
+      studentData = {}
+      logouts = {}
+      sessionData.attendance = 0
+
+      socket.broadcast.emit('start-session', url)
+      live = true
+
+      teacherTransmitInterval = setInterval(() => {
+        io
+          .to(teacher.socket)
+          .emit(
+            'session-data',
+            Math.floor(Date.now() / 60000),
+            sessionData,
+            studentData
+          )
+      }, 15000)
+    })
+
+    // accept message from student => their data on the session is initialized
+    //if this is the first accept for the session, session data is also initialized
     socket.on('accept', (student, metrics) => {
-      sessionData[sessionId].students[student.id] = {
+      studentData[student.id] = {
+        id: student.id,
         socket: socket.id,
         firstName: student.firstName,
         lastName: student.lastName,
         data: {}
       }
-      if (!sessionData[sessionId].rawTotals) {
-        sessionData[sessionId].rawTotals = {...metrics}
-        sessionData[sessionId].averages = {...metrics}
+      if (!sessionData.rawTotals) {
+        sessionData.rawTotals = {...metrics}
+        sessionData.averages = {...metrics}
       }
     })
 
-    // socket.on('cancel', (studentId, first, last) => {
-    //   io.to(teacher.socket).emit('cancel', socket.id, studentId, first, last)
-    // })
+    //cancel message from student => their ID is sent to teacher
+    socket.on('cancel', (studentId, first, last) => {
+      io.to(teacher.socket).emit('cancel', socket.id, studentId, first, last)
+    })
 
+    //re-invites routed to students from teacher
     socket.on('re-invite', socketId => {
       io.to(socketId).emit('start-session')
     })
 
-    socket.on('reconnect', userId => {
-      // if (live) {
-      //   if (teacher.id === userId) {
-      //     teacher.socket = socket.id
-      //     io.to(socket.id).emit('reconnected')
-      //   } else if (sessionData[sessionId][userId]) {
-      //     sessionData[sessionId][userId].socket = socket.id
-      //     io.to(socket.id).emit('reconnected', sessionData[sessionId][userId])
-      //   }
-      // }
-    })
-
+    //data point from student => if session is live, add the data
     socket.on('student-data', (studentId, newData) => {
       if (live) {
-        if (!sessionData[sessionId].students[studentId].data.faceDetects) {
-          sessionData[sessionId].students[studentId].data = {...newData}
-          sessionData[sessionId].attendance++
+        //if no data for this student yet, copy values, calculate faceScore, and session attendance variable
+        if (!studentData[studentId].data.faceDetects) {
+          studentData[studentId].data = {...newData}
+          studentData[studentId].data.faceScore = Math.ceil(
+            studentData[studentId].data.faceCount /
+              studentData[studentId].data.faceDetects *
+              100
+          )
+          sessionData.attendance++
         } else {
-          for (metric in newData) {
-            sessionData[sessionId].students[studentId].data[metric] +=
-              newData[metric]
+          //if data exists for student, add the new numbers and recalculate faceScore
+          for (let metric in newData) {
+            if (newData.hasOwnProperty(metric)) {
+              studentData[studentId].data[metric] += newData[metric]
+              studentData[studentId].data.faceScore = Math.ceil(
+                studentData[studentId].data.faceCount /
+                  studentData[studentId].data.faceDetects *
+                  100
+              )
+            }
           }
         }
 
-        for (metric in newData) {
-          sessionData[sessionId].rawTotals[metric] += newData[metric]
-          sessionData[sessionId].averages[metric] =
-            sessionData[sessionId].rawTotals[metric] /
-            sessionData[sessionId].attendance
+        //add new numbers to session data totals, calculate faceScore, and calculate average values for all students in attendance
+        for (let metric in newData) {
+          if (newData.hasOwnProperty(metric)) {
+            sessionData.rawTotals[metric] += newData[metric]
+            sessionData.rawTotals.faceScore = Math.ceil(
+              sessionData.rawTotals.faceCount /
+                sessionData.rawTotals.faceDetects *
+                100
+            )
+            sessionData.averages[metric] = Math.ceil(
+              sessionData.rawTotals[metric] / sessionData.attendance
+            )
+            sessionData.averages.faceScore = Math.ceil(
+              sessionData.averages.faceCount /
+                sessionData.averages.faceDetects *
+                100
+            )
+          }
         }
       }
     })
 
-    socket.on('logout', () => {
-      console.log('logout')
-      // if (socket.id === teacher.socket) {
-      //   socket.disconnect(true)
-      //   console.log(
-      //     `The teacher logged out and disconnected from socket ${socket.id}`
-      //   )
-      // } else {
-      //   for (studentId in sessionData[sessionId]) {
-      //     if (socket.id === sessionData[sessionId][studentId].socket)
-      //       console.log(
-      //         `Student ${studentId} disconnected from socket ${socket.id}`
-      //       )
-      //     io.to(teacher.socket).emit('student-disconnect', studentId)
-      //     return
-      //   }
-      // }
+    //end message from teacher => end message is sent to students, data message interval is cleared
+    //session data is transmitted to the teacher client for axios save requests
+    socket.on('end-session', () => {
+      socket.broadcast.emit('end-session')
+      live = false
+
+      clearInterval(teacherTransmitInterval)
+
+      if (sessionData.rawTotals.faceDetects)
+        io.to(socket.id).emit('save-data', sessionData, studentData)
     })
   })
 }

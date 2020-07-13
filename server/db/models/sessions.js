@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const {NOW} = require('sequelize')
 
 const Session = db.define('sessions', {
   title: {
@@ -23,14 +22,6 @@ const Session = db.define('sessions', {
   },
   comment: {
     type: Sequelize.TEXT
-  },
-  startTime: {
-    type: Sequelize.DATE,
-    defaultValue: NOW
-  },
-  endTime: {
-    type: Sequelize.DATE,
-    defaultValue: null
   },
   sessFaceCountTot: {
     type: Sequelize.INTEGER,

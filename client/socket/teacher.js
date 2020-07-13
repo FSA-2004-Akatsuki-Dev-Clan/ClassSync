@@ -1,78 +1,94 @@
-import socket from '.'
-import store, {
-  addStudentData,
-  addSessionData,
-  resetSessionData,
-  resetStudentData
-} from '../store'
+import openSocket from '.'
+import store, {addStudentData, addSessionData} from '../store'
+import axios from 'axios'
+const openTeacherSocket = () => {
+  let teacherSocket = openSocket()
 
-let teacherSocket = socket
-
-//if confirmed, sends start message to server with teacher's ID and details for the session
-
-export const startSession = (teacherId, sessionDetails) => {
-  if (window.confirm('Are you ready to start the session?')) {
-    teacherSocket.emit('start-session', teacherId, sessionDetails)
-
-    document.getElementById('start').hidden = true
-    document.getElementById('end').hidden = false
-  }
-}
-
-//if confirmed, sends message to server to end the session
-export const endSession = () => {
-  if (window.confirm('Are you sure you want to end the session?')) {
-    teacherSocket.emit('end-session')
-
-    document.getElementById('start').hidden = false
-    document.getElementById('end').hidden = true
-
-    store.dispatch(resetSessionData())
-    store.dispatch(resetStudentData())
-  }
-}
-
-//if cancel message from student => give option to resend a start message from server, or create a button to do so later
-teacherSocket.on('cancel', (socketId, studentId, first, last) => {
-  if (
-    window.confirm(
-      `Student ${first} ${last}, ID ${studentId} did not accept session start. Send another invitation?`
+  //if cancel message from student => give option to resend a start message from server, or create a button to do so later
+  teacherSocket.on('cancel', (socketId, studentId, first, last) => {
+    if (
+      window.confirm(
+        `Student ${first} ${last}, ID ${studentId} did not accept session start. Send another invitation?`
+      )
     )
-  )
-    socket.emit('re-invite', socketId)
-  else {
-    const reInvite = document.createElement('button')
-    reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
+      teacherSocket.emit('re-invite', socketId)
+    else {
+      const reInvite = document.createElement('button')
+      reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
 
-    document.getElementById('teacher-session').appendChild(reInvite)
+      reInvite.onclick = () => {
+        teacherSocket.emit('re-invite', socketId)
+        reInvite.parentNode.removeChild(reInvite)
+      }
 
-    reInvite.onclick = () => {
-      socket.emit('re-invite', socketId)
-      document.getElementById('teacher-session').removeChild(reInvite)
+      document.getElementById('re-invites').appendChild(reInvite)
     }
-  }
-})
+  })
 
-//on receipt of session-data update, dispatch to redux store
-teacherSocket.on('session-data', (time, sessionData, studentData) => {
-  store.dispatch(addStudentData(time, studentData))
-  store.dispatch(
-    addSessionData({
-      time,
-      attendance: sessionData.attendance,
-      ...sessionData.averages
-    })
+  //on receipt of session-data update, dispatch to redux store
+  teacherSocket.on('session-data', (time, sessionData, studentData) => {
+    store.dispatch(addStudentData(time, studentData))
+    store.dispatch(
+      addSessionData({
+        time,
+        attendance: sessionData.attendance,
+        ...sessionData.averages
+      })
+    )
+  })
+
+  teacherSocket.on('save-data', async (session, student) => {
+    try {
+      await axios.put(`api/session/save`, session)
+      await axios.put('api/students/save', student)
+    } catch (err) {
+      console.log(
+        'There was a problem saving the session data in the database',
+        err
+      )
+    }
+  })
+
+  teacherSocket.on('student-logout', ({id, first, last}) => {
+    window.alert(`Student ${first} ${last} logged out, ID: ${id}`)
+  })
+
+  teacherSocket.on(
+    'student-disconnect',
+    ({id, firstName, lastName}, socket) => {
+      window.alert(
+        `Student ${firstName} ${lastName} disconnected, ID: ${id} socket: ${socket}`
+      )
+    }
   )
-})
 
-teacherSocket.on('student-disconnect', ({id, firstName, lastName}) => {
-  window.alert(
-    `Student ${firstName} ${lastName} disconnected from server, ID: ${id}`
-  )
-})
+  teacherSocket.on('student-rejoin', ({id, first, last}) => {
+    window.alert(
+      `Student ${first} ${last} has re-connected to the session, ID: ${id}`
+    )
+  })
 
-teacherSocket.on('reconnected', () => {
-  console.log('Reconnected to the server!')
-})
+  teacherSocket.on('student-join', ({id, first, last}) => {
+    window.alert(
+      `Student ${first} ${last} has joined after session start, ID: ${id}`
+    )
+  })
 
-export default teacherSocket
+  teacherSocket.on('logout', () => {
+    console.log('logged out')
+    teacherSocket.disconnect(true)
+  })
+
+  //on disconnect while still logged in, attempt reconnection
+  teacherSocket.on('disconnect', () => {
+    console.log('teacher disconnect')
+    if (store.getState().user.id) {
+      console.log('attempting reconnect')
+      teacherSocket = openSocket()
+    }
+  })
+
+  return teacherSocket
+}
+
+export default openTeacherSocket

@@ -41,11 +41,13 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.post('/logout', (req, res) => {
-  const user = {...req.user}
+  const id = req.user.id
+  const first = req.user.firstName
+  const last = req.user.lastName
 
   req.logout()
   req.session.destroy()
-  res.json(user)
+  res.json({id, first, last})
 })
 
 router.get('/me', (req, res) => {

@@ -4,11 +4,9 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Grid, Paper, Button, Container, Card, Divider} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 import HomeworkRow from './homework-row'
-import ClassSumTotalsRow from './class-sum-totals-row'
-import ActivityLevelRow from './activity-level-row'
-import AllStudents from './all-students'
-import {startSession, endSession} from '../../socket/teacher'
 import {StudentsCard} from './students-card'
+import {LiveSession, AllStudents} from '../'
+import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -42,69 +40,78 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({teacher, liveSession}) => {
+const TeacherDash = ({
+  title,
+  activityType,
+  details,
+  url,
+  liveSession,
+  createSession,
+  handleChange
+}) => {
   const classes = myStyles()
 
   return (
     <div>
       <Grid item xs={12}>
         <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
-      </Grid>
+        <div id="teacher-session">
+          <h1>Hello! Your students await your tutelage</h1>
 
-      <Grid item xs={12} className={classes.gridStyling}>
-        {/* <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>
-          Homework status and additional data (by student)
-          <Grid container item xs={12} spacing={3}>
-          <HomeworkRow />
-          </Grid>
-          </Paper>
-        </Grid> */}
+          <Grid item xs={12} className={classes.gridStyling}>
+            <Grid item xs={12} sm={12}>
+              <div id="start-end">
+                <div id="create-session">
+                  <Button
+                    className={classes.buttonStyle}
+                    type="button"
+                    onClick={() => {
+                      startSession({
+                        title: 'test',
+                        activityType: 'test',
+                        details: 'test'
+                      })
+                    }}
+                  >
+                    Start New Assignment
+                  </Button>
+                </div>
+                <div id="end" hidden={true}>
+                  <Button
+                    className={classes.buttonStyle}
+                    type="button"
+                    onClick={() => {
+                      endSession()
+                    }}
+                  >
+                    End Session
+                  </Button>
+                </div>
+              </div>
+              <div id="re-invites"> </div>
+            </Grid>
+            <Grid item xs={12} container direction="row">
+              &nbsp;
+            </Grid>
+            <Grid container item xs={12}>
+              <h3>Current Session Data Averages</h3>
 
-        <Grid>
-          <Grid item xs={12} sm={12}>
-            <div id="teacher-session">
-              <Button
-                className={classes.buttonStyle}
-                id="start"
-                type="button"
-                onClick={() => {
-                  startSession(teacher.id, 'test')
-                }}
-              >
-                Start New Assignment
-              </Button>
-              <button
-                id="end"
-                type="button"
-                hidden={true}
-                onClick={() => {
-                  endSession()
-                }}
-              >
-                End Session
-              </button>
-            </div>
+              <LiveSession session={liveSession} />
+              <Grid container item xs={6} />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Current Students</h3>
+              <AllStudents />
+            </Grid>
           </Grid>
-          <Grid item xs={12} container direction="row">
-            &nbsp;
-          </Grid>
-          <Grid container item xs={12}>
-            <ActivityLevelRow session={liveSession} />
-            <Grid container item xs={6} />
-          </Grid>
-          <Grid item xs={12}>
-            <h3>Current Students</h3>
-            <AllStudents />
-          </Grid>
-        </Grid>
 
-        <Grid item xs={12} sm={12} className={classes.gridStyling}>
-          <h3>Classwork status and additional data (by student)</h3>
-          <Grid container item xs={12} spacing={3}>
-            <ClassworkRow />
+          <Grid item xs={12} sm={12} className={classes.gridStyling}>
+            <h3>Classwork status and additional data (by student)</h3>
+            <Grid container item xs={12} spacing={3}>
+              <ClassworkRow />
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </Grid>
     </div>
   )
@@ -117,3 +124,46 @@ const mapState = state => {
 }
 
 export default connect(mapState)(TeacherDash)
+
+{
+  /* <form id="create-session" onSubmit={createSession}>
+              <label htmlFor="title">
+                Title:{' '}
+                {title === '' && (
+                  <span>(Enter a title for the new session)</span>
+                )}
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={title}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <label htmlFor="activityType">Activity Type:</label>
+              <select
+                name="activityType"
+                onChange={(evt) => handleChange(evt.target)}
+              >
+                <option value="writing">Writing</option>
+                <option value="reading">Reading</option>
+                <option value="discussion">Discussion</option>
+              </select>
+              <label htmlFor="details">Details:</label>
+              <input
+                type="text"
+                name="details"
+                value={details}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <label htmlFor="url">Assignment URL:</label>
+              <input
+                type="text"
+                name="url"
+                value={url}
+                onChange={(evt) => handleChange(evt.target)}
+              ></input>
+              <button type="submit" disabled={title === ''}>
+                Start Session
+              </button>
+            </form> */
+}

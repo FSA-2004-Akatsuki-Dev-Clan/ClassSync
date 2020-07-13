@@ -1,5 +1,6 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 export default class Chart extends React.Component {
   constructor() {
@@ -9,18 +10,18 @@ export default class Chart extends React.Component {
     }
   }
 
-  camelCase = str => {
-    return str
-      .replace(/\s(.)/g, function(a) {
-        return a.toUpperCase()
-      })
-      .replace(/\s/g, '')
-      .replace(/^(.)/, function(b) {
-        return b.toLowerCase()
-      })
-  }
-
   render() {
+    const camelCase = str => {
+      return str
+        .replace(/\s(.)/g, function(a) {
+          return a.toUpperCase()
+        })
+        .replace(/\s/g, '')
+        .replace(/^(.)/, function(b) {
+          return b.toLowerCase()
+        })
+    }
+
     const {data, compare} = this.props
 
     const firstTime = data.times ? data.times[0].time : 0
@@ -46,7 +47,9 @@ export default class Chart extends React.Component {
     }
 
     const chartData = {
-      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
+      labels: data.times
+        ? data.times.map(time => time.time - firstTime)
+        : [1, 2, 3, 4, 5],
       datasets: [
         {
           label: [this.state.metric],
@@ -59,13 +62,20 @@ export default class Chart extends React.Component {
       ]
     }
 
+    // chartData.datasets.push({
+    //   label: ['Class Average'],
+    //   data: [20, 40, 60, 80, 100],
+    //   backgroundColor: ['rgb(250, 240, 260, .2)'],
+    //   fontColor: 'rgb(215, 230, 240)'
+    // })
+
     if (compare) {
       chartData.datasets.push({
         label: ['Class Average'],
         data: compare.times
           ? compare.times.map(time => time[camelCase(this.state.metric)])
           : [],
-        backgroundColor: ['rgb(250, 240, 260)'],
+        backgroundColor: ['rgb(250, 240, 260, .2)'],
         fontColor: 'rgb(215, 230, 240)'
       })
     }
@@ -93,6 +103,14 @@ export default class Chart extends React.Component {
                   backgroundColor: 'rgb(179, 255, 0)'
                 }
               },
+              // time: {
+              //   unit: 'minute',
+              // },
+              plugins: {
+                datalabels: {
+                  align: 260
+                }
+              },
               scales: {
                 yAxes: [
                   {
@@ -101,17 +119,29 @@ export default class Chart extends React.Component {
                       suggestedMax: yMax
                     },
                     scaleLabel: {
+                      labelString:
+                        this.state.metric === 'faceScore'
+                          ? 'Percentage of successful face detections'
+                          : 'Count',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }
                 ],
                 xAxes: [
                   {
+                    // time: {
+                    //   unit: 'minute',
+                    // },
+                    // ticks: {
+                    //   suggestedMin: 0,
+                    //   suggestedMax: 30,
+                    // },
                     scaleLabel: {
+                      labelString: 'Session Minutes',
                       display: true,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'
                     }
                   }

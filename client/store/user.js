@@ -1,7 +1,56 @@
 import axios from 'axios'
 import history from '../history'
+import store from '.'
+import openTeacherSocket from '../socket/teacher'
+import openStudentSocket from '../socket/student'
+import {resetSessionData, resetStudentData} from '.'
 
 let socket
+
+//exported functions for sending reset actions to the store
+
+//if confirmed, sends start message to server with teacher's ID and details for the session
+export const startSession = async ({title, activityType, details, url}) => {
+  if (window.confirm('Are you ready to start the session?')) {
+    try {
+      const {data} = await axios.post('/api/session', {
+        title,
+        activityType,
+        details
+      })
+      const sessionId = data
+      console.log('session id', sessionId)
+      socket.emit('start-session', sessionId, url)
+
+      document.getElementById('create-session').hidden = true
+      document.getElementById('end').hidden = false
+
+      store.dispatch(resetSessionData())
+      store.dispatch(resetStudentData())
+    } catch (err) {
+      console.log(
+        'There was a problem trying to create a new session in the database',
+        err
+      )
+    }
+  }
+}
+
+//if confirmed, sends message to server to end the session
+export const endSession = async () => {
+  if (window.confirm('Are you sure you want to end the session?')) {
+    socket.emit('end-session')
+
+    document.getElementById('create-session').hidden = false
+    document.getElementById('end').hidden = true
+
+    const reInvites = document.getElementById('re-invites')
+
+    while (reInvites.childNodes.length) {
+      reInvites.removeChild(reInvites.childNodes[0])
+    }
+  }
+}
 
 /**
  * ACTION TYPES
@@ -30,10 +79,11 @@ export const me = () => async dispatch => {
 
     //on loading up the session user, import the appropriate socket functionality, and send reconnect message to server
     if (res.data) {
-      if (res.data.isTeacher) socket = require('../socket/teacher').default
-      else socket = require('../socket/student').default
-
-      socket.emit('reconnect', res.data.id)
+      do {
+        let user = store.getState().user
+        if (user.id)
+          socket = user.isTeacher ? openTeacherSocket() : openStudentSocket()
+      } while (!socket)
 
       history.push('/session')
     }
@@ -68,10 +118,11 @@ export const auth = (
     console.log(res.data)
 
     //on login/signup, import the appropriate socket functionality and send reconnect message to server
-    if (res.data.isTeacher) socket = require('../socket/teacher').default
-    else socket = require('../socket/student').default
-
-    socket.emit('reconnect', res.data.id)
+    do {
+      let user = store.getState().user
+      if (user.id)
+        socket = user.isTeacher ? openTeacherSocket() : openStudentSocket()
+    } while (!socket)
 
     history.push('/session')
   } catch (dispatchOrHistoryErr) {
@@ -82,13 +133,13 @@ export const auth = (
 export const logout = () => async dispatch => {
   try {
     const user = await axios.post('/auth/logout')
-    await dispatch(removeUser())
+    dispatch(removeUser())
 
     //On logout, send logout message to the server
-    if (socket) {
-      socket.emit('logout', user)
-      socket.disconnect(true)
-    }
+    do {
+      let user = store.getState().user
+      if (!user.id && socket) socket.emit('logout', user)
+    } while (user.id)
 
     history.push('/')
   } catch (err) {

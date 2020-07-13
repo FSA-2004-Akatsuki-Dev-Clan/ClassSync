@@ -91,12 +91,12 @@ Student.prototype.correctPassword = function(candidatePwd) {
   return Student.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 Student.prototype.avgData = function({
-  faceCount,
-  faceDetects,
-  faceScore,
-  wordCount,
-  keyCount,
-  clickCount
+  faceCount = 0,
+  faceDetects = 0,
+  faceScore = 0,
+  wordCount = 0,
+  clickCount = 0,
+  keyCount = 0
 }) {
   const faceCountAvg = Math.ceil(
     (this.faceCountAvg() * this.numberOfSessions() + faceCount) /

@@ -43,17 +43,16 @@ router.put('/save', async (req, res, next) => {
   try {
     const rawData = req.body.rawTotals
     const sessionData = {}
-    console.log(req.body)
-    const sessionToClose = await Session.findOne({
-      where: {id: req.body.id}
-    })
+    console.log('->>>>>>> this should be session data', req.body)
+    const sessionToClose = await Session.findByPk(+req.body.id)
+
     sessionData.sessFaceCountTot = rawData.faceCount
     sessionData.sessFaceAttemptTot = rawData.faceDetects
     sessionData.sessFaceScore = rawData.faceScore
     sessionData.sessWordsSpokenTot = rawData.wordCount
     sessionData.sessClickTot = rawData.clickCount
     sessionData.sessKeyStrokeTot = rawData.keyCount
-    sessionData.sessFaceScore = rawData.sessFaceScore
+    sessionData.sessFaceScore = rawData.faceScore
     sessionData.numOfStudents = req.body.attendance
     await sessionToClose.update(sessionData)
 
