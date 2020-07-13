@@ -5,8 +5,19 @@ export default class Chart extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'faceScore'
+      metric: 'Face Score'
     }
+  }
+
+  camelCase = str => {
+    return str
+      .replace(/\s(.)/g, function(a) {
+        return a.toUpperCase()
+      })
+      .replace(/\s/g, '')
+      .replace(/^(.)/, function(b) {
+        return b.toLowerCase()
+      })
   }
 
   render() {
@@ -14,13 +25,33 @@ export default class Chart extends React.Component {
 
     const firstTime = data.times ? data.times[0].time : 0
 
+    let yMin, yMax
+
+    switch (this.state.metric) {
+      case 'Face Score':
+        yMin = 0
+        yMax = 100
+
+      case 'Word Count':
+        yMin = 0
+        yMax = 300
+
+      case 'Click Count':
+        yMin = 0
+        yMax = 40
+
+      case 'Key Count':
+        yMin = 0
+        yMax = 50
+    }
+
     const chartData = {
       labels: data.times ? data.times.map(time => time.time - firstTime) : [],
       datasets: [
         {
           label: [this.state.metric],
           data: data.times
-            ? data.times.map(time => time[this.state.metric])
+            ? data.times.map(time => time[camelCase(this.state.metric)])
             : [],
           backgroundColor: ['rgb(195, 190, 204)'],
           fontColor: 'rgb(195, 190, 204)'
@@ -30,12 +61,12 @@ export default class Chart extends React.Component {
 
     if (compare) {
       chartData.datasets.push({
-        label: [this.state.metric],
+        label: ['Class Average'],
         data: compare.times
-          ? compare.times.map(time => time[this.state.metric])
+          ? compare.times.map(time => time[camelCase(this.state.metric)])
           : [],
-        backgroundColor: ['rgb(195, 190, 204)'],
-        fontColor: 'rgb(195, 190, 204)'
+        backgroundColor: ['rgb(250, 240, 260)'],
+        fontColor: 'rgb(215, 230, 240)'
       })
     }
 
@@ -65,6 +96,10 @@ export default class Chart extends React.Component {
               scales: {
                 yAxes: [
                   {
+                    ticks: {
+                      suggestedMin: yMin,
+                      suggestedMax: yMax
+                    },
                     scaleLabel: {
                       display: true,
                       fontSize: 20,

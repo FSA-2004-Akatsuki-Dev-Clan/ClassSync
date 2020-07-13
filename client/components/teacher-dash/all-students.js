@@ -73,7 +73,8 @@ class AllStudents extends React.Component {
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                          {`${student.firstName} ${student.lastName}`}
+                          {`${student.firstName} ${student.lastName}` ||
+                            'New Student'}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -87,6 +88,8 @@ class AllStudents extends React.Component {
                     </CardActionArea>
                   </Card>
                 </Grid>
+                <h3>{student.firstName || 'New Student'}</h3>
+                <h3>{student.lastName}</h3>
               </div>
             ))}
           </div>

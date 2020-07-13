@@ -27,6 +27,16 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
+
+    //on loading up the session user, import the appropriate socket functionality, and send reconnect message to server
+    if (res.data) {
+      if (res.data.isTeacher) socket = require('../socket/teacher').default
+      else socket = require('../socket/student').default
+
+      socket.emit('reconnect', res.data.id)
+
+      history.push('/session')
+    }
   } catch (err) {
     console.error(err)
   }
@@ -57,6 +67,7 @@ export const auth = (
     dispatch(getUser(res.data))
     console.log(res.data)
 
+    //on login/signup, import the appropriate socket functionality and send reconnect message to server
     if (res.data.isTeacher) socket = require('../socket/teacher').default
     else socket = require('../socket/student').default
 
@@ -70,15 +81,16 @@ export const auth = (
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post('/auth/logout')
-    dispatch(removeUser())
+    const user = await axios.post('/auth/logout')
+    await dispatch(removeUser())
 
+    //On logout, send logout message to the server
     if (socket) {
-      socket.emit('logout')
+      socket.emit('logout', user)
       socket.disconnect(true)
     }
 
-    history.push('/login')
+    history.push('/')
   } catch (err) {
     console.error(err)
   }

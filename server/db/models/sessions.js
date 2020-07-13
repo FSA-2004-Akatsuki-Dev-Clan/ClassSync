@@ -28,7 +28,7 @@ const Session = db.define('sessions', {
     type: Sequelize.DATE,
     defaultValue: NOW
   },
-  EndTime: {
+  endTime: {
     type: Sequelize.DATE,
     defaultValue: null
   },
@@ -37,6 +37,10 @@ const Session = db.define('sessions', {
     defaultValue: 0
   },
   sessFaceAttemptTot: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  sessFaceScore: {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },

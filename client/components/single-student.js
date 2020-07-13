@@ -1,6 +1,7 @@
 import React from 'react'
-import SimpleTable from './table'
 import Chart from './teacher-dash/chart'
+import SingleTable from './single-stud-table'
+import {Grid} from '@material-ui/core'
 
 export default class SingleStudent extends React.Component {
   render() {
@@ -12,11 +13,18 @@ export default class SingleStudent extends React.Component {
         {student.lastName}
         {student.email}
 
-        {/* <SimpleTable student={student} /> */}
-
-        <div className="chart">
-          <Chart data={student} compare={liveSession} />
-        </div>
+        <React.Fragment>
+          <Grid item xs={12} container direction="row">
+            <Grid item xs={6}>
+              <SingleTable data={student} />
+            </Grid>
+            <Grid item xs={6}>
+              <div className="chart">
+                <Chart data={student} compare={liveSession} />
+              </div>
+            </Grid>
+          </Grid>
+        </React.Fragment>
       </div>
     )
   }

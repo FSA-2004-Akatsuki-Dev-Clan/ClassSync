@@ -1,7 +1,14 @@
 import socket from '.'
-import store, {addStudentData, addSessionData} from '../store'
+import store, {
+  addStudentData,
+  addSessionData,
+  resetSessionData,
+  resetStudentData
+} from '../store'
 
-const teacherSocket = socket
+let teacherSocket = socket
+
+//if confirmed, sends start message to server with teacher's ID and details for the session
 
 export const startSession = (teacherId, sessionDetails) => {
   if (window.confirm('Are you ready to start the session?')) {
@@ -12,15 +19,20 @@ export const startSession = (teacherId, sessionDetails) => {
   }
 }
 
+//if confirmed, sends message to server to end the session
 export const endSession = () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     teacherSocket.emit('end-session')
 
     document.getElementById('start').hidden = false
     document.getElementById('end').hidden = true
+
+    store.dispatch(resetSessionData())
+    store.dispatch(resetStudentData())
   }
 }
 
+//if cancel message from student => give option to resend a start message from server, or create a button to do so later
 teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   if (
     window.confirm(
@@ -41,22 +53,22 @@ teacherSocket.on('cancel', (socketId, studentId, first, last) => {
   }
 })
 
-teacherSocket.on('session-data', (time, sessionData) => {
-  store.dispatch(addStudentData(time, sessionData.students))
+//on receipt of session-data update, dispatch to redux store
+teacherSocket.on('session-data', (time, sessionData, studentData) => {
+  store.dispatch(addStudentData(time, studentData))
   store.dispatch(
     addSessionData({
       time,
       attendance: sessionData.attendance,
-      ...sessionData.averages,
-      faceScore: Math.ceil(
-        sessionData.averages.faceCount / sessionData.averages.faceDetects * 100
-      )
+      ...sessionData.averages
     })
   )
 })
 
-teacherSocket.on('student-disconnect', id => {
-  window.alert(`Student disconnected from server, ID: ${id}`)
+teacherSocket.on('student-disconnect', ({id, firstName, lastName}) => {
+  window.alert(
+    `Student ${firstName} ${lastName} disconnected from server, ID: ${id}`
+  )
 })
 
 teacherSocket.on('reconnected', () => {

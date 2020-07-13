@@ -39,19 +39,46 @@ const Student = db.define('students', {
     type: Sequelize.STRING
   },
   faceCountAvg: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('faceCountAvg')
+    }
+  },
+  faceAttemptAvg: {
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('faceAttemptAvg')
+    }
+  },
+  faceScoreAvg: {
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('faceScoreAvg')
+    }
   },
   wordsSpokenAvg: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('wordsSpokenAvg')
+    }
   },
   mouseClickAvg: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('mouseClickAvg')
+    }
   },
   keyStrokeAvg: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('keyStrokeAvg')
+    }
   },
   numberOfSessions: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    get() {
+      return () => this.getDataValue('numberOfSessions')
+    }
   }
 })
 
@@ -63,7 +90,49 @@ module.exports = Student
 Student.prototype.correctPassword = function(candidatePwd) {
   return Student.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
-
+Student.prototype.avgData = function({
+  faceCount,
+  faceDetects,
+  faceScore,
+  wordCount,
+  keyCount,
+  clickCount
+}) {
+  const faceCountAvg = Math.ceil(
+    (this.faceCountAvg() * this.numberOfSessions() + faceCount) /
+      (this.numberOfSessions() + 1)
+  )
+  const faceAttemptAvg = Math.ceil(
+    (this.faceAttemptAvg() * this.numberOfSessions() + faceDetects) /
+      (this.numberOfSessions() + 1)
+  )
+  const faceScoreAvg = Math.ceil(
+    (this.faceScoreAvg() * this.numberOfSessions() + faceScore) /
+      (this.numberOfSessions() + 1)
+  )
+  const wordsSpokenAvg = Math.ceil(
+    (this.wordsSpokenAvg() * this.numberOfSessions() + wordCount) /
+      (this.numberOfSessions() + 1)
+  )
+  const mouseClickAvg = Math.ceil(
+    (this.mouseClickAvg() * this.numberOfSessions() + clickCount) /
+      (this.numberOfSessions() + 1)
+  )
+  const keyStrokeAvg = Math.ceil(
+    (this.keyStrokeAvg() * this.numberOfSessions() + keyCount) /
+      (this.numberOfSessions() + 1)
+  )
+  const numberOfSessions = this.numberOfSessions() + 1
+  return {
+    faceCountAvg,
+    faceAttemptAvg,
+    faceScoreAvg,
+    wordsSpokenAvg,
+    mouseClickAvg,
+    keyStrokeAvg,
+    numberOfSessions
+  }
+}
 /**
  * classMethods
  */
@@ -92,8 +161,17 @@ const setSaltAndPassword = student => {
   }
 }
 
+// const setAverages = student => {
+//   const newVal = student.avgData()
+//   student.faceCountAvg =
+//   student.wordsSpokenAvg =
+//   student.mouseClickAvg =
+//   student.keyStrokeAvg =
+// }
+
 Student.beforeCreate(setSaltAndPassword)
 Student.beforeUpdate(setSaltAndPassword)
+// Student.beforeUpdate(setAverages)
 Student.beforeBulkCreate(students => {
   students.forEach(setSaltAndPassword)
 })

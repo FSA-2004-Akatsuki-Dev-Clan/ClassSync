@@ -2,6 +2,7 @@
  * ACTION TYPES
  */
 const ADD_SESSION_DATA = 'ADD_SESSION_DATA'
+const RESET_SESSION_DATA = 'RESET_SESSION_DATA'
 
 /**
  * INITIAL STATE
@@ -13,6 +14,8 @@ const initialState = {}
  */
 //receives a time-stamped data point from the live session, and creates an action to add it to the liveSession object on store
 export const addSessionData = data => ({type: ADD_SESSION_DATA, data})
+
+export const resetSessionData = () => ({type: RESET_SESSION_DATA})
 
 /**
  * REDUCER
@@ -29,6 +32,9 @@ export default function(state = initialState, action) {
           ...action.data,
           times: [...state.times, {...action.data}]
         }
+
+    case RESET_SESSION_DATA:
+      return initialState
 
     default:
       return state
