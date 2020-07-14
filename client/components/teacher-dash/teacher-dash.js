@@ -40,7 +40,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({form, liveSession}) => {
+const TeacherDash = ({form, liveSession, live}) => {
   const classes = myStyles()
 
   return (
@@ -53,9 +53,10 @@ const TeacherDash = ({form, liveSession}) => {
           <Grid item xs={12} className={classes.gridStyling}>
             <Grid item xs={12} sm={12}>
               <div id="start-end">
-                <div id="create-session">
-                  <SessionForm {...form} classes={classes} />
-                  {/* <Button
+                {!live ? (
+                  <div id="create-session">
+                    <SessionForm {...form} classes={classes} />
+                    {/* <Button
                     className={classes.buttonStyle}
                     type="button"
                     onClick={() => {
@@ -68,16 +69,18 @@ const TeacherDash = ({form, liveSession}) => {
                   >
                     Start Session
                   </Button> */}
-                </div>
-                <div id="end" hidden={true}>
-                  <Button
-                    className={classes.buttonStyle}
-                    type="button"
-                    onClick={endSession}
-                  >
-                    End Session
-                  </Button>
-                </div>
+                  </div>
+                ) : (
+                  <div id="end">
+                    <Button
+                      className={classes.buttonStyle}
+                      type="button"
+                      onClick={endSession}
+                    >
+                      End Session
+                    </Button>
+                  </div>
+                )}
               </div>
               <h3 style={{textAlign: 'center'}}>
                 Current Session Data Averages
@@ -111,7 +114,8 @@ const TeacherDash = ({form, liveSession}) => {
 
 const mapState = state => {
   return {
-    liveSession: state.liveSession
+    liveSession: state.liveSession,
+    live: state.status.live
   }
 }
 

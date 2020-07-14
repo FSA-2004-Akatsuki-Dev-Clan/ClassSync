@@ -1,6 +1,7 @@
 import openSocket from '.'
-import store, {addStudentData, addSessionData} from '../store'
+import store, {addStudentData, addSessionData, setLive} from '../store'
 import axios from 'axios'
+
 const openTeacherSocket = () => {
   let teacherSocket = openSocket()
 
@@ -76,12 +77,18 @@ const openTeacherSocket = () => {
 
   teacherSocket.on('logout', () => {
     console.log('logged out')
+
+    store.dispatch(setLive(false))
+
     teacherSocket.disconnect(true)
   })
 
   //on disconnect while still logged in, attempt reconnection
   teacherSocket.on('disconnect', () => {
     console.log('teacher disconnect')
+
+    store.dispatch(setLive(false))
+
     if (store.getState().user.id) {
       console.log('attempting reconnect')
       teacherSocket = openSocket()

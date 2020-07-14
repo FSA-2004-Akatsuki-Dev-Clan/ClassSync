@@ -46,6 +46,8 @@ class Session extends React.Component {
       details: this.state.details,
       url: this.state.url
     })
+
+    this.setState({title: '', activityType: 'discussion', details: '', url: ''})
   }
 }
 
