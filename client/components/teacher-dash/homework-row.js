@@ -25,7 +25,7 @@ const homeworkObject = {
 
 export default function HomeworkRow() {
   return (
-    <React.Fragment>
+    <div>
       {homeworkObject.assignmentName.map(assignment => {
         return (
           <Grid item xs={3}>
@@ -33,6 +33,6 @@ export default function HomeworkRow() {
           </Grid>
         )
       })}
-    </React.Fragment>
+    </div>
   )
 }

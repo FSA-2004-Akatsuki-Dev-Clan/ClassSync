@@ -28,7 +28,7 @@ const LiveSession = ({session}) => {
   const classes = myStyles()
   return (
     <Grid className={classes.fragment} container direction="row">
-      <React.Fragment className={classes.fragment}>
+      <div className={classes.fragment}>
         <Grid item xs={5}>
           <Card>
             <Grid
@@ -63,7 +63,7 @@ const LiveSession = ({session}) => {
             <Chart data={session} />
           </Card>
         </Grid>
-      </React.Fragment>
+      </div>
     </Grid>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid} from '@material-ui/core'
 
 const Table = ({data}) => (
-  <React.Fragment>
+  <div>
     <Grid item xs={3}>
       <p>{data.faceScore || '--'}</p>
       <p>Percent Time In Front of Webcam</p>
@@ -19,7 +19,7 @@ const Table = ({data}) => (
       <p>{data.keyCount || '--'}</p>
       <p>Key Presses</p>
     </Grid>
-  </React.Fragment>
+  </div>
 )
 
 export default Table
