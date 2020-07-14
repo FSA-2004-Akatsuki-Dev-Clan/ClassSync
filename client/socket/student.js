@@ -76,8 +76,8 @@ const openStudentSocket = () => {
   studentSocket.on('disconnect', () => {
     console.log('student disconnect')
     if (store.getState().user.id) {
-      monitorTimeout = setTimeout(async () => {
-        await stopMonitor()
+      monitorTimeout = setTimeout(() => {
+        stopMonitor()
       }, 60000)
 
       console.log('attempting reconnect')

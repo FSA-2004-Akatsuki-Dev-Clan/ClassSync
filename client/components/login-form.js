@@ -154,6 +154,7 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const firstName = null
       const lastName = null
+      const gradeLevel = null
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(firstName, lastName, gradeLevel, email, password, formName))
