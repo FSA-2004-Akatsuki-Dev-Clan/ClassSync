@@ -21,6 +21,12 @@ Class.belongsToMany(Student, {through: StudentClass})
 Student.belongsToMany(Session, {through: StudentSession})
 Session.belongsToMany(Student, {through: StudentSession})
 
+// Student.hasMany(StudentSession)
+// StudentSession.belongsTo(Student)
+
+// Session.hasMany(StudentSession)
+// StudentSession.belongsTo(Session)
+
 Class.hasMany(Session)
 Session.belongsTo(Class)
 
