@@ -7,10 +7,10 @@ const {
   StudentSession,
   Session
 } = require('../server/db/models')
-const studentSeed = require('../student-seed')
-const teacherSeed = require('../teacher-seed')
-const studentSessionSeed = require('../student-session-seed')
-const sessionSeed = require('../session-seed')
+const studentSeed = require('./seedData/student-seed')
+const teacherSeed = require('./seedData/teacher-seed')
+const studentSessionSeed = require('./seedData/student-session-seed')
+const sessionSeed = require('./seedData/session-seed')
 
 async function seed() {
   await db.sync({force: true})
@@ -34,15 +34,8 @@ async function seed() {
     })
   )
 
-  // const singleSession = await Session.findByPk(1)
-
-  // console.log('i am singlesession =======>>>>', singleSession)
-  // await singleSession.addStudent(allStudents)
-
   const allStudentSession = await Promise.all(
     studentSessionSeed.map(async studentSess => {
-      // const studentInSess = await Student.findOne({where: {id: studentSess.studentId}})
-      // const session = await Session.findOne({where: {id: 1}})
       const StudentWRel = await StudentSession.findOrCreate({
         where: {
           studentId: +studentSess.studentId,

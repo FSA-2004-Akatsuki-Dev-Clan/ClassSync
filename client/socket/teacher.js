@@ -39,6 +39,7 @@ const openTeacherSocket = () => {
 
   teacherSocket.on('save-data', async (session, student) => {
     try {
+      student.sessionId = +session.id
       await axios.put(`api/session/save`, session)
       await axios.put('api/students/save', student)
     } catch (err) {
