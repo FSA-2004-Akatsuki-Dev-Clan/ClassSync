@@ -54,21 +54,16 @@ const TeacherDash = ({form, liveSession, live}) => {
             <Grid item xs={12} sm={12}>
               <div id="start-end">
                 {!live ? (
-                  <div id="create-session">
-                    <SessionForm {...form} classes={classes} />
-                    {/* <Button
+                <div id="create-session">
+                  <SessionForm {...form} classes={classes} />
+                  <Button
                     className={classes.buttonStyle}
                     type="button"
-                    onClick={() => {
-                      startSession({
-                        title: 'test',
-                        activityType: 'test',
-                        details: 'test',
-                      })
-                    }}
+                    onClick={createSession}
                   >
                     Start Session
-                  </Button> */}
+                  </Button>
+     <SessionForm {...form} classes={classes} />
                   </div>
                 ) : (
                   <div id="end">
