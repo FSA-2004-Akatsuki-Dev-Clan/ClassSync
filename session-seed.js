@@ -1,12 +1,3 @@
-// 'lecture',
-// 'pair-work',
-// 'group-work',
-// 'reading',
-// 'writing',
-// 'test',
-// 'quiz',
-// 'discussion'
-
 const sessionSeed = [
   {
     title: 'Bio',
