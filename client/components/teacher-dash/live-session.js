@@ -3,25 +3,25 @@ import {Grid, Card} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {Table, Chart} from '../'
 
-const myStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   fragment: {
     textAlign: 'center',
     justify: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   cardStyling: {
     color: 'white',
-    background: 'linear-gradient(45deg, #8bfe6b 30%, #53ebff 90%)',
-  },
+    background: 'linear-gradient(45deg, #8bfe6b 30%, #53ebff 90%)'
+  }
 }))
 
 const LiveSession = ({session}) => {
@@ -45,7 +45,7 @@ const LiveSession = ({session}) => {
               </Grid>
             </Grid>
             <h1>{session.attendance || 0}</h1>
-            Totals Students in Attendance
+            Totals Students Transmitting Data
             <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid>

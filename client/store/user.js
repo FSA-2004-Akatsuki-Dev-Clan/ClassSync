@@ -128,13 +128,13 @@ export const auth = (
 
 export const logout = () => async dispatch => {
   try {
-    const user = await axios.post('/auth/logout')
+    const res = await axios.post('/auth/logout')
     dispatch(removeUser())
 
     //On logout, send logout message to the server
     do {
       let user = store.getState().user
-      if (!user.id && socket) socket.emit('logout', user)
+      if (!user.id && socket) socket.emit('logout', res.data)
     } while (user.id)
 
     history.push('/')
