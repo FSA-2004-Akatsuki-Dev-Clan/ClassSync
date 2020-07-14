@@ -109,14 +109,14 @@ const LoginForm = props => {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {'Sign Up As A New  Student'}
                 </Link>
               </Grid>
             </Grid>
@@ -154,7 +154,6 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const firstName = null
       const lastName = null
-      const gradeLevel = null
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(firstName, lastName, gradeLevel, email, password, formName))
