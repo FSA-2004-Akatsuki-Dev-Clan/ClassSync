@@ -808,6 +808,276 @@ const studentSessionSeed = [
     wordCount: 369,
     clickCount: 45,
     keyCount: 101
+  },
+  {
+    studentId: 1,
+    sessionId: 4,
+    faceCount: 109,
+    faceDetects: 125,
+    wordCount: 119,
+    clickCount: 43,
+    keyCount: 218
+  },
+  {
+    studentId: 2,
+    sessionId: 4,
+    faceCount: 108,
+    faceDetects: 125,
+    wordCount: 266,
+    clickCount: 47,
+    keyCount: 167
+  },
+  {
+    studentId: 3,
+    sessionId: 4,
+    faceCount: 98,
+    faceDetects: 125,
+    wordCount: 349,
+    clickCount: 21,
+    keyCount: 320
+  },
+  {
+    studentId: 4,
+    sessionId: 4,
+    faceCount: 59,
+    faceDetects: 125,
+    wordCount: 346,
+    clickCount: 28,
+    keyCount: 228
+  },
+  {
+    studentId: 5,
+    sessionId: 4,
+    faceCount: 74,
+    faceDetects: 125,
+    wordCount: 401,
+    clickCount: 30,
+    keyCount: 304
+  },
+  {
+    studentId: 6,
+    sessionId: 4,
+    faceCount: 97,
+    faceDetects: 125,
+    wordCount: 364,
+    clickCount: 80,
+    keyCount: 245
+  },
+  {
+    studentId: 7,
+    sessionId: 4,
+    faceCount: 57,
+    faceDetects: 125,
+    wordCount: 166,
+    clickCount: 64,
+    keyCount: 189
+  },
+  {
+    studentId: 8,
+    sessionId: 4,
+    faceCount: 81,
+    faceDetects: 125,
+    wordCount: 200,
+    clickCount: 90,
+    keyCount: 185
+  },
+  {
+    studentId: 9,
+    sessionId: 4,
+    faceCount: 76,
+    faceDetects: 125,
+    wordCount: 286,
+    clickCount: 48,
+    keyCount: 200
+  },
+  {
+    studentId: 10,
+    sessionId: 4,
+    faceCount: 80,
+    faceDetects: 125,
+    wordCount: 324,
+    clickCount: 55,
+    keyCount: 303
+  },
+  {
+    studentId: 11,
+    sessionId: 4,
+    faceCount: 57,
+    faceDetects: 125,
+    wordCount: 403,
+    clickCount: 41,
+    keyCount: 197
+  },
+  {
+    studentId: 12,
+    sessionId: 4,
+    faceCount: 106,
+    faceDetects: 125,
+    wordCount: 447,
+    clickCount: 53,
+    keyCount: 206
+  },
+  {
+    studentId: 13,
+    sessionId: 4,
+    faceCount: 69,
+    faceDetects: 125,
+    wordCount: 365,
+    clickCount: 24,
+    keyCount: 314
+  },
+  {
+    studentId: 14,
+    sessionId: 4,
+    faceCount: 56,
+    faceDetects: 125,
+    wordCount: 401,
+    clickCount: 82,
+    keyCount: 253
+  },
+  {
+    studentId: 15,
+    sessionId: 4,
+    faceCount: 107,
+    faceDetects: 125,
+    wordCount: 436,
+    clickCount: 32,
+    keyCount: 149
+  },
+  {
+    studentId: 16,
+    sessionId: 4,
+    faceCount: 101,
+    faceDetects: 125,
+    wordCount: 223,
+    clickCount: 64,
+    keyCount: 144
+  },
+  {
+    studentId: 17,
+    sessionId: 4,
+    faceCount: 96,
+    faceDetects: 125,
+    wordCount: 306,
+    clickCount: 119,
+    keyCount: 306
+  },
+  {
+    studentId: 18,
+    sessionId: 4,
+    faceCount: 50,
+    faceDetects: 125,
+    wordCount: 275,
+    clickCount: 85,
+    keyCount: 301
+  },
+  {
+    studentId: 19,
+    sessionId: 4,
+    faceCount: 76,
+    faceDetects: 125,
+    wordCount: 430,
+    clickCount: 95,
+    keyCount: 346
+  },
+  {
+    studentId: 20,
+    sessionId: 4,
+    faceCount: 84,
+    faceDetects: 125,
+    wordCount: 312,
+    clickCount: 84,
+    keyCount: 144
+  },
+  {
+    studentId: 21,
+    sessionId: 4,
+    faceCount: 62,
+    faceDetects: 125,
+    wordCount: 158,
+    clickCount: 25,
+    keyCount: 245
+  },
+  {
+    studentId: 22,
+    sessionId: 4,
+    faceCount: 79,
+    faceDetects: 125,
+    wordCount: 386,
+    clickCount: 20,
+    keyCount: 257
+  },
+  {
+    studentId: 23,
+    sessionId: 4,
+    faceCount: 77,
+    faceDetects: 125,
+    wordCount: 131,
+    clickCount: 36,
+    keyCount: 311
+  },
+  {
+    studentId: 24,
+    sessionId: 4,
+    faceCount: 60,
+    faceDetects: 125,
+    wordCount: 397,
+    clickCount: 78,
+    keyCount: 279
+  },
+  {
+    studentId: 25,
+    sessionId: 4,
+    faceCount: 84,
+    faceDetects: 125,
+    wordCount: 185,
+    clickCount: 61,
+    keyCount: 294
+  },
+  {
+    studentId: 26,
+    sessionId: 4,
+    faceCount: 94,
+    faceDetects: 125,
+    wordCount: 366,
+    clickCount: 50,
+    keyCount: 289
+  },
+  {
+    studentId: 27,
+    sessionId: 4,
+    faceCount: 61,
+    faceDetects: 125,
+    wordCount: 394,
+    clickCount: 61,
+    keyCount: 344
+  },
+  {
+    studentId: 28,
+    sessionId: 4,
+    faceCount: 61,
+    faceDetects: 125,
+    wordCount: 273,
+    clickCount: 119,
+    keyCount: 261
+  },
+  {
+    studentId: 29,
+    sessionId: 4,
+    faceCount: 70,
+    faceDetects: 125,
+    wordCount: 377,
+    clickCount: 93,
+    keyCount: 181
+  },
+  {
+    studentId: 30,
+    sessionId: 4,
+    faceCount: 71,
+    faceDetects: 125,
+    wordCount: 100,
+    clickCount: 98,
+    keyCount: 236
   }
 ]
 
