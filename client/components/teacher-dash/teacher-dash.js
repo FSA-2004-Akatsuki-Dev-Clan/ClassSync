@@ -56,7 +56,7 @@ const TeacherDash = ({
       <Grid item xs={12}>
         <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
         <div id="teacher-session">
-          <h1>Hello! Your students await your tutelage</h1>
+          {/* <h1>Hello! Your students await your tutelage</h1> */}
 
           <Grid item xs={12} className={classes.gridStyling}>
             <Grid item xs={12} sm={12}>
@@ -88,14 +88,15 @@ const TeacherDash = ({
                   </Button>
                 </div>
               </div>
+              <h3 style={{textAlign: 'center'}}>
+                Current Session Data Averages
+              </h3>
               <div id="re-invites"> </div>
             </Grid>
             <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid>
             <Grid container item xs={12}>
-              <h3>Current Session Data Averages</h3>
-
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
             </Grid>
