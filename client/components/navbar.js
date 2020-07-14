@@ -48,7 +48,7 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
         <AppBar position="static" color="white">
           <Toolbar>
             <a href="/session">
-              <img src="../../classync-logo.png" height="50px" />
+              <img src="../../ClassSync-Logo.png" height="50px" />
             </a>
             <nav>
               {isLoggedIn ? (

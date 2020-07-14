@@ -77,7 +77,7 @@ module.exports = io => {
           live = false
 
           clearInterval(teacherTransmitInterval)
-        }, 30000)
+        }, 15000)
       } else if (live) {
         for (let studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
