@@ -24,7 +24,7 @@ deploy: # see README for details on these keys
   skip_cleanup: true
   provider: heroku
   # app should be your heroku app name; see README
-  app: classync
+  app: classsync
   # the secure key indicates an encrypted value; see README
   api_key:
     secure: bwyAXK5e0qA8FAXFFIQvXT7rCkseSBB46U79eS3mQ8r0cp112ra8MyvSzHTYUdmAAjtpk5BxoXK21kwA1G4GGYuEHVkNQVMI8bKNPt47ubc7ugrJmLHMyb0iVswx471CDEiAllRIZm8As18FcS8ItfP4THak/mD5JjBMgwzyK0GxAEQqkebJDq5xxTPwv8c9M9AJqAuSOatJYX225tKCmQaLtZXdYZC6cr0BDbTUFPsJvSTFUS1AsfWRylh/qYrsBIjqS8RK+i1SCOWnlYAlCKAZl9FKNBNHvJwbIBjmkptCj4/fTaCZ1qN/A3nuY/jLpiBQHHLRPcN8YL1HGFswT7FXvgRPaMEVLrF02fmEaCu/1bvAIrVemM/FqvV+fhb4f9u8wQwT38pvmJCKCbm3mTcX+mAkjvltefn8Seug8ShMSaYi+rR/YO1vMJssR3nncg6bT06cebu6KHTD9JBdas4kMWmKJVOX5mrp++BqnTIAC1TCktaxwZ41zpHqeUGq92WnTPpfNQE8fDJ1Ey677oKnijLznAZOEqW1heeda+wu0wer7oyUoRfdXW5RKtkz8ZoKg0Ag8Xu5q8C0A3gnKyebuKkJANO8UMOVkTkx2KuRrOeSELHtMJAUluz4PTWT8hVpp/R7J6e9DwB35bYQjVCipB437kGMoJbGpfyKgDw=

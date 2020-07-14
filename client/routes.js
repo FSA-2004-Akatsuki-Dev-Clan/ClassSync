@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {Signup, Session, TeacherDash, SingleStudent} from './components'
+import {
+  Signup,
+  Session,
+  TeacherDash,
+  SingleStudent,
+  HomePage
+} from './components'
 import {Login} from './components/login-form'
 import {me} from './store'
 
@@ -18,6 +24,7 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route path="/homepage" component={HomePage} />
         {!isLoggedIn && (
           <Switch>
             <Route path="/login" component={Login} />
