@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import store from '../store'
+import store, {setLive} from '../store'
 
 const openSocket = monitorTimeout => {
   let socket = io(window.location.origin, {'force new connection': true})
@@ -19,6 +19,7 @@ const openSocket = monitorTimeout => {
 
     socket.on('rejoin', () => {
       console.log('Reconnected to live session')
+      store.dispatch(setLive(true))
     })
 
     socket.on('error', err => {

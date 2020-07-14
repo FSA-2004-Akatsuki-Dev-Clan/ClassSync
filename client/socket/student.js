@@ -1,5 +1,5 @@
 import openSocket from '.'
-import store, {setAssignment} from '../store'
+import store, {setAssignment, setLive} from '../store'
 import {loadFaceAPI, startMonitor, stopMonitor} from '../student-monitor'
 
 const initialData = {
@@ -43,11 +43,7 @@ const openStudentSocket = () => {
 
     await startMonitor(studentSocket, student)
 
-    // reveal the assignment
-    document.getElementById('is-Live').hidden = false
-
-    document.getElementById('session-message').innerHTML =
-      'The class session is live!'
+    store.dispatch(setLive(true))
 
     studentSocket.emit('accept', student, initialData)
   })
@@ -56,10 +52,7 @@ const openStudentSocket = () => {
   studentSocket.on('end-session', async () => {
     await stopMonitor()
 
-    document.getElementById('is-Live').hidden = true
-
-    document.getElementById('session-message').innerHTML =
-      'The teacher has ended the class session. Please wait for the next one to start.'
+    store.dispatch(setLive(false))
 
     window.alert('The class session has ended')
   })
@@ -69,7 +62,9 @@ const openStudentSocket = () => {
 
     await stopMonitor()
 
-    teacherSocket.disconnect(true)
+    store.dispatch(setLive(false))
+
+    studentSocket.disconnect(true)
   })
 
   //on disconnect while still logged in, attempt reconnection
@@ -78,6 +73,8 @@ const openStudentSocket = () => {
     if (store.getState().user.id) {
       monitorTimeout = setTimeout(() => {
         stopMonitor()
+
+        store.dispatch(setLive(false))
       }, 60000)
 
       console.log('attempting reconnect')

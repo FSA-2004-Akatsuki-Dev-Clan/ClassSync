@@ -3,7 +3,7 @@ import history from '../history'
 import store from '.'
 import openTeacherSocket from '../socket/teacher'
 import openStudentSocket from '../socket/student'
-import {resetSessionData, resetStudentData} from '.'
+import {resetSessionData, resetStudentData, setLive} from '.'
 
 let socket
 
@@ -19,12 +19,9 @@ export const startSession = async ({title, activityType, details, url}) => {
         details
       })
       const sessionId = data
-      console.log('session id', sessionId)
       socket.emit('start-session', sessionId, url)
 
-      document.getElementById('create-session').hidden = true
-      document.getElementById('end').hidden = false
-
+      store.dispatch(setLive(true))
       store.dispatch(resetSessionData())
       store.dispatch(resetStudentData())
     } catch (err) {
@@ -41,8 +38,7 @@ export const endSession = async () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     socket.emit('end-session')
 
-    document.getElementById('create-session').hidden = false
-    document.getElementById('end').hidden = true
+    store.dispatch(setLive(false))
 
     const reInvites = document.getElementById('re-invites')
 

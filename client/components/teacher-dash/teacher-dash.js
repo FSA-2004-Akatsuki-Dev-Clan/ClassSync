@@ -40,7 +40,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({form, liveSession}) => {
+const TeacherDash = ({form, createSession, liveSession, live}) => {
   const classes = myStyles()
 
   return (
@@ -48,37 +48,34 @@ const TeacherDash = ({form, liveSession}) => {
       <Grid item xs={12}>
         <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
         <div id="teacher-session">
-          {/* <h1>Hello! Your students await your tutelage</h1> */}
-
+          <h1>Hello! Your students await your tutelage</h1>
           <Grid item xs={12} className={classes.gridStyling}>
             <Grid item xs={12} sm={12}>
               <div id="start-end">
-                <div id="create-session">
-                  <SessionForm {...form} classes={classes} />
-                  <Button
-                    className={classes.buttonStyle}
-                    type="button"
-                    onClick={() => {
-                      startSession({
-                        title: 'test',
-                        activityType: 'test',
-                        details: 'test'
-                      })
-                    }}
-                  >
-                    Start Session
-                  </Button>
-                </div>
-                <div id="end" hidden={true}>
-                  <Button
-                    className={classes.buttonStyle}
-                    type="button"
-                    onClick={endSession}
-                  >
-                    End Session
-                  </Button>
-                </div>
-                <h3>Current Session Data Averages</h3>
+                {!live ? (
+                  <div id="create-session">
+                    {form.title && (
+                      <Button
+                        className={classes.buttonStyle}
+                        type="button"
+                        onClick={createSession}
+                      >
+                        Start Session
+                      </Button>
+                    )}
+                    <SessionForm {...form} classes={classes} />
+                  </div>
+                ) : (
+                  <div id="end">
+                    <Button
+                      className={classes.buttonStyle}
+                      type="button"
+                      onClick={endSession}
+                    >
+                      End Session
+                    </Button>
+                  </div>
+                )}
               </div>
               <h3 style={{textAlign: 'center'}}>
                 Current Session Data Averages
@@ -112,7 +109,8 @@ const TeacherDash = ({form, liveSession}) => {
 
 const mapState = state => {
   return {
-    liveSession: state.liveSession
+    liveSession: state.liveSession,
+    live: state.status.live
   }
 }
 
