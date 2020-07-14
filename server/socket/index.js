@@ -120,19 +120,21 @@ module.exports = io => {
       }, 15000)
     })
 
-    // accept message from student => their data on the session is initialized
+    // accept message from student => their data on the session is initialized if they are joining for the first time
     //if this is the first accept for the session, session data is also initialized
     socket.on('accept', (student, metrics) => {
-      studentData[student.id] = {
-        id: student.id,
-        socket: socket.id,
-        firstName: student.firstName,
-        lastName: student.lastName,
-        data: {}
-      }
-      if (!sessionData.rawTotals) {
-        sessionData.rawTotals = {...metrics}
-        sessionData.averages = {...metrics}
+      if (!studentData[student.id]) {
+        studentData[student.id] = {
+          id: student.id,
+          socket: socket.id,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          data: {}
+        }
+        if (!sessionData.rawTotals) {
+          sessionData.rawTotals = {...metrics}
+          sessionData.averages = {...metrics}
+        }
       }
     })
 
@@ -202,7 +204,7 @@ module.exports = io => {
 
       clearInterval(teacherTransmitInterval)
 
-      if (sessionData.rawTotals.faceDetects)
+      if (sessionData.rawTotals && sessionData.rawTotals.faceDetects)
         io.to(socket.id).emit('save-data', sessionData, studentData)
     })
   })

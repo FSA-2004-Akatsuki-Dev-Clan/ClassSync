@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
-import {Grid, Paper, Button, Container, Card, Divider} from '@material-ui/core'
+import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
-import HomeworkRow from './homework-row'
-import {StudentsCard} from './students-card'
-import {LiveSession, AllStudents} from '../'
+// import HomeworkRow from './homework-row'
+// import {StudentsCard} from './students-card'
+import {LiveSession, AllStudents, SessionForm} from '../'
 import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
@@ -40,14 +40,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({
-  title,
-  details,
-  url,
-  liveSession,
-  createSession,
-  handleChange
-}) => {
+const TeacherDash = ({form, liveSession}) => {
   const classes = myStyles()
 
   return (
@@ -61,50 +54,7 @@ const TeacherDash = ({
             <Grid item xs={12} sm={12}>
               <div id="start-end">
                 <div id="create-session">
-                  <form id="create-session" onSubmit={createSession}>
-                    <label htmlFor="title">
-                      Title:{' '}
-                      {title === '' && (
-                        <span>(Enter a title for the new session)</span>
-                      )}
-                    </label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={title}
-                      onChange={evt => handleChange(evt.target)}
-                    />
-                    <label htmlFor="activityType">Activity Type:</label>
-                    <select
-                      name="activityType"
-                      onChange={evt => handleChange(evt.target)}
-                    >
-                      <option value="writing">Writing</option>
-                      <option value="reading">Reading</option>
-                      <option value="discussion">Discussion</option>
-                    </select>
-                    <label htmlFor="details">Details:</label>
-                    <input
-                      type="text"
-                      name="details"
-                      value={details}
-                      onChange={evt => handleChange(evt.target)}
-                    />
-                    <label htmlFor="url">Assignment URL:</label>
-                    <input
-                      type="text"
-                      name="url"
-                      value={url}
-                      onChange={evt => handleChange(evt.target)}
-                    />
-                    <button
-                      type="submit"
-                      className={classes.buttonStyle}
-                      disabled={title === ''}
-                    >
-                      Start Session
-                    </button>
-                  </form>
+                  <SessionForm {...form} classes={classes} />
                   {/* <Button
                     className={classes.buttonStyle}
                     type="button"
