@@ -35,8 +35,8 @@ let image = document.createElement('img')
 let imageCapture
 
 //tinyFaceDetector model library is less accurate but faster and more optimized for mobile/web
-export const loadFaceAPI = async () =>
-  await faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
+export const loadFaceAPI = () =>
+  faceapi.nets.ssdMobilenetv1.loadFromUri('../models')
 //const loadFaceAPI = () => faceapi.nets.tinyFaceDetector.loadFromUri('../models')
 
 const detectFace = async () => {
@@ -105,14 +105,14 @@ export const startMonitor = async (studentSocket, student) => {
       mediaStream = mediaStreamObj
 
       //The video track is isolated
-      let video = await mediaStreamObj.getVideoTracks()[0]
+      let video = mediaStreamObj.getVideoTracks()[0]
 
       //the ImageCapture interface is instantiated
       imageCapture = new ImageCapture(video)
 
       //speech recognition interface starts listening to the microphone
       if (!listening) {
-        await recognition.start()
+        recognition.start()
         console.log('listening for speech')
         listening = true
       }
@@ -148,16 +148,16 @@ export const stopMonitor = async () => {
 
   if (mediaStream) {
     mediaStream.getAudioTracks().forEach(async track => {
-      await track.stop()
+      track.stop()
     })
 
     mediaStream.getVideoTracks().forEach(async track => {
-      await track.stop()
+      track.stop()
     })
   }
 
   if (listening) {
-    await recognition.stop()
+    recognition.stop()
     listening = false
   }
 
