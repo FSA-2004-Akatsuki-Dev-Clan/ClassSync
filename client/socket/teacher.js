@@ -85,7 +85,7 @@ const openTeacherSocket = () => {
 
   //on disconnect while still logged in, attempt reconnection
   teacherSocket.on('disconnect', () => {
-    console.log('teacher disconnect')
+    console.log('disconnect')
 
     store.dispatch(setLive(false))
 

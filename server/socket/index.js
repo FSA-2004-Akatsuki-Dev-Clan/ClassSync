@@ -7,15 +7,6 @@ let logouts = {}
 let teacherTransmitInterval
 let dataTimeout
 
-//end message from teacher => end message is sent to students, data message interval is cleared
-//session data is transmitted to the teacher client for axios save requests
-const endSession = teacherSocket => {
-  teacherSocket.broadcast.emit('end-session')
-  live = false
-
-  clearInterval(teacherTransmitInterval)
-}
-
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
@@ -51,13 +42,16 @@ module.exports = io => {
 
     //on user logout => if teacher, end the session; if student, inform the teacher; close socket
     socket.on('logout', user => {
-      console.log('logout')
-
       if (user.id === teacher.id) {
         console.log(`The teacher logged out`)
         teacher.logout = true
 
-        if (live) endSession(socket)
+        if (live) {
+          socket.broadcast.emit('end-session')
+          live = false
+
+          clearInterval(teacherTransmitInterval)
+        }
       } else if (studentData[user.id]) {
         console.log(`Student ${user.id} logged out`)
         logouts[user.id] = true
@@ -70,15 +64,16 @@ module.exports = io => {
     //On socket disconnect without having logged out, identify whether student or teacher =>
     //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
     socket.on('disconnect', () => {
-      console.log('disconnect')
-
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
         //if the teacher disconnects, we set a timeout that will end data transmission
         if (live)
           dataTimeout = setTimeout(() => {
-            endSession(socket)
+            socket.broadcast.emit('end-session')
+            live = false
+
+            clearInterval(teacherTransmitInterval)
           }, 60000)
       } else if (live) {
         for (let studentId in studentData) {
@@ -198,8 +193,13 @@ module.exports = io => {
       }
     })
 
+    //end message from teacher => end message is sent to students, data message interval is cleared
+    //session data is transmitted to the teacher client for axios save requests
     socket.on('end-session', () => {
-      endSession(socket)
+      socket.broadcast.emit('end-session')
+      live = false
+
+      clearInterval(teacherTransmitInterval)
 
       if (sessionData.rawTotals && sessionData.rawTotals.faceDetects)
         io.to(socket.id).emit('save-data', sessionData, studentData)

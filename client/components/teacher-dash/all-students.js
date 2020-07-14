@@ -53,13 +53,14 @@ class AllStudents extends React.Component {
         ) : (
           <div>
             {liveStudents.map(student => (
-              <div
-                key={student.id}
-                onClick={() => this.setState({selectedStudentId: student.id})}
-              >
+              <div key={student.id}>
                 <Grid item xs={2}>
                   <Card maxWidth="345px">
-                    <CardActionArea>
+                    <CardActionArea
+                      onClick={() =>
+                        this.setState({selectedStudentId: student.id})
+                      }
+                    >
                       <img
                         src="../../default-profile-pic.jpg"
                         height="150px"
@@ -83,8 +84,6 @@ class AllStudents extends React.Component {
                     </CardActionArea>
                   </Card>
                 </Grid>
-                <h3>{student.firstName || 'New Student'}</h3>
-                <h3>{student.lastName}</h3>
               </div>
             ))}
           </div>

@@ -13,9 +13,9 @@ const SessionForm = ({title, details, url, handleChange}) => (
     />
     <label htmlFor="activityType">Activity Type:</label>
     <select name="activityType" onChange={evt => handleChange(evt.target)}>
+      <option value="discussion">Discussion</option>
       <option value="writing">Writing</option>
       <option value="reading">Reading</option>
-      <option value="discussion">Discussion</option>
     </select>
     <label htmlFor="details">Details:</label>
     <input
