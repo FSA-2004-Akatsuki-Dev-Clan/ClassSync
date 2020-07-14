@@ -6,7 +6,7 @@ const SessionForm = ({
   url,
   handleChange,
   createSession,
-  classes
+  classes,
 }) => (
   <form id="create-session" onSubmit={createSession}>
     {title && (
@@ -23,10 +23,10 @@ const SessionForm = ({
         type="text"
         name="title"
         value={title}
-        onChange={evt => handleChange(evt.target)}
+        onChange={(evt) => handleChange(evt.target)}
       />
       <label htmlFor="activityType">Activity Type:</label>
-      <select name="activityType" onChange={evt => handleChange(evt.target)}>
+      <select name="activityType" onChange={(evt) => handleChange(evt.target)}>
         <option value="writing">Writing</option>
         <option value="reading">Reading</option>
         <option value="discussion">Discussion</option>
@@ -36,14 +36,14 @@ const SessionForm = ({
         type="text"
         name="details"
         value={details}
-        onChange={evt => handleChange(evt.target)}
+        onChange={(evt) => handleChange(evt.target)}
       />
       <label htmlFor="url">Assignment URL:</label>
       <input
         type="text"
         name="url"
         value={url}
-        onChange={evt => handleChange(evt.target)}
+        onChange={(evt) => handleChange(evt.target)}
       />
     </div>
   </form>

@@ -10,7 +10,7 @@ class Session extends React.Component {
       title: '',
       activityType: 'discussion',
       details: '',
-      url: ''
+      url: '',
     }
     this.createSession = this.createSession.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -25,7 +25,7 @@ class Session extends React.Component {
         form={{
           ...this.state,
           handleChange: this.handleChange,
-          createSession: this.createSession
+          createSession: this.createSession,
         }}
       />
     ) : (
@@ -44,16 +44,16 @@ class Session extends React.Component {
       title: this.state.title,
       activityType: this.state.activityType,
       details: this.state.details,
-      url: this.state.url
+      url: this.state.url,
     })
 
     this.setState({title: '', activityType: 'discussion', details: '', url: ''})
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 

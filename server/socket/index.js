@@ -115,7 +115,7 @@ module.exports = io => {
           .to(teacher.socket)
           .emit(
             'session-data',
-            Math.floor(Date.now() / 60000),
+            Math.floor(Date.now() / 6000000) / 100,
             sessionData,
             studentData
           )
