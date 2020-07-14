@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 const StudentSession = ({student, status}) => (
   <div id="student-session">
     <h1 id="session-message">
-      {live
+      {status.live
         ? 'The class session is live!'
         : 'Please await class session start by the teacher'}
     </h1>
@@ -13,9 +13,8 @@ const StudentSession = ({student, status}) => (
       <div id="is-Live">
         <Iframe
           url={
-            status.url.length
-              ? status.url
-              : 'https://docs.google.com/forms/d/e/1FAIpQLSfOzBcCZd61vHVLGe_f9BlOnWrILPx6G_dT9Ahz3fOE5ikUCQ/viewform?usp=sf_link'
+            status.url ||
+            'https://docs.google.com/forms/d/e/1FAIpQLSfOzBcCZd61vHVLGe_f9BlOnWrILPx6G_dT9Ahz3fOE5ikUCQ/viewform?usp=sf_link'
           }
           SameSite="None"
           Secure
