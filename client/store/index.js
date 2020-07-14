@@ -7,13 +7,15 @@ import liveStudents from './liveStudents'
 import liveSession from './liveSession'
 import studentReducer from './students'
 import singleStudentReducer from './single-student'
+import assignment from './assignment'
 
 export const reducer = combineReducers({
   user,
   students: studentReducer,
   student: singleStudentReducer,
   liveStudents,
-  liveSession
+  liveSession,
+  assignment
 })
 
 const middleware = composeWithDevTools(
@@ -26,3 +28,4 @@ export * from './user'
 export * from './liveStudents'
 export * from './liveSession'
 export * from './students'
+export * from './assignment'

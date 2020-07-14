@@ -22,9 +22,11 @@ class Session extends React.Component {
     return user.isTeacher ? (
       <TeacherDash
         teacher={user}
-        {...this.state}
-        handleChange={this.handleChange}
-        createSession={this.createSession}
+        form={{
+          ...this.state,
+          handleChange: this.handleChange,
+          createSession: this.createSession
+        }}
       />
     ) : (
       <StudentSession student={user} />

@@ -67,8 +67,9 @@ class AllStudents extends React.Component {
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                          {`${student.firstName} ${student.lastName}` ||
-                            'New Student'}
+                          {`${student.firstName || 'New'} ${
+                            student.lastName
+                          }` || 'Student'}
                         </Typography>
                         <Typography
                           variant="body2"

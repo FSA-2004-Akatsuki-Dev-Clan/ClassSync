@@ -1,5 +1,5 @@
 import openSocket from '.'
-import store from '../store'
+import store, {setAssignment} from '../store'
 import {loadFaceAPI, startMonitor, stopMonitor} from '../student-monitor'
 
 const initialData = {
@@ -19,9 +19,6 @@ const openStudentSocket = () => {
   studentSocket.on('start-session', async url => {
     const student = store.getState().user
 
-    //load in the assignment
-    if (url) document.getElementById('student-assignment').url = url
-
     if (
       !window.confirm(
         'Your teacher has started a live session. This will access your video and audio streams.'
@@ -35,6 +32,9 @@ const openStudentSocket = () => {
       )
       return
     }
+
+    //load in the assignment
+    store.dispatch(setAssignment(url))
 
     //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
     await loadFaceAPI()
@@ -76,8 +76,8 @@ const openStudentSocket = () => {
   studentSocket.on('disconnect', () => {
     console.log('student disconnect')
     if (store.getState().user.id) {
-      monitorTimeout = setTimeout(async () => {
-        await stopMonitor()
+      monitorTimeout = setTimeout(() => {
+        stopMonitor()
       }, 60000)
 
       console.log('attempting reconnect')
