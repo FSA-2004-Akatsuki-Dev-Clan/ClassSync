@@ -55,19 +55,19 @@ const TeacherDash = ({form, liveSession}) => {
               <div id="start-end">
                 <div id="create-session">
                   <SessionForm {...form} classes={classes} />
-                  {/* <Button
+                  <Button
                     className={classes.buttonStyle}
                     type="button"
                     onClick={() => {
                       startSession({
                         title: 'test',
                         activityType: 'test',
-                        details: 'test',
+                        details: 'test'
                       })
                     }}
                   >
                     Start Session
-                  </Button> */}
+                  </Button>
                 </div>
                 <div id="end" hidden={true}>
                   <Button
@@ -78,6 +78,7 @@ const TeacherDash = ({form, liveSession}) => {
                     End Session
                   </Button>
                 </div>
+                <h3>Current Session Data Averages</h3>
               </div>
               <h3 style={{textAlign: 'center'}}>
                 Current Session Data Averages
