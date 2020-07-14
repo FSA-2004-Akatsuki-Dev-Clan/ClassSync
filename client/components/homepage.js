@@ -8,14 +8,15 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-export const HomePage = () => {
+const HomePage = () => {
   const classes = myStyles()
 
   return (
     <div>
-      <h1>Hello</h1>
+      <h1>Hello World</h1>
       <Grid item xs={12} container direction="row">
         <Grid>
+          O
           <div>
             <img src="../../public/class-sync-homepage.jpg" height="1000px" />
           </div>
@@ -24,3 +25,5 @@ export const HomePage = () => {
     </div>
   )
 }
+
+export default HomePage
