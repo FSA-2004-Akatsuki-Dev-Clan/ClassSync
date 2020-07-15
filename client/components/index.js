@@ -5,6 +5,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as Session} from './session'
+export {default as HistoricalSession} from './historical-session'
 export {default as StudentSession} from './student-session'
 export {default as AllStudents} from './teacher-dash/all-students'
 export {default as TeacherDash} from './teacher-dash/teacher-dash'

@@ -39,46 +39,46 @@ const Student = db.define('students', {
     type: Sequelize.STRING
   },
   faceCountAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceCountAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceCountAvg')
+    // }
   },
   faceAttemptAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceAttemptAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceAttemptAvg')
+    // }
   },
   faceScoreAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceScoreAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceScoreAvg')
+    // }
   },
   wordsSpokenAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('wordsSpokenAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('wordsSpokenAvg')
+    // }
   },
   mouseClickAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('mouseClickAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('mouseClickAvg')
+    // }
   },
   keyStrokeAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('keyStrokeAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('keyStrokeAvg')
+    // }
   },
   numberOfSessions: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('numberOfSessions')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('numberOfSessions')
+    // }
   }
 })
 

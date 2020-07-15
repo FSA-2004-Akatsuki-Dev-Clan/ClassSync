@@ -25,6 +25,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route path="/homepage" component={HomePage} />
+
         {!isLoggedIn && (
           <Switch>
             <Route path="/login" component={Login} />

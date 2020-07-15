@@ -31,9 +31,9 @@ class AllStudents extends React.Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.props.getStudents()
-  // }
+  componentDidMount() {
+    this.props.getStudents()
+  }
 
   render() {
     const {liveStudents, liveSession} = this.props
@@ -95,16 +95,16 @@ class AllStudents extends React.Component {
 
 const mapState = state => {
   return {
-    // students: state.students,
+    students: state.students,
     liveStudents: state.liveStudents,
     liveSession: state.liveSession
   }
 }
 
-// const mapDispatch = (dispatch) => {
-//   return {
-//     getStudents: () => dispatch(fetchStudents()),
-//   }
-// }
+const mapDispatch = dispatch => {
+  return {
+    getStudents: () => dispatch(fetchStudents())
+  }
+}
 
-export default connect(mapState)(AllStudents)
+export default connect(mapState, mapDispatch)(AllStudents)
