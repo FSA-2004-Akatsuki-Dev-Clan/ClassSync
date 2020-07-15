@@ -67,7 +67,7 @@ const HomePage = () => {
               <Button
                 variant="contained"
                 color="#a2c221"
-                startIcon={<Avatar src="/signin.png" href="/login" />}
+                startIcon={<Avatar src="/SignIn.png" href="/login" />}
               >
                 SIGN IN
               </Button>
@@ -76,14 +76,14 @@ const HomePage = () => {
               <Button
                 variant="contained"
                 color="a2c221"
-                startIcon={<Avatar src="/signup.png" />}
+                startIcon={<Avatar src="/SignUp.png" />}
               >
                 SIGN UP
               </Button>
             </Link>
           </ButtonGroup>
         </div>
-        <h1 className={classes.h1}>Imagine a software...</h1>
+        <h1 className={classes.h1}>Imagine a piece of software...</h1>
       </Grid>
       &nbsp;
       <Grid container spacing={3} direction="row">

@@ -49,9 +49,12 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
       <div className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <a href="/session">
+            <Link
+              className={classes.link}
+              to={isLoggedIn ? '/session' : '/homepage'}
+            >
               <img src="../../classsync-logo.png" height="50px" />
-            </a>
+            </Link>
             <nav>
               {isLoggedIn ? (
                 <div>

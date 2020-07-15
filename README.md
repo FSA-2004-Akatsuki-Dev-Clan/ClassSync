@@ -1,15 +1,6 @@
 # ClassSync: An e-Learning Engagement Suite for Remote K-12 Classrooms
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 https://Classsync.herokuapp.com
-=======
-https://Classsync.herokuapp.com 
->>>>>>> master
-=======
-
-https://Classsync.herokuapp.com
->>>>>>> master
 
 Goal: To provide educators a web-based tool for tracking actionable data on students’ activity and habits during live classroom sessions and home assignments.
 
