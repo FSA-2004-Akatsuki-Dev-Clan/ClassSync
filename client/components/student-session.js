@@ -1,6 +1,20 @@
 import React from 'react'
 import Iframe from 'react-iframe'
 import {connect} from 'react-redux'
+// import {} from '@material-ui/core'
+import {makeStyles} from '@material-ui/styles'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    zeroMinWidth: true,
+    backgroundColor: '#f8fcd9'
+  },
+  h1: {
+    textAlign: 'center',
+    color: '#393a34'
+  }
+}))
 
 const StudentSession = ({student, status}) => (
   <div id="student-session">
