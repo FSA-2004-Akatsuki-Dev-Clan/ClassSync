@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
+  appBar: {
+    backgroundColor: '#63621f'
+  },
   menuButton: {
     marginRight: theme.spacing(2)
   },
@@ -22,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   link: {
-    color: 'red',
+    color: '#01b8b6',
     fontSize: '0.9rem',
     fontFamily: 'Montserrat'
   },
@@ -45,7 +48,7 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar position="static" color="white">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <a href="/session">
               <img src="../../ClassSync-Logo.png" height="50px" />

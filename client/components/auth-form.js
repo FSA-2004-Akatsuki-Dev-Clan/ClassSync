@@ -49,13 +49,19 @@ const useStyles = makeStyles(theme => ({
   },
   buttonStyle: {
     marginTop: '10px',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
     borderRadius: 3,
     border: 0,
     color: 'white',
     height: 48,
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+  },
+  linkStyle: {
+    color: '#535415',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }))
 
@@ -175,7 +181,11 @@ const AuthForm = props => {
                 </Link>
               </Grid> */}
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link
+                  className={classes.linkStyle}
+                  href="/login"
+                  variant="body2"
+                >
                   {'Already have an account? Sign In'}
                 </Link>
               </Grid>
