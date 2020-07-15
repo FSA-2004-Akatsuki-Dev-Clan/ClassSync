@@ -21,12 +21,12 @@ module.exports = io => {
         teacher.socket = socket.id
         teacher.logout = false
         //this stops the timeout set to end data transmission after the teacher disconnects
-        clearTimeout(dataTimeout)
-      }
-
-      if (live) {
-        if (user.isTeacher) io.to(socket.id).emit('rejoin')
-        else if (studentData[user.id]) {
+        if (live) {
+          clearTimeout(dataTimeout)
+          io.to(socket.id).emit('rejoin')
+        }
+      } else if (live) {
+        if (studentData[user.id]) {
           studentData[user.id].socket = socket.id
           logouts[user.id] = false
           io.to(socket.id).emit('rejoin')
@@ -42,8 +42,6 @@ module.exports = io => {
 
     //on user logout => if teacher, end the session; if student, inform the teacher; close socket
     socket.on('logout', user => {
-      console.log('logout')
-
       if (user.id === teacher.id) {
         console.log(`The teacher logged out`)
         teacher.logout = true
@@ -66,18 +64,17 @@ module.exports = io => {
     //On socket disconnect without having logged out, identify whether student or teacher =>
     //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
     socket.on('disconnect', () => {
-      console.log('disconnect')
-
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
         //if the teacher disconnects, we set a timeout that will end data transmission
-        dataTimeout = setTimeout(() => {
-          socket.broadcast.emit('end-session')
-          live = false
+        if (live)
+          dataTimeout = setTimeout(() => {
+            socket.broadcast.emit('end-session')
+            live = false
 
-          clearInterval(teacherTransmitInterval)
-        }, 15000)
+            clearInterval(teacherTransmitInterval)
+          }, 60000)
       } else if (live) {
         for (let studentId in studentData) {
           if (socket.id === studentData[studentId].socket) {
@@ -85,11 +82,15 @@ module.exports = io => {
               console.log(
                 `Student ${studentId} disconnected from socket ${socket.id}`
               )
-              io.to(teacher.socket).emit('student-disconnect', {
-                id: studentId,
-                firstName: studentData[studentId].firstName,
-                lastName: studentData[studentId].lastName
-              })
+              io.to(teacher.socket).emit(
+                'student-disconnect',
+                {
+                  id: studentId,
+                  firstName: studentData[studentId].firstName,
+                  lastName: studentData[studentId].lastName
+                },
+                socket.id
+              )
               return
             } else console.log(`student disconnected from socket ${socket.id}`)
           }
@@ -113,7 +114,7 @@ module.exports = io => {
           .to(teacher.socket)
           .emit(
             'session-data',
-            Math.floor(Date.now() / 60000),
+            Math.floor(Date.now() / 600) / 100,
             sessionData,
             studentData
           )

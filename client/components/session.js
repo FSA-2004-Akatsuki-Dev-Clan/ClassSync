@@ -24,9 +24,9 @@ class Session extends React.Component {
         teacher={user}
         form={{
           ...this.state,
-          handleChange: this.handleChange,
-          createSession: this.createSession
+          handleChange: this.handleChange
         }}
+        createSession={this.createSession}
       />
     ) : (
       <StudentSession student={user} />
@@ -46,6 +46,8 @@ class Session extends React.Component {
       details: this.state.details,
       url: this.state.url
     })
+
+    this.setState({title: '', activityType: 'discussion', details: '', url: ''})
   }
 }
 

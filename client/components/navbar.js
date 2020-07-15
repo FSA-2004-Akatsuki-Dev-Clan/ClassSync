@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
@@ -51,7 +50,7 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <a href="/session">
-              <img src="../../ClassSync-Logo.png" height="50px" />
+              <img src="../../classsync-logo.png" height="50px" />
             </a>
             <nav>
               {isLoggedIn ? (
@@ -136,11 +135,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
-
-/**
- * PROP TYPES
- */
-Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}

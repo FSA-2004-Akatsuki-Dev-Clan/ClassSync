@@ -37,6 +37,19 @@ const sessionSeed = [
     sessClickTot: 1050,
     sessKeyStrokeTot: 7500,
     numOfStudents: 30
+  },
+  {
+    title: 'Algorithms',
+    activityType: 'group-work',
+    details: 'manipulate a string',
+    comment: 'coding 201',
+    sessFaceCountTot: 2910,
+    sessFaceAttemptTot: 3950,
+    sessFaceScore: 2190,
+    sessWordsSpokenTot: 10200,
+    sessClickTot: 1350,
+    sessKeyStrokeTot: 9700,
+    numOfStudents: 30
   }
 ]
 

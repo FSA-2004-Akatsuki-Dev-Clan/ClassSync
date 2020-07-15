@@ -3,7 +3,7 @@ import history from '../history'
 import store from '.'
 import openTeacherSocket from '../socket/teacher'
 import openStudentSocket from '../socket/student'
-import {resetSessionData, resetStudentData} from '.'
+import {resetSessionData, resetStudentData, setLive, setTitle} from '.'
 
 let socket
 
@@ -19,12 +19,10 @@ export const startSession = async ({title, activityType, details, url}) => {
         details
       })
       const sessionId = data
-      console.log('session id', sessionId)
       socket.emit('start-session', sessionId, url)
 
-      document.getElementById('create-session').hidden = true
-      document.getElementById('end').hidden = false
-
+      store.dispatch(setLive(true))
+      store.dispatch(setTitle(title))
       store.dispatch(resetSessionData())
       store.dispatch(resetStudentData())
     } catch (err) {
@@ -41,8 +39,7 @@ export const endSession = async () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     socket.emit('end-session')
 
-    document.getElementById('create-session').hidden = false
-    document.getElementById('end').hidden = true
+    store.dispatch(setLive(false))
 
     const reInvites = document.getElementById('re-invites')
 
@@ -132,13 +129,13 @@ export const auth = (
 
 export const logout = () => async dispatch => {
   try {
-    const user = await axios.post('/auth/logout')
+    const res = await axios.post('/auth/logout')
     dispatch(removeUser())
 
     //On logout, send logout message to the server
     do {
       let user = store.getState().user
-      if (!user.id && socket) socket.emit('logout', user)
+      if (!user.id && socket) socket.emit('logout', res.data)
     } while (user.id)
 
     history.push('/')
