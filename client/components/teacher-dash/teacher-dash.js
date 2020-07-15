@@ -40,7 +40,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({form, createSession, liveSession, live}) => {
+const TeacherDash = ({form, createSession, liveSession, live, title}) => {
   const classes = myStyles()
 
   return (
@@ -48,22 +48,26 @@ const TeacherDash = ({form, createSession, liveSession, live}) => {
       <Grid item xs={12}>
         <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
         <div id="teacher-session">
-          <h1>Hello! Your students await your tutelage</h1>
           <Grid item xs={12} className={classes.gridStyling}>
             <Grid item xs={12} sm={12}>
               <div id="start-end">
                 {!live ? (
-                  <div id="create-session">
-                    {form.title && (
-                      <Button
-                        className={classes.buttonStyle}
-                        type="button"
-                        onClick={createSession}
-                      >
-                        Start Session
-                      </Button>
-                    )}
-                    <SessionForm {...form} classes={classes} />
+                  <div>
+                    <h3>
+                      Enter an activity title in order to start a new session
+                    </h3>
+                    <div id="create-session">
+                      {form.title && (
+                        <Button
+                          className={classes.buttonStyle}
+                          type="button"
+                          onClick={createSession}
+                        >
+                          Start Session
+                        </Button>
+                      )}
+                      <SessionForm {...form} classes={classes} />
+                    </div>
                   </div>
                 ) : (
                   <div id="end">
@@ -77,14 +81,12 @@ const TeacherDash = ({form, createSession, liveSession, live}) => {
                   </div>
                 )}
               </div>
-              <h3 style={{textAlign: 'center'}}>
-                Current Session Data Averages
-              </h3>
               <div id="re-invites"> </div>
             </Grid>
-            <Grid item xs={12} container direction="row">
+            {/* <Grid item xs={12} container direction="row">
               &nbsp;
-            </Grid>
+            </Grid> */}
+            {live && <h1>{title}</h1>}
             <Grid container item xs={12}>
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
@@ -110,7 +112,8 @@ const TeacherDash = ({form, createSession, liveSession, live}) => {
 const mapState = state => {
   return {
     liveSession: state.liveSession,
-    live: state.status.live
+    live: state.status.live,
+    title: state.status.title
   }
 }
 
