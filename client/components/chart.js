@@ -53,19 +53,19 @@ export default class Chart extends React.Component {
           label: [this.state.metric],
           data: data.times
             ? data.times.map(time => time[this.state.metric])
-            : [],
-          backgroundColor: ['rgb(170, 120, 250, .2)'],
-          fontColor: 'rgb(170, 120, 250)'
+            : [50, 100, 150, 200, 250],
+          backgroundColor: ['rgb(13, 221, 220, .2)'],
+          fontColor: 'rgb(13, 221, 220)'
         }
       ]
     }
 
-    // chartData.datasets.push({
-    //   label: ['Class Average'],
-    //   data: [50, 170, 140, 120, 50],
-    //   backgroundColor: ['rgb(180, 250, 120, .2)'],
-    //   fontColor: 'rgb(180, 250, 120)',
-    // })
+    chartData.datasets.push({
+      label: ['Class Average'],
+      data: [50, 170, 140, 120, 50],
+      backgroundColor: ['rgb(208, 226, 101, .2)'],
+      fontColor: 'rgb(208, 226, 101)'
+    })
 
     if (compare) {
       chartData.datasets.push({
@@ -73,8 +73,8 @@ export default class Chart extends React.Component {
         data: compare.times
           ? compare.times.map(time => time[this.state.metric])
           : [],
-        backgroundColor: ['rgb(180, 250, 120, .2)'],
-        fontColor: 'rgb(180, 250, 120)'
+        backgroundColor: ['rgb(208, 226, 101, .2)'],
+        fontColor: 'rgb(208, 226, 101)'
       })
     }
 
