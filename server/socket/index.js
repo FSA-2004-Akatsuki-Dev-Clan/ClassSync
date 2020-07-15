@@ -82,11 +82,15 @@ module.exports = io => {
               console.log(
                 `Student ${studentId} disconnected from socket ${socket.id}`
               )
-              io.to(teacher.socket).emit('student-disconnect', {
-                id: studentId,
-                firstName: studentData[studentId].firstName,
-                lastName: studentData[studentId].lastName
-              })
+              io.to(teacher.socket).emit(
+                'student-disconnect',
+                {
+                  id: studentId,
+                  firstName: studentData[studentId].firstName,
+                  lastName: studentData[studentId].lastName
+                },
+                socket.id
+              )
               return
             } else console.log(`student disconnected from socket ${socket.id}`)
           }
@@ -110,7 +114,7 @@ module.exports = io => {
           .to(teacher.socket)
           .emit(
             'session-data',
-            Math.floor(Date.now() / 6000000) / 100,
+            Math.floor(Date.now() / 600) / 100,
             sessionData,
             studentData
           )

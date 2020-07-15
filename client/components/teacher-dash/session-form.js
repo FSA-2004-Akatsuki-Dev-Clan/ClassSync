@@ -2,9 +2,7 @@ import React from 'react'
 
 const SessionForm = ({title, details, url, handleChange}) => (
   <div>
-    <label htmlFor="title">
-      Title: {title === '' && <span>(Enter a title for the new session)</span>}
-    </label>
+    <label htmlFor="title">Title:</label>
     <input
       type="text"
       name="title"
@@ -19,7 +17,7 @@ const SessionForm = ({title, details, url, handleChange}) => (
     </select>
     <label htmlFor="details">Details:</label>
     <input
-      type="text"
+      type="textarea"
       name="details"
       value={details}
       onChange={evt => handleChange(evt.target)}

@@ -3,7 +3,7 @@ import history from '../history'
 import store from '.'
 import openTeacherSocket from '../socket/teacher'
 import openStudentSocket from '../socket/student'
-import {resetSessionData, resetStudentData, setLive} from '.'
+import {resetSessionData, resetStudentData, setLive, setTitle} from '.'
 
 let socket
 
@@ -22,6 +22,7 @@ export const startSession = async ({title, activityType, details, url}) => {
       socket.emit('start-session', sessionId, url)
 
       store.dispatch(setLive(true))
+      store.dispatch(setTitle(title))
       store.dispatch(resetSessionData())
       store.dispatch(resetStudentData())
     } catch (err) {

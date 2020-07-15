@@ -57,9 +57,9 @@ const openTeacherSocket = () => {
 
   teacherSocket.on(
     'student-disconnect',
-    ({id, firstName, lastName}, socket) => {
+    ({id, firstName, lastName}, socketId) => {
       window.alert(
-        `Student ${firstName} ${lastName} disconnected, ID: ${id} socket: ${socket}`
+        `Student ${firstName} ${lastName} disconnected, ID: ${id} socket: ${socketId}`
       )
     }
   )
