@@ -6,7 +6,7 @@ export default class Chart extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'Face Score'
+      metric: 'Words Spoken'
     }
   }
 
@@ -88,8 +88,8 @@ export default class Chart extends React.Component {
           value={this.state.metric}
           onChange={evt => this.setState({metric: evt.target.value})}
         >
-          <option value="faceScore">Face Score</option>
           <option value="wordCount">Words Spoken</option>
+          <option value="faceScore">Face Score</option>
           <option value="keyCount">Key Presses</option>
           <option value="clickCount">Mouse Clicks</option>
         </select>

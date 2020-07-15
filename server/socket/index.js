@@ -82,11 +82,15 @@ module.exports = io => {
               console.log(
                 `Student ${studentId} disconnected from socket ${socket.id}`
               )
-              io.to(teacher.socket).emit('student-disconnect', {
-                id: studentId,
-                firstName: studentData[studentId].firstName,
-                lastName: studentData[studentId].lastName
-              })
+              io.to(teacher.socket).emit(
+                'student-disconnect',
+                {
+                  id: studentId,
+                  firstName: studentData[studentId].firstName,
+                  lastName: studentData[studentId].lastName
+                },
+                socket.id
+              )
               return
             } else console.log(`student disconnected from socket ${socket.id}`)
           }

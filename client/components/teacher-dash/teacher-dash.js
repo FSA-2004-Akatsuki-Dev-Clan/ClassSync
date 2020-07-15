@@ -48,10 +48,16 @@ const TeacherDash = ({form, createSession, liveSession, live}) => {
       <Grid item xs={12}>
         <h1 style={{textAlign: 'center'}}>DASHBOARD</h1>
         <div id="teacher-session">
-          <h1>Hello! Your students await your tutelage</h1>
           <Grid item xs={12} className={classes.gridStyling}>
             <Grid item xs={12} sm={12}>
               <div id="start-end">
+                {form.title ? (
+                  <h1>{form.title}</h1>
+                ) : (
+                  <h3>
+                    Enter an activity title in order to start a new session
+                  </h3>
+                )}
                 {!live ? (
                   <div id="create-session">
                     {form.title && (
@@ -77,9 +83,6 @@ const TeacherDash = ({form, createSession, liveSession, live}) => {
                   </div>
                 )}
               </div>
-              <h3 style={{textAlign: 'center'}}>
-                Current Session Data Averages
-              </h3>
               <div id="re-invites"> </div>
             </Grid>
             <Grid item xs={12} container direction="row">
