@@ -17,7 +17,7 @@ const SessionForm = ({title, details, url, handleChange}) => (
     </select>
     <label htmlFor="details">Details:</label>
     <input
-      type="text"
+      type="textarea"
       name="details"
       value={details}
       onChange={evt => handleChange(evt.target)}
