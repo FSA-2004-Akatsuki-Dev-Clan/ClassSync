@@ -45,7 +45,7 @@ const LiveSession = ({session}) => {
               </Grid>
             </Grid>
             <h1>{session.attendance || 0}</h1>
-            Totals Students in Attendance
+            Totals Students Transmitting Data
             <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid>
@@ -53,15 +53,13 @@ const LiveSession = ({session}) => {
               &nbsp;
             </Grid>
             <Grid item xs={12} container direction="row">
-              <Table data={session} />
+              {session !== {} && <Table data={session} />}
             </Grid>
           </Card>
         </Grid>
         <Grid>&nbsp; &nbsp; &nbsp; &nbsp;</Grid>
         <Grid item xs={5}>
-          <Card>
-            <Chart data={session} />
-          </Card>
+          <Card>{session !== {} && <Chart data={session} />}</Card>
         </Grid>
       </React.Fragment>
     </Grid>

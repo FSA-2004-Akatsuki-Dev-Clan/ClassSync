@@ -1,6 +1,7 @@
 import openSocket from '.'
-import store, {addStudentData, addSessionData} from '../store'
+import store, {addStudentData, addSessionData, setLive} from '../store'
 import axios from 'axios'
+
 const openTeacherSocket = () => {
   let teacherSocket = openSocket()
 
@@ -39,6 +40,7 @@ const openTeacherSocket = () => {
 
   teacherSocket.on('save-data', async (session, student) => {
     try {
+      student.sessionId = +session.id
       await axios.put(`api/session/save`, session)
       await axios.put('api/students/save', student)
     } catch (err) {
@@ -55,9 +57,9 @@ const openTeacherSocket = () => {
 
   teacherSocket.on(
     'student-disconnect',
-    ({id, firstName, lastName}, socket) => {
+    ({id, firstName, lastName}, socketId) => {
       window.alert(
-        `Student ${firstName} ${lastName} disconnected, ID: ${id} socket: ${socket}`
+        `Student ${firstName} ${lastName} disconnected, ID: ${id} socket: ${socketId}`
       )
     }
   )
@@ -76,12 +78,18 @@ const openTeacherSocket = () => {
 
   teacherSocket.on('logout', () => {
     console.log('logged out')
+
+    store.dispatch(setLive(false))
+
     teacherSocket.disconnect(true)
   })
 
   //on disconnect while still logged in, attempt reconnection
   teacherSocket.on('disconnect', () => {
-    console.log('teacher disconnect')
+    console.log('disconnect')
+
+    store.dispatch(setLive(false))
+
     if (store.getState().user.id) {
       console.log('attempting reconnect')
       teacherSocket = openSocket()

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
@@ -15,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
+  appBar: {
+    backgroundColor: '#63621f'
+  },
   menuButton: {
     marginRight: theme.spacing(2)
   },
@@ -22,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   link: {
-    color: 'red',
+    color: '#01b8b6',
     fontSize: '0.9rem',
     fontFamily: 'Montserrat'
   },
@@ -45,10 +47,10 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar position="static" color="white">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <a href="/session">
-              <img src="../../ClassSync-Logo.png" height="50px" />
+              <img src="../../classsync-logo.png" height="50px" />
             </a>
             <nav>
               {isLoggedIn ? (
@@ -133,11 +135,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
-
-/**
- * PROP TYPES
- */
-Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}

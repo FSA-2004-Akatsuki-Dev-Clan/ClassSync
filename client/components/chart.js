@@ -6,21 +6,21 @@ export default class Chart extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'Face Score'
+      metric: 'Words Spoken'
     }
   }
 
   render() {
-    const camelCase = str => {
-      return str
-        .replace(/\s(.)/g, function(a) {
-          return a.toUpperCase()
-        })
-        .replace(/\s/g, '')
-        .replace(/^(.)/, function(b) {
-          return b.toLowerCase()
-        })
-    }
+    // const camelCase = str => {
+    //   return str
+    //     .replace(/\s(.)/g, function(a) {
+    //       return a.toUpperCase()
+    //     })
+    //     .replace(/\s/g, '')
+    //     .replace(/^(.)/, function(b) {
+    //       return b.toLowerCase()
+    //     })
+    // }
 
     const {data, compare} = this.props
 
@@ -47,36 +47,34 @@ export default class Chart extends React.Component {
     }
 
     const chartData = {
-      labels: data.times
-        ? data.times.map(time => time.time - firstTime)
-        : [1, 2, 3, 4, 5],
+      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
       datasets: [
         {
           label: [this.state.metric],
           data: data.times
-            ? data.times.map(time => time[camelCase(this.state.metric)])
+            ? data.times.map(time => time[this.state.metric])
             : [],
-          backgroundColor: ['rgb(195, 190, 204)'],
-          fontColor: 'rgb(195, 190, 204)'
+          backgroundColor: ['rgb(170, 120, 250, .2)'],
+          fontColor: 'rgb(170, 120, 250)'
         }
       ]
     }
 
     // chartData.datasets.push({
     //   label: ['Class Average'],
-    //   data: [20, 40, 60, 80, 100],
-    //   backgroundColor: ['rgb(250, 240, 260, .2)'],
-    //   fontColor: 'rgb(215, 230, 240)'
+    //   data: [50, 170, 140, 120, 50],
+    //   backgroundColor: ['rgb(180, 250, 120, .2)'],
+    //   fontColor: 'rgb(180, 250, 120)',
     // })
 
     if (compare) {
       chartData.datasets.push({
         label: ['Class Average'],
         data: compare.times
-          ? compare.times.map(time => time[camelCase(this.state.metric)])
+          ? compare.times.map(time => time[this.state.metric])
           : [],
-        backgroundColor: ['rgb(250, 240, 260, .2)'],
-        fontColor: 'rgb(215, 230, 240)'
+        backgroundColor: ['rgb(180, 250, 120, .2)'],
+        fontColor: 'rgb(180, 250, 120)'
       })
     }
 
@@ -88,10 +86,10 @@ export default class Chart extends React.Component {
           value={this.state.metric}
           onChange={evt => this.setState({metric: evt.target.value})}
         >
-          <option value="faceScore">Face Score</option>
-          <option value="wordCount">Words Spoken</option>
-          <option value="keyCount">Key Presses</option>
-          <option value="clickCount">Mouse Clicks</option>
+          <option value="Word Count">Words Spoken</option>
+          <option value="Face Score">Face Score</option>
+          <option value="Key Count">Key Presses</option>
+          <option value="Click Count">Mouse Clicks</option>
         </select>
         <div className="chart">
           <Line
