@@ -9,6 +9,7 @@ import studentReducer from './students'
 import historicalSessReducer from '../store/historical-session'
 import singleStudentReducer from './single-student'
 import status from './status'
+import sessionReducer from './session'
 
 export const reducer = combineReducers({
   user,
@@ -17,7 +18,8 @@ export const reducer = combineReducers({
   liveStudents,
   liveSession,
   status,
-  studentSession: historicalSessReducer
+  studentSession: historicalSessReducer,
+  sessions: sessionReducer
 })
 
 const middleware = composeWithDevTools(

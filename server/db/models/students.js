@@ -99,30 +99,30 @@ Student.prototype.avgData = function({
   keyCount = 0
 }) {
   const faceCountAvg = Math.ceil(
-    (this.faceCountAvg() * this.numberOfSessions() + faceCount) /
-      (this.numberOfSessions() + 1)
+    (this.faceCountAvg * this.numberOfSessions + faceCount) /
+      (this.numberOfSessions + 1)
   )
   const faceAttemptAvg = Math.ceil(
-    (this.faceAttemptAvg() * this.numberOfSessions() + faceDetects) /
-      (this.numberOfSessions() + 1)
+    (this.faceAttemptAvg * this.numberOfSessions + faceDetects) /
+      (this.numberOfSessions + 1)
   )
   const faceScoreAvg = Math.ceil(
-    (this.faceScoreAvg() * this.numberOfSessions() + faceScore) /
-      (this.numberOfSessions() + 1)
+    (this.faceScoreAvg * this.numberOfSessions + faceScore) /
+      (this.numberOfSessions + 1)
   )
   const wordsSpokenAvg = Math.ceil(
-    (this.wordsSpokenAvg() * this.numberOfSessions() + wordCount) /
-      (this.numberOfSessions() + 1)
+    (this.wordsSpokenAvg * this.numberOfSessions + wordCount) /
+      (this.numberOfSessions + 1)
   )
   const mouseClickAvg = Math.ceil(
-    (this.mouseClickAvg() * this.numberOfSessions() + clickCount) /
-      (this.numberOfSessions() + 1)
+    (this.mouseClickAvg * this.numberOfSessions + clickCount) /
+      (this.numberOfSessions + 1)
   )
   const keyStrokeAvg = Math.ceil(
-    (this.keyStrokeAvg() * this.numberOfSessions() + keyCount) /
-      (this.numberOfSessions() + 1)
+    (this.keyStrokeAvg * this.numberOfSessions + keyCount) /
+      (this.numberOfSessions + 1)
   )
-  const numberOfSessions = this.numberOfSessions() + 1
+  const numberOfSessions = this.numberOfSessions + 1
   return {
     faceCountAvg,
     faceAttemptAvg,
