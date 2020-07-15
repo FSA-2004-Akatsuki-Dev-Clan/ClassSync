@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 
 const myStyles = makeStyles(theme => ({
-  grid: {
+  root: {
     flexGrow: 1,
     zeroMinWidth: true,
     backgroundColor: '#f8fcd9'
@@ -58,7 +58,7 @@ const HomePage = () => {
   const classes = myStyles()
 
   return (
-    <div className={classes.grid}>
+    <div className={classes.root}>
       <Grid item xs={12}>
         <div className={classes.imageButtons}>
           <img src="/class-sync-homepage.jpg" width="100%" height="auto" />
