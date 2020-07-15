@@ -47,7 +47,9 @@ export default class Chart extends React.Component {
     }
 
     const chartData = {
-      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
+      labels: data.times
+        ? data.times.map(time => time.time - firstTime)
+        : [1, 2, 3, 4, 5],
       datasets: [
         {
           label: [this.state.metric],
