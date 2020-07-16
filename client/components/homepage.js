@@ -1,5 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {logout} from '../store'
 import {makeStyles} from '@material-ui/core/styles'
 import {
   Grid,
@@ -54,34 +56,48 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const HomePage = () => {
+const HomePage = ({user, logout}) => {
   const classes = myStyles()
 
   return (
     <div className={classes.root}>
       <Grid item xs={12}>
+        <h2>Welcome to your classroom{user.id && `, ${user.firstName}`}!</h2>
         <div className={classes.imageButtons}>
           <img src="/class-sync-homepage.jpg" width="100%" height="auto" />
-          <ButtonGroup className={classes.buttons}>
-            <Link to="/login">
+          {user.id ? (
+            <ButtonGroup className={classes.buttons}>
               <Button
                 variant="contained"
                 color="#a2c221"
-                startIcon={<Avatar src="/SignIn.png" href="/login" />}
+                startIcon={<Avatar src="/LogOut.png" />}
+                onClick={logout}
               >
-                SIGN IN
+                Log Out
               </Button>
-            </Link>
-            <Link to="/signup">
-              <Button
-                variant="contained"
-                color="a2c221"
-                startIcon={<Avatar src="/SignUp.png" />}
-              >
-                SIGN UP
-              </Button>
-            </Link>
-          </ButtonGroup>
+            </ButtonGroup>
+          ) : (
+            <ButtonGroup className={classes.buttons}>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  color="#a2c221"
+                  startIcon={<Avatar src="/SignIn.png" href="/login" />}
+                >
+                  SIGN IN
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button
+                  variant="contained"
+                  color="a2c221"
+                  startIcon={<Avatar src="/SignUp.png" />}
+                >
+                  SIGN UP
+                </Button>
+              </Link>
+            </ButtonGroup>
+          )}
         </div>
         <h1 className={classes.h1}>Imagine a piece of software...</h1>
       </Grid>
@@ -136,4 +152,18 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    logout() {
+      dispatch(logout())
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(HomePage)
