@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
+const Navbar = ({handleClick, user}) => {
   const classes = useStyles()
   const [auth, setAuth] = React.useState(true)
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -53,20 +53,15 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
               <img src="../../classsync-logo.png" height="50px" />
             </Link>
             <nav>
-              {isLoggedIn ? (
+              {user.id ? (
                 <div>
                   {/* The navbar will show these links after you log in */}
                   <Link className={classes.link} to="/session">
-                    {isTeacher ? 'Dashboard' : 'Student Session'}
+                    {user.isTeacher ? 'Dashboard' : 'Student Session'}
                   </Link>
                   <a className={classes.link} href="#" onClick={handleClick}>
                     Logout
                   </a>
-                  {/* {isTeacher && (
-                       <a href="/session" target="_self">
-                         Dashboard
-                       </a>
-                     )} */}
                 </div>
               ) : (
                 <div>
@@ -90,23 +85,26 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
                 >
                   <AccountCircle />
                 </IconButton>
-                <Menu
+                {user.id && (
+                  <span>Welcome to your classroom, {user.firstName}!</span>
+                )}
+                {/* <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
                     vertical: 'top',
-                    horizontal: 'right'
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'right'
+                    horizontal: 'right',
                   }}
                   open={open}
                 >
                   <MenuItem>Profile</MenuItem>
                   <MenuItem>My account</MenuItem>
-                </Menu>
+                </Menu> */}
               </div>
             )}
           </Toolbar>
@@ -121,8 +119,7 @@ const Navbar = ({handleClick, isLoggedIn, isTeacher}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id,
-    isTeacher: state.user.isTeacher
+    user: state.user
   }
 }
 

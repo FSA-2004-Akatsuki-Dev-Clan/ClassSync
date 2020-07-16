@@ -62,7 +62,6 @@ const HomePage = ({user, logout}) => {
   return (
     <div className={classes.root}>
       <Grid item xs={12}>
-        <h2>Welcome to your classroom{user.id && `, ${user.firstName}`}!</h2>
         <div className={classes.imageButtons}>
           <img src="/class-sync-homepage.jpg" width="100%" height="auto" />
           {user.id ? (
