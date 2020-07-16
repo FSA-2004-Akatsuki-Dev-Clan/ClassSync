@@ -26,7 +26,7 @@ const sessionSeed = [
     numOfStudents: 30
   },
   {
-    title: 'coding',
+    title: 'Coding',
     activityType: 'group-work',
     details: 'how to console log hello world',
     comment: 'coding 101',
