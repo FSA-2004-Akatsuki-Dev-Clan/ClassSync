@@ -6,7 +6,7 @@ import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
 import {LiveSession, AllStudents, SessionForm} from '../'
-import {startSession, endSession} from '../../store/user'
+import {setModal, endSession} from '../../store/'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +40,14 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({form, createSession, liveSession, live, title}) => {
+const TeacherDash = ({
+  form,
+  createSession,
+  liveSession,
+  live,
+  title,
+  openTeacherStart
+}) => {
   const classes = myStyles()
 
   return (
@@ -53,18 +60,19 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
               <div id="start-end">
                 {!live ? (
                   <div>
-                    <h3>Enter an activity title to start a new session</h3>
+                    {/* <h3>Enter an activity title to start a new session</h3> */}
                     <div id="create-session">
-                      {form.title && (
-                        <Button
-                          className={classes.buttonStyle}
-                          type="button"
-                          onClick={createSession}
-                        >
-                          Start Session
-                        </Button>
-                      )}
-                      <SessionForm {...form} classes={classes} />
+                      {/* {form.title && ( */}
+                      <Button
+                        className={classes.buttonStyle}
+                        type="button"
+                        // onClick={createSession}
+                        onClick={openTeacherStart}
+                      >
+                        Start Session
+                      </Button>
+                      {/* )} */}
+                      {/* <SessionForm {...form} classes={classes} /> */}
                     </div>
                   </div>
                 ) : (
@@ -115,4 +123,12 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(TeacherDash)
+const mapDispatch = dispatch => {
+  return {
+    openTeacherStart() {
+      dispatch(setModal('teacherStart'))
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(TeacherDash)
