@@ -9,6 +9,9 @@ export {default as HistoricalSession} from './teacher-dash/historical-session'
 export {
   default as HistoricalSingleStudent
 } from './teacher-dash/historical-single-student'
+export {
+  default as HistoricalSingleStudentSession
+} from './teacher-dash/historical-single-student-session'
 export {default as StudentSession} from './student-session'
 export {default as AllStudents} from './teacher-dash/all-students'
 export {default as TeacherDash} from './teacher-dash/teacher-dash'

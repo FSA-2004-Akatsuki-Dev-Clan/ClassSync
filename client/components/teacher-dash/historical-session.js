@@ -18,16 +18,12 @@ class HistoricalSession extends React.Component {
     this.state = {
       selectedStudentId: null
     }
-    this.handleClick = this.handleClick.bind(this)
   }
 
   //   componentDidMount() {
   //     this.props.getStudents()
   //   }
 
-  handleClick(id) {
-    this.props.getStudentHis(id)
-  }
   render() {
     const {students} = this.props
 

@@ -5,8 +5,21 @@ import {fetchSession} from '../../store/session'
 import {fetchStudentSess} from '../../store/historical-session'
 import {BarGraph} from '../'
 import {session} from 'passport'
+import {Grid} from '@material-ui/core'
+import {HistoricalSingleStudentSession} from '../'
 
 class HistoricalSingleStudent extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      sessionId: null
+    }
+  }
+
+  // handleClick(id) {
+  //   this.props.getStudentHis(this.state.sessionId)
+  // }
+
   componentDidMount() {
     this.props.getSessions()
   }
@@ -41,6 +54,7 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.keyStrokeAvg,
       singleStudent.wordsSpokenAvg
     ]
+
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
@@ -52,8 +66,12 @@ class HistoricalSingleStudent extends React.Component {
             </div>
           ))}
         </div>
-        <BarGraph data={classAvg} student={singledatas} />
-        <SingleTable data={singleStudent} />
+        <Grid item xs={12} container direction="row">
+          <BarGraph data={classAvg} student={singledatas} />
+          <SingleTable data={singleStudent} />
+        </Grid>
+
+        <HistoricalSingleStudentSession studentId={studentId} />
       </div>
     )
   }
