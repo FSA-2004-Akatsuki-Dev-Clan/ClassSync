@@ -69,7 +69,7 @@ const TeacherDash = ({
                         // onClick={createSession}
                         onClick={openTeacherStart}
                       >
-                        Start Session
+                        Create New Session
                       </Button>
                       {/* )} */}
                       {/* <SessionForm {...form} classes={classes} /> */}

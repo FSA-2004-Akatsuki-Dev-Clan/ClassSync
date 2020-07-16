@@ -36,7 +36,7 @@ const customStyles = {
   }
 }
 
-const Modal = ({text, onOk, onCancel, cancelText, okText}) => {
+const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
   const classes = myStyles()
 
   return (
@@ -45,6 +45,9 @@ const Modal = ({text, onOk, onCancel, cancelText, okText}) => {
         <header>
           <h1>{text}</h1>
         </header>
+
+        {children}
+
         <Grid
           item
           xs={12}
@@ -52,30 +55,32 @@ const Modal = ({text, onOk, onCancel, cancelText, okText}) => {
           container
           direction="column"
         >
-          <Button
-            className={classes.buttonStyle}
-            type="button"
-            onClick={() => {
-              // onOk()
-              store.dispatch(setModal(null))
-            }}
-          >
-            {okText || 'OK'}
-          </Button>
-
-          {/* {onCancel && ( */}
-          <div>
+          {onOk && (
             <Button
+              className={classes.buttonStyle}
               type="button"
               onClick={() => {
-                // onCancel()
+                onOk()
                 store.dispatch(setModal(null))
               }}
             >
-              {cancelText || 'Cancel'}
+              {okText || 'OK'}
             </Button>
-          </div>
-          {/* )} */}
+          )}
+
+          {onCancel && (
+            <div>
+              <Button
+                type="button"
+                onClick={() => {
+                  onCancel()
+                  store.dispatch(setModal(null))
+                }}
+              >
+                {cancelText || 'Cancel'}
+              </Button>
+            </div>
+          )}
         </Grid>
       </div>
     </ReactModal>

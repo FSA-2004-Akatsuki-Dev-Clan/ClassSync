@@ -11,27 +11,27 @@ let socket
 
 //if confirmed, sends start message to server with teacher's ID and details for the session
 export const startSession = async ({title, activityType, details, url}) => {
-  if (window.confirm('Are you ready to start the session?')) {
-    try {
-      const {data} = await axios.post('/api/session', {
-        title,
-        activityType,
-        details
-      })
-      const sessionId = data
-      socket.emit('start-session', sessionId, url)
+  // if (window.confirm('Are you ready to start the session?')) {
+  try {
+    const {data} = await axios.post('/api/session', {
+      title,
+      activityType,
+      details
+    })
+    const sessionId = data
+    socket.emit('start-session', sessionId, url)
 
-      store.dispatch(setLive(true))
-      store.dispatch(setTitle(title))
-      store.dispatch(resetSessionData())
-      store.dispatch(resetStudentData())
-    } catch (err) {
-      console.log(
-        'There was a problem trying to create a new session in the database',
-        err
-      )
-    }
+    store.dispatch(setLive(true))
+    store.dispatch(setTitle(title))
+    store.dispatch(resetSessionData())
+    store.dispatch(resetStudentData())
+  } catch (err) {
+    console.log(
+      'There was a problem trying to create a new session in the database',
+      err
+    )
   }
+  // }
 }
 
 //if confirmed, sends message to server to end the session
