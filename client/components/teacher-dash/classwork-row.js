@@ -27,7 +27,7 @@ export default function ClassworkRow() {
     <React.Fragment>
       {classworkObject.assignmentName.map(assignment => {
         return (
-          <Grid item xs={3}>
+          <Grid item xs={3} key={assignment[11]}>
             <Paper
               className={myStyles().paper}
               // style={{background: 'linear-gradient(to right bottom, #00ff51, #94ffb6)'}}

@@ -82,7 +82,7 @@ export const me = () => async dispatch => {
           socket = user.isTeacher ? openTeacherSocket() : openStudentSocket()
       } while (!socket)
 
-      history.push('/session')
+      history.push(res.data ? '/session' : '/')
     }
   } catch (err) {
     console.error(err)
@@ -133,10 +133,7 @@ export const logout = () => async dispatch => {
     dispatch(removeUser())
 
     //On logout, send logout message to the server
-    do {
-      let user = store.getState().user
-      if (!user.id && socket) socket.emit('logout', res.data)
-    } while (user.id)
+    socket.emit('logout', res.data)
 
     history.push('/')
   } catch (err) {

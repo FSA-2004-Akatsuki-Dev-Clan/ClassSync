@@ -1,14 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {
-  Signup,
-  Session,
-  TeacherDash,
-  SingleStudent,
-  HomePage
-} from './components'
-import {Login} from './components/login-form'
+import {Signup, Login, Session, HomePage} from './components'
 import {me} from './store'
 
 /**
@@ -25,19 +18,15 @@ class Routes extends Component {
     return (
       <Switch>
         <Route path="/homepage" component={HomePage} />
-        {!isLoggedIn && (
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route component={Login} />
-          </Switch>
-        )}
-
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
         {isLoggedIn && (
           <Switch>
+            <Route path="/session" component={Session} />
             <Route component={Session} />
           </Switch>
         )}
+        <Route component={HomePage} />
       </Switch>
     )
   }

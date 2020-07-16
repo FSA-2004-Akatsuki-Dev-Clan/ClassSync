@@ -1,8 +1,9 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/core/styles'
-import {fetchStudents} from '../../store/students'
 import {connect} from 'react-redux'
-import {SingleStudent} from '../'
+import {fetchStudentSess} from '../../store/historical-session'
+import {fetchStudents} from '../../store/historical-session'
+import {HistoricalSingleStudent} from '../'
+import {makeStyles} from '@material-ui/core/styles'
 import {
   Card,
   Grid,
@@ -10,33 +11,25 @@ import {
   CardContent,
   Typography
 } from '@material-ui/core'
-import {StudentsCard} from './students-card'
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 345
-//   },
-//   media: {
-//     height: 140
-//   }
-// })
-
-// const classes = useStyles()
-
-class AllStudents extends React.Component {
+class HistoricalSession extends React.Component {
   constructor() {
     super()
     this.state = {
       selectedStudentId: null
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getStudents()
-  }
+  //   componentDidMount() {
+  //     this.props.getStudents()
+  //   }
 
+  handleClick(id) {
+    this.props.getStudentHis(id)
+  }
   render() {
-    const {liveStudents, liveSession} = this.props
+    const {students} = this.props
 
     return (
       <div>
@@ -48,14 +41,14 @@ class AllStudents extends React.Component {
             >
               Back to Student List
             </button>
-            <SingleStudent studentId={this.state.selectedStudentId} />
+            <HistoricalSingleStudent studentId={this.state.selectedStudentId} />
           </div>
         ) : (
           <div>
-            {liveStudents.map(student => (
+            {students.map(student => (
               <div key={student.id}>
                 <Grid item xs={2}>
-                  <Card maxWidth="345px">
+                  <Card width="100%">
                     <CardActionArea
                       onClick={() =>
                         this.setState({selectedStudentId: student.id})
@@ -95,16 +88,31 @@ class AllStudents extends React.Component {
 
 const mapState = state => {
   return {
-    students: state.students,
-    liveStudents: state.liveStudents,
-    liveSession: state.liveSession
+    studentSession: state.studentSession,
+    students: state.students
   }
 }
 
 const mapDispatch = dispatch => {
   return {
+    getStudentHis: id => dispatch(fetchStudentSess(id)),
     getStudents: () => dispatch(fetchStudents())
   }
 }
 
-export default connect(mapState, mapDispatch)(AllStudents)
+export default connect(mapState, mapDispatch)(HistoricalSession)
+
+{
+  /* <div>
+        {students.map(student => (
+          <div key={student.id}>
+            <h1>{student.firstName}</h1>
+          </div>
+        ))}
+
+        <button type="button" onClick={() => this.handleClick(3)}>
+          {' '}
+          Get Student History
+        </button>
+      </div> */
+}

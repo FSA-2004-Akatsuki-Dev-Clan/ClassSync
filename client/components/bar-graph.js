@@ -1,54 +1,69 @@
 import React from 'react'
-import {Line} from 'react-chartjs-2'
-import ChartDataLabels from 'chartjs-plugin-datalabels'
+import {Bar} from 'react-chartjs-2'
 
-export default class Chart extends React.Component {
+export default class BarGraph extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'wordCount'
+      metric: 'Words Spoken'
     }
   }
 
   render() {
-    const {data, compare} = this.props
+    // const camelCase = str => {
+    //   return str
+    //     .replace(/\s(.)/g, function(a) {
+    //       return a.toUpperCase()
+    //     })
+    //     .replace(/\s/g, '')
+    //     .replace(/^(.)/, function(b) {
+    //       return b.toLowerCase()
+    //     })
+    // }
+
+    const {data, student} = this.props
 
     const firstTime = data.times ? data.times[0].time : 0
 
     let yMin, yMax
 
     switch (this.state.metric) {
-      case 'faceScore':
+      case 'Face Score':
         yMin = 0
         yMax = 100
 
-      case 'wordCount':
+      case 'Word Count':
         yMin = 0
         yMax = 300
 
-      case 'clickCount':
+      case 'Click Count':
         yMin = 0
         yMax = 40
 
-      case 'keyCount':
+      case 'Key Count':
         yMin = 0
         yMax = 50
     }
 
     const chartData = {
-      labels: data.times
-        ? data.times.map(time => time.time - firstTime)
-        : [1, 2, 3, 4, 5],
+      labels: [
+        'Click Count',
+        'Face Score(Out of 100%)',
+        'Key Count',
+        'Word Count'
+      ],
       datasets: [
         {
-          label: [`${compare ? 'Student Data' : 'Class Data'}`],
-          data: data.times
-            ? data.times.map(time => time[this.state.metric])
-            : [50, 100, 150, 200, 250],
-          backgroundColor: compare
-            ? ['rgb(13, 221, 220, .2)']
-            : ['rgb(208, 226, 101, .2)'],
-          fontColor: compare ? 'rgb(13, 221, 220)' : 'rgb(208, 226, 101)'
+          label: ['Class Averages'],
+          data: data,
+          backgroundColor: ['rgb(170, 120, 250, .2)'],
+          fontColor: 'rgb(170, 120, 250)'
+        },
+        {
+          label: ['Student Averages'],
+          data: student,
+          backgroundColor: ['rgb(170, 120, 250, .2)'],
+          fontColor: 'rgb(170, 120, 250)'
         }
       ]
     }
@@ -56,36 +71,25 @@ export default class Chart extends React.Component {
     // chartData.datasets.push({
     //   label: ['Class Average'],
     //   data: [50, 170, 140, 120, 50],
-    //   backgroundColor: ['rgb(208, 226, 101, .2)'],
-    //   fontColor: 'rgb(208, 226, 101)'
+    //   backgroundColor: ['rgb(180, 250, 120, .2)'],
+    //   fontColor: 'rgb(180, 250, 120)',
     // })
 
-    if (compare) {
-      chartData.datasets.push({
-        label: ['Class Average'],
-        data: compare.times
-          ? compare.times.map(time => time[this.state.metric])
-          : [],
-        backgroundColor: ['rgb(208, 226, 101, .2)'],
-        fontColor: 'rgb(208, 226, 101)'
-      })
-    }
+    // if (compare) {
+    //   chartData.datasets.push({
+    //     label: ['Class Average'],
+    //     data: compare.times
+    //       ? compare.times.map(time => time[this.state.metric])
+    //       : [],
+    //     backgroundColor: ['rgb(180, 250, 120, .2)'],
+    //     fontColor: 'rgb(180, 250, 120)'
+    //   })
+    // }
 
     return (
       <div>
-        <label htmlFor="metric">Select Metric:</label>
-        <select
-          name="metric"
-          value={this.state.metric}
-          onChange={evt => this.setState({metric: evt.target.value})}
-        >
-          <option value="wordCount">Words Spoken</option>
-          <option value="clickCount">Mouse Clicks</option>
-          <option value="faceScore">Face Score</option>
-          <option value="keyCount">Key Presses</option>
-        </select>
         <div className="chart">
-          <Line
+          <Bar
             data={chartData}
             options={{
               elements: {
@@ -130,7 +134,7 @@ export default class Chart extends React.Component {
                     //   suggestedMax: 30,
                     // },
                     scaleLabel: {
-                      labelString: 'Session Minutes',
+                      labelString: 'Session in Minutes',
                       display: true,
                       fontSize: 15,
                       fontColor: 'rgb(195, 190, 204)'

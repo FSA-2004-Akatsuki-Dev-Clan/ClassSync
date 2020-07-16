@@ -5,7 +5,7 @@ import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
-import {LiveSession, AllStudents, SessionForm} from '../'
+import {LiveSession, AllStudents, SessionForm, HistoricalSession} from '../'
 import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
@@ -53,9 +53,7 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
               <div id="start-end">
                 {!live ? (
                   <div>
-                    <h3>
-                      Enter an activity title in order to start a new session
-                    </h3>
+                    <h3>Enter an activity title to start a new session</h3>
                     <div id="create-session">
                       {form.title && (
                         <Button
@@ -86,7 +84,7 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
             {/* <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid> */}
-            {live && <h1>{title}</h1>}
+            {live && <h1>Live Session: {title}</h1>}
             <Grid container item xs={12}>
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
@@ -101,6 +99,7 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
             <h3>Past Sessions</h3>
             <Grid container item xs={12} spacing={3}>
               <ClassworkRow />
+              <HistoricalSession />
             </Grid>
           </Grid>
         </div>
