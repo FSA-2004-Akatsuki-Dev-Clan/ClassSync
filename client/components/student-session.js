@@ -30,7 +30,8 @@ const StudentSession = ({student, status}) => (
             status.url ||
             'https://docs.google.com/forms/d/e/1FAIpQLSfOzBcCZd61vHVLGe_f9BlOnWrILPx6G_dT9Ahz3fOE5ikUCQ/viewform?usp=sf_link'
           }
-          cookieFlags="samesite=none;secure"
+          SameSite="none"
+          Secure
           width="600px"
           height="600px"
           id="student-assignment"

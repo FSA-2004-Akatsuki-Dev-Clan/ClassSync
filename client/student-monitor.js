@@ -18,13 +18,24 @@ let clickAdd = () => {
   data.clickCount++
 }
 
+let iframeClickAdd = frame => {
+  frame.contentWindow.postMessage('click', '*')
+}
+
 let clickListener
+let iframeClickListener
 
 let keyAdd = () => {
   data.keyCount++
 }
 
+let iframeKeyAdd = frame => {
+  frame.contentWindow.postMessage('keydown', '*')
+}
+
 let keyListener
+let iframeKeyListener
+let iframeMessage
 
 let mediaStream
 
@@ -118,9 +129,38 @@ export const startMonitor = async (studentSocket, student) => {
       }
 
       //set up keystroke and mouse-click listeners
-      clickListener = window.addEventListener('click', clickAdd)
+      const iframe = document.getElementById('student-assignment')
 
+      clickListener = window.addEventListener('click', clickAdd)
       keyListener = window.addEventListener('keydown', keyAdd)
+
+      // iframeClickListener = iframe.contentWindow.document.body.addEventListener(
+      //   'click',
+      //   clickAdd
+      // )
+      // iframeKeyListener = iframe.contentWindow.document.body.addEventListener(
+      //   'keydown',
+      //   keyAdd
+      // )
+
+      iframeClickListener = iframe.contentWindow.document.body.addEventListener(
+        'click',
+        function iframeClick(iframe) {
+          iframeClickAdd(iframe)
+        }
+      )
+
+      iframeKeyListener = iframe.contentWindow.document.body.addEventListener(
+        'keydown',
+        function iframeKey(iframe) {
+          iframeKeyAdd(iframe)
+        }
+      )
+
+      iframeMessage = window.addEventListener('message', event => {
+        if (event === 'click') data.clickCount++
+        else if (event === 'keydown') data.keyCount++
+      })
 
       //We set up our timed interval for checking for a face on webcam, and sending a data ping to the server
       serverTransmitInterval = setInterval(async () => {
@@ -161,9 +201,32 @@ export const stopMonitor = async () => {
     listening = false
   }
 
+  const iframe = document.getElementById('student-assignment')
+
   window.removeEventListener('click', clickListener)
 
+  // iframe.contentWindow.document.body.removeEventListener(
+  //   'click',
+  //   iframeClickListener
+  // )
+  // iframe.contentWindow.document.body.removeEventListener(
+  //   'keydown',
+  //   iframeKeyListener
+  // )
+
+  iframe.contentWindow.document.body.removeEventListener(
+    'click',
+    iframeClickListener
+  )
+
   window.removeEventListener('keydown', keyListener)
+
+  iframe.contentWindow.document.body.removeEventListener(
+    'keydown',
+    iframeKeyListener
+  )
+
+  window.removeEventListener('message', iframeMessage)
 
   data = {initialData}
 }
