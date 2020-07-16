@@ -5,8 +5,9 @@ router.get('/:id', async (req, res, next) => {
   try {
     const studentSess = await StudentSession.findAll({
       where: {
-        sessionId: +req.params.id
-      }
+        sessionId: req.params.id
+      },
+      include: {model: Student}
     })
     res.json(studentSess)
   } catch (error) {

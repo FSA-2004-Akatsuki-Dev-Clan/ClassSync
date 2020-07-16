@@ -5,8 +5,8 @@ import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
-import {LiveSession, AllStudents, SessionForm} from '../'
 import {setModal, endSession} from '../../store/'
+import {LiveSession, AllStudents, SessionForm, HistoricalSession} from '../'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -108,6 +108,7 @@ const TeacherDash = ({
             <h3>Past Sessions</h3>
             <Grid container item xs={12} spacing={3}>
               <ClassworkRow />
+              <HistoricalSession />
             </Grid>
           </Grid>
         </div>
