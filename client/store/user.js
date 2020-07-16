@@ -35,7 +35,7 @@ export const startSession = async ({title, activityType, details, url}) => {
 }
 
 //if confirmed, sends message to server to end the session
-export const endSession = async () => {
+export const endSession = () => {
   if (window.confirm('Are you sure you want to end the session?')) {
     socket.emit('end-session')
 
