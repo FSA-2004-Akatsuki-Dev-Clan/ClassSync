@@ -19,7 +19,7 @@ export const startSession = async ({title, activityType, details, url}) => {
       details
     })
     const sessionId = data
-    socket.emit('start-session', sessionId, url)
+    socket.emit('start-session', title, sessionId, url)
 
     store.dispatch(setLive(true))
     store.dispatch(setTitle(title))
@@ -36,16 +36,14 @@ export const startSession = async ({title, activityType, details, url}) => {
 
 //if confirmed, sends message to server to end the session
 export const endSession = async () => {
-  if (window.confirm('Are you sure you want to end the session?')) {
-    socket.emit('end-session')
+  socket.emit('end-session')
 
-    store.dispatch(setLive(false))
+  store.dispatch(setLive(false))
 
-    const reInvites = document.getElementById('re-invites')
+  const reInvites = document.getElementById('re-invites')
 
-    while (reInvites.childNodes.length) {
-      reInvites.removeChild(reInvites.childNodes[0])
-    }
+  while (reInvites.childNodes.length) {
+    reInvites.removeChild(reInvites.childNodes[0])
   }
 }
 

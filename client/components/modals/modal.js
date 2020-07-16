@@ -2,7 +2,7 @@ import React from 'react'
 import ReactModal from 'react-modal'
 import {makeStyles} from '@material-ui/core/styles'
 import {Button, Grid} from '@material-ui/core'
-import store, {setModal} from '../../store'
+import store, {setModal, studentAlert} from '../../store'
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -40,10 +40,14 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
   const classes = myStyles()
 
   return (
-    <ReactModal style={customStyles} isOpen={true}>
+    <ReactModal
+      style={customStyles}
+      isOpen={true}
+      onAfterClose={() => store.dispatch(studentAlert({}))}
+    >
       <div>
         <header>
-          <h1>{text}</h1>
+          <h3>{text}</h3>
         </header>
 
         {children}
@@ -55,12 +59,12 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
           container
           direction="column"
         >
-          {onOk && (
+          {okText && (
             <Button
               className={classes.buttonStyle}
               type="button"
               onClick={() => {
-                onOk()
+                if (onOk) onOk()
                 store.dispatch(setModal(null))
               }}
             >
@@ -68,12 +72,12 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
             </Button>
           )}
 
-          {onCancel && (
+          {cancelText && (
             <div>
               <Button
                 type="button"
                 onClick={() => {
-                  onCancel()
+                  if (onCancel) onCancel()
                   store.dispatch(setModal(null))
                 }}
               >

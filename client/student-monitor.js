@@ -18,9 +18,9 @@ let clickAdd = () => {
   data.clickCount++
 }
 
-let iframeClickAdd = frame => {
-  frame.contentWindow.postMessage('click', '*')
-}
+// let iframeClickAdd = frame => {
+//   frame.contentWindow.postMessage('click', '*')
+// }
 
 let clickListener
 let iframeClickListener
@@ -29,9 +29,9 @@ let keyAdd = () => {
   data.keyCount++
 }
 
-let iframeKeyAdd = frame => {
-  frame.contentWindow.postMessage('keydown', '*')
-}
+// let iframeKeyAdd = frame => {
+//   frame.contentWindow.postMessage('keydown', '*')
+// }
 
 let keyListener
 let iframeKeyListener
@@ -143,24 +143,24 @@ export const startMonitor = async (studentSocket, student) => {
       //   keyAdd
       // )
 
-      iframeClickListener = iframe.contentWindow.document.body.addEventListener(
-        'click',
-        function iframeClick(iframe) {
-          iframeClickAdd(iframe)
-        }
-      )
+      // iframeClickListener = iframe.contentWindow.document.body.addEventListener(
+      //   'click',
+      //   function iframeClick(iframe) {
+      //     iframeClickAdd(iframe)
+      //   }
+      // )
 
-      iframeKeyListener = iframe.contentWindow.document.body.addEventListener(
-        'keydown',
-        function iframeKey(iframe) {
-          iframeKeyAdd(iframe)
-        }
-      )
+      // iframeKeyListener = iframe.contentWindow.document.body.addEventListener(
+      //   'keydown',
+      //   function iframeKey(iframe) {
+      //     iframeKeyAdd(iframe)
+      //   }
+      // )
 
-      iframeMessage = window.addEventListener('message', event => {
-        if (event === 'click') data.clickCount++
-        else if (event === 'keydown') data.keyCount++
-      })
+      // iframeMessage = window.addEventListener('message', event => {
+      //   if (event === 'click') data.clickCount++
+      //   else if (event === 'keydown') data.keyCount++
+      // })
 
       //We set up our timed interval for checking for a face on webcam, and sending a data ping to the server
       serverTransmitInterval = setInterval(async () => {
@@ -214,17 +214,17 @@ export const stopMonitor = async () => {
   //   iframeKeyListener
   // )
 
-  iframe.contentWindow.document.body.removeEventListener(
-    'click',
-    iframeClickListener
-  )
+  // iframe.contentWindow.document.body.removeEventListener(
+  //   'click',
+  //   iframeClickListener
+  // )
 
   window.removeEventListener('keydown', keyListener)
 
-  iframe.contentWindow.document.body.removeEventListener(
-    'keydown',
-    iframeKeyListener
-  )
+  // iframe.contentWindow.document.body.removeEventListener(
+  //   'keydown',
+  //   iframeKeyListener
+  // )
 
   window.removeEventListener('message', iframeMessage)
 

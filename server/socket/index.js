@@ -30,11 +30,17 @@ module.exports = io => {
           studentData[user.id].socket = socket.id
           logouts[user.id] = false
           io.to(socket.id).emit('rejoin')
-          io.to(teacher.socket).emit('student-rejoin', user)
+          io.to(teacher.socket).emit('student-rejoin', {
+            ...user,
+            studentId: user.id
+          })
           io.to(socket.id).emit('start-session')
         } else if (user.id) {
           logouts[user.id] = false
-          io.to(teacher.socket).emit('student-join', user)
+          io.to(teacher.socket).emit('student-join', {
+            ...user,
+            studentId: user.id
+          })
           io.to(socket.id).emit('start-session')
         }
       }
@@ -42,7 +48,7 @@ module.exports = io => {
 
     //on user logout => if teacher, end the session; if student, inform the teacher; close socket
     socket.on('logout', user => {
-      if (user.id === teacher.id) {
+      if (user.isTeacher && user.id === teacher.id) {
         console.log(`The teacher logged out`)
         teacher.logout = true
 
@@ -55,7 +61,11 @@ module.exports = io => {
       } else if (studentData[user.id]) {
         console.log(`Student ${user.id} logged out`)
         logouts[user.id] = true
-        if (live) io.to(teacher.socket).emit('student-logout', user)
+        if (live)
+          io.to(teacher.socket).emit('student-logout', {
+            ...user,
+            socket: socket.id
+          })
       }
 
       io.to(socket.id).emit('logout')
@@ -77,20 +87,20 @@ module.exports = io => {
           }, 60000)
       } else if (live) {
         for (let studentId in studentData) {
-          if (socket.id === studentData[studentId].socket) {
+          if (
+            studentData.hasOwnProperty(studentId) &&
+            socket.id === studentData[studentId].socket
+          ) {
             if (!logouts[studentId]) {
               console.log(
                 `Student ${studentId} disconnected from socket ${socket.id}`
               )
-              io.to(teacher.socket).emit(
-                'student-disconnect',
-                {
-                  id: studentId,
-                  firstName: studentData[studentId].firstName,
-                  lastName: studentData[studentId].lastName
-                },
-                socket.id
-              )
+              io.to(teacher.socket).emit('student-disconnect', {
+                studentId,
+                first: studentData[studentId].firstName,
+                last: studentData[studentId].lastName,
+                socket: socket.id
+              })
               return
             } else console.log(`student disconnected from socket ${socket.id}`)
           }
@@ -100,13 +110,13 @@ module.exports = io => {
 
     //start message from teacher => session data is initialized, new session instance is created in database
     //Students are sent start message; Interval is set to send the teacher data pings
-    socket.on('start-session', async (id, url) => {
+    socket.on('start-session', async (title, id, url) => {
       sessionData = {id}
       studentData = {}
       logouts = {}
       sessionData.attendance = 0
 
-      socket.broadcast.emit('start-session', url)
+      socket.broadcast.emit('start-session', title, url)
       live = true
 
       teacherTransmitInterval = setInterval(() => {
@@ -141,7 +151,12 @@ module.exports = io => {
 
     //cancel message from student => their ID is sent to teacher
     socket.on('cancel', (studentId, first, last) => {
-      io.to(teacher.socket).emit('cancel', socket.id, studentId, first, last)
+      io.to(teacher.socket).emit('cancel', {
+        socket: socket.id,
+        studentId,
+        first,
+        last
+      })
     })
 
     //re-invites routed to students from teacher

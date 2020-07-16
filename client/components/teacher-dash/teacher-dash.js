@@ -46,7 +46,8 @@ const TeacherDash = ({
   liveSession,
   live,
   title,
-  openTeacherStart
+  openTeacherStart,
+  openTeacherEnd
 }) => {
   const classes = myStyles()
 
@@ -80,7 +81,7 @@ const TeacherDash = ({
                     <Button
                       className={classes.buttonStyle}
                       type="button"
-                      onClick={endSession}
+                      onClick={openTeacherEnd}
                     >
                       End Session
                     </Button>
@@ -127,6 +128,9 @@ const mapDispatch = dispatch => {
   return {
     openTeacherStart() {
       dispatch(setModal('teacherStart'))
+    },
+    openTeacherEnd() {
+      dispatch(setModal('teacherEnd'))
     }
   }
 }
