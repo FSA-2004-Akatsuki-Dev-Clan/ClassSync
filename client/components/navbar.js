@@ -49,6 +49,12 @@ const Navbar = ({logoff, user, live}) => {
       <div className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
+            {live && (
+              <i
+                className="fa fa-dot-circle-o"
+                style={{color: 'red', fontSize: '25px'}}
+              />
+            )}
             <Link className={classes.link} to="/homepage">
               <img src="../../classsync-logo.png" height="50px" />
             </Link>
@@ -103,9 +109,10 @@ const Navbar = ({logoff, user, live}) => {
                   <MenuItem>My account</MenuItem>
                 </Menu> */}
                 {user.id && (
-                  <span>Welcome to your classroom, {user.firstName}!</span>
+                  <span>
+                    Welcome to your classroom, {user.firstName}! {'   '}
+                  </span>
                 )}
-                {live && <i className="fa fa-dot-circle-o" style="color:red" />}
               </div>
             )}
           </Toolbar>

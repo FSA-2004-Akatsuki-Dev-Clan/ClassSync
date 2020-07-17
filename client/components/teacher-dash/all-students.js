@@ -56,7 +56,7 @@ class AllStudents extends React.Component {
             {liveStudents.map(student => (
               <div key={student.id}>
                 {this.checkStudentAlert(student, liveSession) && (
-                  <i className="fa fa-caret-down" style="color:red" />
+                  <i className="fa fa-caret-down" style={{color: 'red'}} />
                 )}
                 <Grid item xs={2}>
                   <Card maxWidth="345px">
