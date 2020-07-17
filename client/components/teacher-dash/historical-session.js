@@ -20,6 +20,10 @@ class HistoricalSession extends React.Component {
     }
   }
 
+  //   componentDidMount() {
+  //     this.props.getStudents()
+  //   }
+
   render() {
     const {students} = this.props
 
