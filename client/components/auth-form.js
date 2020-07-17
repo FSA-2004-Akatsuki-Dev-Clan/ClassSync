@@ -32,7 +32,7 @@ function Copyright() {
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     // marginTop: '100px',
     display: 'flex',

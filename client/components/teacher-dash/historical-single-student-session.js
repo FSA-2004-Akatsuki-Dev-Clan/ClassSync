@@ -1,8 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchStudentSessions} from '../../store/single-student-session'
-import {Grid} from '@material-ui/core'
-import BarGraph from '../bar-graph'
 
 class HistoricalSingleStudentSession extends React.Component {
   componentDidMount() {
@@ -10,6 +8,7 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 
   render() {
+
     const {specificSess, singleStudentSession} = this.props
     let sessClickAvg
     let sessFaceScoreAvg
@@ -36,7 +35,7 @@ class HistoricalSingleStudentSession extends React.Component {
     let studWordsSpokenAvg
     
     if (this.props.sessionId) {
-      console.log("---------->>>>>>>>>>>", singleStudentSession.studentSessions[this.props.sessionId -1])
+ 
       studClickAvg =
         singleStudentSession.studentSessions[this.props.sessionId-1].clickCount,
         studFaceScoreAvg =
@@ -54,10 +53,7 @@ class HistoricalSingleStudentSession extends React.Component {
       studKeyStrokeAvg,
       studWordsSpokenAvg
     ]
-    // console.log('---------- Right here', this.props)
 
-    // console.log('i am in the historical single student sess props ', this.props)
-    // console.log('i am singlestudent session ====>',this.props.singleStudentSession)
     return (
       <div>
         <div>
@@ -76,7 +72,7 @@ class HistoricalSingleStudentSession extends React.Component {
 
 const mapState = state => {
   return {
-    singleStudentSession: state.singleStudentSession
+    singleStudentSession: state.studentSessions
   }
 }
 

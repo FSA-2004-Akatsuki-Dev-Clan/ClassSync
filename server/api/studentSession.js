@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Session, Student, StudentSession} = require('../db/models')
+const {Session, Student, StudentSession, Class} = require('../db/models')
 
 router.get('/:id', async (req, res, next) => {
   try {
