@@ -8,7 +8,51 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    const {specificSess, singleStudentSession} = this.props
+    let sessClickAvg
+    let sessFaceScoreAvg
+    let sessKeyStrokeAvg
+    let sessWordsSpokenAvg
+
+    if (specificSess) {
+      sessClickAvg = Math.round(specificSess.sessClickTot / 30)
+      sessFaceScoreAvg = Math.round(specificSess.sessFaceScore / 30)
+      sessKeyStrokeAvg = Math.round(specificSess.sessKeyStrokeTot / 30)
+      sessWordsSpokenAvg = Math.round(specificSess.sessWordsSpokenTot / 30)
+    }
+
+    let specificSessAverages = [
+      sessClickAvg,
+      sessFaceScoreAvg,
+      sessKeyStrokeAvg,
+      sessWordsSpokenAvg
+    ]
+
+    let studClickAvg
+    let studFaceScoreAvg
+    let studKeyStrokeAvg
+    let studWordsSpokenAvg
+
+    if (this.props.sessionId) {
+      studClickAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].clickCount,
+      studFaceScoreAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].faceCount /
+          singleStudentSession.studentSessions[this.props.sessionId].faceDetects * 100,
+        studKeyStrokeAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount,
+        studWordsSpokenAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
+    }
+
+    let studentSessionArray = [
+      studClickAvg,
+      studFaceScoreAvg,
+      studKeyStrokeAvg,
+      studWordsSpokenAvg
+    ]
+
+    console.log('---------- Right here', this.props)
+
+    // console.log('i am in the historical single student sess props ', this.props)
+    // console.log('i am singlestudent session ====>',this.props.singleStudentSession)
+
     return (
       <div>
         <h1>Hello World</h1>

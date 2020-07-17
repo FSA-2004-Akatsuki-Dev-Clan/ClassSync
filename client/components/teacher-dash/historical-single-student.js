@@ -55,6 +55,15 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.wordsSpokenAvg
     ]
 
+    let selectSess
+    if (this.state.sessionId) {
+      selectSess = sessions.filter(
+        session => session.id === this.state.sessionId
+      )[0]
+    }
+
+    console.log('Session Id: ', this.state.sessionId)
+
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
