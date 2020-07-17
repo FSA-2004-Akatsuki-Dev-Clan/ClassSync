@@ -5,7 +5,9 @@ import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
-import {LiveSession, AllStudents, SessionForm, HistoricalSession} from '../'
+import {LiveSession, AllStudents, SessionForm
+   // ,HistoricalSession
+  , SimpleAccordion} from '../'
 import {startSession, endSession} from '../../store/user'
 
 const myStyles = makeStyles(theme => ({
@@ -98,10 +100,10 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
           <Grid item xs={12} sm={12} className={classes.gridStyling}>
             <h3>Past Sessions</h3>
             <Grid container item xs={12} spacing={3}>
-              <ClassworkRow />
-              <HistoricalSession />
+              {/* <ClassworkRow /> */}
             </Grid>
           </Grid>
+          <SimpleAccordion/>
         </div>
       </Grid>
     </div>
