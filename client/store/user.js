@@ -8,7 +8,8 @@ import {
   resetStudentData,
   setLive,
   setTitle,
-  setSaved
+  setSaved,
+  setModal
 } from '.'
 
 let socket

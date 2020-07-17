@@ -121,14 +121,15 @@ module.exports = io => {
       live = true
 
       teacherTransmitInterval = setInterval(() => {
+        const time = Date.now()
+        // console.log('teacherTransmitInterval -> time', time)
+
+        const minutes = time / 60000
+        // console.log('teacherTransmitInterval -> minutes', minutes)
+
         io
           .to(teacher.socket)
-          .emit(
-            'session-data',
-            Math.floor(Date.now() / 600) / 100,
-            sessionData,
-            studentData
-          )
+          .emit('session-data', minutes, sessionData, studentData)
       }, 7500)
     })
 

@@ -36,7 +36,11 @@ export default class Chart extends React.Component {
     }
 
     const chartData = {
-      labels: data.times ? data.times.map(time => time.time - firstTime) : [],
+      labels: data.times
+        ? data.times.map(
+            time => Math.floor((time.time - firstTime) * 100) / 100
+          )
+        : [],
       datasets: [
         {
           label: [`${compare ? 'Student Data' : 'Class Data'}`],
