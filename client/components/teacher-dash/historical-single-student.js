@@ -2,18 +2,11 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {SingleTable} from '../'
 import {fetchSession} from '../../store/session'
-import {fetchStudentSess} from '../../store/single-student-session'
+import {fetchStudentSess} from '../../store/historical-session'
 import {BarGraph} from '../'
 import {session} from 'passport'
-// import {Grid} from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 import {HistoricalSingleStudentSession} from '../'
-import {
-  Card,
-  Grid,
-  CardActionArea,
-  CardContent,
-  Typography
-} from '@material-ui/core'
 
 class HistoricalSingleStudent extends React.Component {
   constructor() {
@@ -23,10 +16,13 @@ class HistoricalSingleStudent extends React.Component {
     }
   }
 
+  // handleClick(id) {
+  //   this.props.getStudentHis(this.state.sessionId)
+  // }
+
   componentDidMount() {
     this.props.getSessions()
   }
-
   render() {
     const {students, studentId, sessions} = this.props
     let classClickAvg = 0
@@ -59,62 +55,23 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.wordsSpokenAvg
     ]
 
-    let selectSess
-    if (this.state.sessionId) {
-      selectSess = sessions.filter(
-        session => session.id === this.state.sessionId
-      )[0]
-    }
-
-    console.log('Session Id: ', this.state.sessionId)
-
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
         <h1>Sessions</h1>
         <div>
           {sessions.map(session => (
-            <div key={session.id}>
-              <Grid item xs={2}>
-                <Card width="100%">
-                  <CardActionArea
-                    onClick={() => this.setState({sessionId: session.id})}
-                  >
-                    <img
-                      src="../../Assignment.jpg"
-                      height="150px"
-                      title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {`${session.title}`}
-                      </Typography>
-                      {/* <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          {student.grade}
-                          {student.email}
-                        </Typography> */}
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
+            <div value={session.id} key={session.id}>
+              <a>{session.title}</a>
             </div>
           ))}
         </div>
-
         <Grid item xs={12} container direction="row">
           <BarGraph data={classAvg} student={singledatas} />
           <SingleTable data={singleStudent} />
         </Grid>
 
-        <HistoricalSingleStudentSession
-          studentId={studentId}
-          specificSess={selectSess}
-          sessionId={this.state.sessionId}
-        />
+        <HistoricalSingleStudentSession studentId={studentId} />
       </div>
     )
   }
@@ -122,10 +79,9 @@ class HistoricalSingleStudent extends React.Component {
 
 const mapState = state => {
   return {
-    // studentSession: state.studentSession,
+    studentSession: state.studentSession,
     students: state.students,
-    sessions: state.sessions,
-    singleStudentSession: state.singleStudentSession
+    sessions: state.sessions
   }
 }
 
@@ -137,11 +93,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
-
-// <div>
-//           {sessions.map(session => (
-//             <div value={session.id} key={session.id}>
-//               <a>{session.title}</a>
-//             </div>
-//           ))}
-//         </div>
