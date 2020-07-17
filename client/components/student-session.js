@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const StudentSession = ({student, status}) => (
   <div id="student-session">
-    <h1 id="session-message">
+    <h1 id="session-message" textAlign="center">
       {status.live
         ? 'The class session is live!'
         : 'Please await class session start by the teacher'}

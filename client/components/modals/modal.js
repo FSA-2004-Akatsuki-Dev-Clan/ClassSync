@@ -47,7 +47,7 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
     >
       <div>
         <header>
-          <h3>{text}</h3>
+          <h3 textAlign="center">{text}</h3>
         </header>
 
         {children}

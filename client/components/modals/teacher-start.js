@@ -21,7 +21,7 @@ class TeacherStart extends React.Component {
       <Modal
         text="Enter an activity title to start a new session"
         onOk={this.state.title && this.createSession}
-        okText="Start Session"
+        okText={this.state.title && 'Start Session'}
         cancelText="Cancel"
       >
         <SessionForm {...this.state} handleChange={this.handleChange} />

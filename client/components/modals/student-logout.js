@@ -4,7 +4,7 @@ import Modal from './modal'
 const StudentLogout = ({first, last, studentId}) => (
   <Modal
     text={`Student ${first} ${last} logged out, ID: ${studentId}`}
-    okText={OK}
+    okText="OK"
   />
 )
 

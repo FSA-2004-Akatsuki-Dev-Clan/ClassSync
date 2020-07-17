@@ -10,6 +10,22 @@ import axios from 'axios'
 
 let teacherSocket
 
+export const reinvite = socket => {
+  teacherSocket.emit('re-invite', socket)
+}
+
+export const makeReinviteButton = ({first, last, studentId, socket}) => {
+  const reInvite = document.createElement('button')
+  reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
+
+  reInvite.onclick = () => {
+    teacherSocket.emit('re-invite', socket)
+    reInvite.parentNode.removeChild(reInvite)
+  }
+
+  document.getElementById('re-invites').appendChild(reInvite)
+}
+
 const openTeacherSocket = () => {
   teacherSocket = openSocket()
 
@@ -18,7 +34,7 @@ const openTeacherSocket = () => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentCancel'))
-    }
+    } else makeReinviteButton(student)
   })
 
   //on receipt of session-data update, dispatch to redux store
@@ -95,22 +111,6 @@ const openTeacherSocket = () => {
   })
 
   return teacherSocket
-}
-
-export const reinvite = socket => {
-  teacherSocket.emit('re-invite', socket)
-}
-
-export const makeReinviteButton = ({first, last, studentId, socket}) => {
-  const reInvite = document.createElement('button')
-  reInvite.innerHTML = `Re-Invite Student: ${first} ${last}, ID ${studentId}`
-
-  reInvite.onclick = () => {
-    teacherSocket.emit('re-invite', socket)
-    reInvite.parentNode.removeChild(reInvite)
-  }
-
-  document.getElementById('re-invites').appendChild(reInvite)
 }
 
 export default openTeacherSocket

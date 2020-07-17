@@ -14,6 +14,27 @@ const initialData = {
 
 let monitorTimeout
 
+export const cancelSession = () => {
+  const student = store.getState().user
+
+  studentSocket.emit('cancel', student.id, student.firstName, student.lastName)
+}
+
+export const acceptSession = async () => {
+  const student = store.getState().user
+
+  //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
+  await loadFaceAPI()
+
+  // await stopMonitor()
+
+  await startMonitor(studentSocket, student)
+
+  store.dispatch(setLive(true))
+
+  studentSocket.emit('accept', student, initialData)
+}
+
 const openStudentSocket = () => {
   studentSocket = openSocket()
 
@@ -25,6 +46,7 @@ const openStudentSocket = () => {
     const {live, modal} = store.getState().status
 
     if (!live && !modal) store.dispatch(setModal('studentStart'))
+    else if (!live) cancelSession()
   })
 
   //if a message is received that the session is over, the timed activity logging interval and  is stopped
@@ -73,27 +95,6 @@ const openStudentSocket = () => {
   })
 
   return studentSocket
-}
-
-export const cancelSession = () => {
-  const student = store.getState().user
-
-  studentSocket.emit('cancel', student.id, student.firstName, student.lastName)
-}
-
-export const acceptSession = async () => {
-  const student = store.getState().user
-
-  //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
-  await loadFaceAPI()
-
-  // await stopMonitor()
-
-  await startMonitor(studentSocket, student)
-
-  store.dispatch(setLive(true))
-
-  studentSocket.emit('accept', student, initialData)
 }
 
 export default openStudentSocket
