@@ -1,12 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {SingleTable} from '../'
 import {fetchSession} from '../../store/session'
 import {fetchStudentSess} from '../../store/single-student-session'
-import {BarGraph} from '../'
-import {session} from 'passport'
-// import {Grid} from '@material-ui/core'
-import {HistoricalSingleStudentSession} from '../'
+import {BarGraph, HistoricalSingleStudentSession, SingleTable} from '../'
 import {
   Card,
   Grid,
@@ -120,7 +116,6 @@ class HistoricalSingleStudent extends React.Component {
 
 const mapState = state => {
   return {
-    // studentSession: state.studentSession,
     students: state.students,
     sessions: state.sessions,
     singleStudentSession: state.singleStudentSession
@@ -136,10 +131,3 @@ const mapDispatch = dispatch => {
 
 export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
 
-// <div>
-//           {sessions.map(session => (
-//             <div value={session.id} key={session.id}>
-//               <a>{session.title}</a>
-//             </div>
-//           ))}
-//         </div>
