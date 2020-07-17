@@ -18,15 +18,18 @@ class Routes extends Component {
     return (
       <Switch>
         <Route path="/homepage" component={HomePage} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <Switch>
             <Route path="/session" component={Session} />
             <Route component={Session} />
           </Switch>
+        ) : (
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route component={HomePage} />
+          </Switch>
         )}
-        <Route component={HomePage} />
       </Switch>
     )
   }

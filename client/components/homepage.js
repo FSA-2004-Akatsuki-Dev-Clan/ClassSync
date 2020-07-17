@@ -1,5 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {setModal, logout} from '../store'
 import {makeStyles} from '@material-ui/core/styles'
 import {
   Grid,
@@ -54,7 +56,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const HomePage = () => {
+const HomePage = ({user, live, logout, liveLogout}) => {
   const classes = myStyles()
 
   return (
@@ -62,26 +64,39 @@ const HomePage = () => {
       <Grid item xs={12}>
         <div className={classes.imageButtons}>
           <img src="/class-sync-homepage.jpg" width="100%" height="auto" />
-          <ButtonGroup className={classes.buttons}>
-            <Link to="/login">
+          {user.id ? (
+            <ButtonGroup className={classes.buttons}>
               <Button
                 variant="contained"
                 color="#a2c221"
-                startIcon={<Avatar src="/SignIn.png" href="/login" />}
+                startIcon={<Avatar src="/LogOut.png" />}
+                onClick={live ? liveLogout : logout}
               >
-                SIGN IN
+                Log Out
               </Button>
-            </Link>
-            <Link to="/signup">
-              <Button
-                variant="contained"
-                color="a2c221"
-                startIcon={<Avatar src="/SignUp.png" />}
-              >
-                SIGN UP
-              </Button>
-            </Link>
-          </ButtonGroup>
+            </ButtonGroup>
+          ) : (
+            <ButtonGroup className={classes.buttons}>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  color="#a2c221"
+                  startIcon={<Avatar src="/SignIn.png" href="/login" />}
+                >
+                  SIGN IN
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button
+                  variant="contained"
+                  color="a2c221"
+                  startIcon={<Avatar src="/SignUp.png" />}
+                >
+                  SIGN UP
+                </Button>
+              </Link>
+            </ButtonGroup>
+          )}
         </div>
         <h1 className={classes.h1}>Imagine a piece of software...</h1>
       </Grid>
@@ -136,4 +151,22 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+const mapState = state => {
+  return {
+    user: state.user,
+    live: state.status.live
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    liveLogout() {
+      dispatch(setModal('liveLogout'))
+    },
+    logout() {
+      dispatch(logout())
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(HomePage)

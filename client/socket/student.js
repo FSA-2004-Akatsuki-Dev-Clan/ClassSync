@@ -1,6 +1,8 @@
 import openSocket from '.'
-import store, {setAssignment, setLive} from '../store'
+import store, {setAssignment, setLive, setModal, setTitle} from '../store'
 import {loadFaceAPI, startMonitor, stopMonitor} from '../student-monitor'
+
+let studentSocket
 
 const initialData = {
   wordCount: 0,
@@ -12,53 +14,50 @@ const initialData = {
 
 let monitorTimeout
 
+export const cancelSession = () => {
+  const student = store.getState().user
+
+  studentSocket.emit('cancel', student.id, student.firstName, student.lastName)
+}
+
+export const acceptSession = async () => {
+  const student = store.getState().user
+
+  await loadFaceAPI()
+
+  // await stopMonitor()
+
+  await startMonitor(studentSocket, student)
+
+  store.dispatch(setLive(true))
+
+  studentSocket.emit('accept', student, initialData)
+}
+
 const openStudentSocket = () => {
-  let studentSocket = openSocket()
+  studentSocket = openSocket()
 
-  //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
-  studentSocket.on('start-session', async url => {
-    if (!store.getState().status.live) {
-      const student = store.getState().user
+  studentSocket.on('start-session', (title, url) => {
+    store.dispatch(setAssignment(url))
+    store.dispatch(setTitle(title))
 
-      if (
-        !window.confirm(
-          'Your teacher has started a live session. This will access your video and audio streams.'
-        )
-      ) {
-        studentSocket.emit(
-          'cancel',
-          student.id,
-          student.firstName,
-          student.lastName
-        )
-        return
-      }
+    const {live, modal} = store.getState().status
 
-      //load in the assignment
-      store.dispatch(setAssignment(url))
-
-      //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
-      await loadFaceAPI()
-
-      // await stopMonitor()
-
-      await startMonitor(studentSocket, student)
-
-      store.dispatch(setLive(true))
-
-      studentSocket.emit('accept', student, initialData)
-    }
+    if (!live && !modal) store.dispatch(setModal('studentStart'))
+    else if (!live) cancelSession()
   })
 
-  //if a message is received that the session is over, the timed activity logging interval and  is stopped
+  //if a message is received that the session is over, the timed activity logging interval is stopped
   studentSocket.on('end-session', async () => {
-    if (store.getState().status.live) {
+    const {live, modal} = store.getState().status
+
+    if (live) {
       await stopMonitor()
 
       store.dispatch(setLive(false))
     }
 
-    window.alert('The class session has ended')
+    if (!modal) store.dispatch(setModal('endAlert'))
   })
 
   studentSocket.on('logout', async () => {
@@ -91,6 +90,15 @@ const openStudentSocket = () => {
       console.log('attempting reconnect')
       studentSocket = openSocket(monitorTimeout)
     }
+  })
+
+  studentSocket.on('rejoin', () => {
+    console.log('Reconnected to live session')
+
+    const {live, modal} = store.getState().status
+
+    if (!live && !modal) store.dispatch(setModal('studentStart'))
+    else if (!live) cancelSession()
   })
 
   return studentSocket
