@@ -1,4 +1,3 @@
-
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchSession} from '../../store/session'
@@ -130,4 +129,5 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(HistoricalSingleStudent)n
+export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
+
