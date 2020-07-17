@@ -29,6 +29,7 @@ class AllStudents extends React.Component {
     this.state = {
       selectedStudentId: null
     }
+    this.checkStudentAlert = this.checkStudentAlert.bind(this)
   }
 
   componentDidMount() {
@@ -48,13 +49,28 @@ class AllStudents extends React.Component {
             >
               Back to Student List
             </button>
-            <SingleStudent studentId={this.state.selectedStudentId} />
+            {liveStudents.find(
+              student => student.id === this.state.selectedStudentId
+            ) && <SingleStudent studentId={this.state.selectedStudentId} />}
           </div>
         ) : (
           <div>
             {liveStudents.map(student => (
               <div key={student.id}>
                 <Grid item xs={2}>
+                  {this.checkStudentAlert(student, liveSession).map(metric => {
+                    if (metric)
+                      return (
+                        <i
+                          className="fa fa-caret-down"
+                          style={{color: 'red', fontSize: '30px'}}
+                        />
+                      )
+                  })}
+                  {/* <i
+                    className="fa fa-caret-down"
+                    style={{color: 'red', fontSize: '30px'}}
+                  /> */}
                   <Card maxWidth="345px">
                     <CardActionArea
                       onClick={() =>
@@ -90,6 +106,15 @@ class AllStudents extends React.Component {
         )}
       </div>
     )
+  }
+
+  checkStudentAlert(student, session) {
+    return [
+      student.faceScore < session.faceScore / 2,
+      student.wordCount < session.wordCount / 2,
+      student.keyCount < session.keyCount / 2,
+      student.clickCount < session.clickCount / 2
+    ]
   }
 }
 

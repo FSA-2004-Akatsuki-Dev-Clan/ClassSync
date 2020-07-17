@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import store, {setLive} from '../store'
+import store from '../store'
 
 const openSocket = monitorTimeout => {
   let socket = io(window.location.origin, {'force new connection': true})
@@ -16,11 +16,6 @@ const openSocket = monitorTimeout => {
 
     //when a student client disconnects while still logged in, it attempts to reconnect and passes a timeout that will stop its activity monitor unless it clears on reconnection here
     if (monitorTimeout) clearTimeout(monitorTimeout)
-
-    socket.on('rejoin', () => {
-      console.log('Reconnected to live session')
-      store.dispatch(setLive(true))
-    })
 
     socket.on('error', err => {
       console.log('Socket error:', err)

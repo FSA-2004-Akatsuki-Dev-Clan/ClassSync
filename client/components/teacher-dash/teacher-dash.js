@@ -5,8 +5,9 @@ import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
+import {setModal, endSession} from '../../store/'
 import {LiveSession, AllStudents, SessionForm, HistoricalSession} from '../'
-import {startSession, endSession} from '../../store/user'
+
 
 const myStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +41,15 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const TeacherDash = ({form, createSession, liveSession, live, title}) => {
+const TeacherDash = ({
+  form,
+  createSession,
+  liveSession,
+  live,
+  title,
+  openTeacherStart,
+  openTeacherEnd
+}) => {
   const classes = myStyles()
 
   return (
@@ -53,18 +62,19 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
               <div id="start-end">
                 {!live ? (
                   <div>
-                    <h3>Enter an activity title to start a new session</h3>
+                    {/* <h3>Enter an activity title to start a new session</h3> */}
                     <div id="create-session">
-                      {form.title && (
-                        <Button
-                          className={classes.buttonStyle}
-                          type="button"
-                          onClick={createSession}
-                        >
-                          Start Session
-                        </Button>
-                      )}
-                      <SessionForm {...form} classes={classes} />
+                      {/* {form.title && ( */}
+                      <Button
+                        className={classes.buttonStyle}
+                        type="button"
+                        // onClick={createSession}
+                        onClick={openTeacherStart}
+                      >
+                        Create New Session
+                      </Button>
+                      {/* )} */}
+                      {/* <SessionForm {...form} classes={classes} /> */}
                     </div>
                   </div>
                 ) : (
@@ -72,7 +82,7 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
                     <Button
                       className={classes.buttonStyle}
                       type="button"
-                      onClick={endSession}
+                      onClick={openTeacherEnd}
                     >
                       End Session
                     </Button>
@@ -89,10 +99,12 @@ const TeacherDash = ({form, createSession, liveSession, live, title}) => {
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
             </Grid>
-            <Grid item xs={12}>
-              <h3>Students In Session</h3>
-              <AllStudents />
-            </Grid>
+            {liveSession.faceDetects && (
+              <Grid item xs={12}>
+                <h3>Students In Session</h3>
+                <AllStudents />
+              </Grid>
+            )}
           </Grid>
 
           <Grid item xs={12} sm={12} className={classes.gridStyling}>
@@ -116,4 +128,15 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState)(TeacherDash)
+const mapDispatch = dispatch => {
+  return {
+    openTeacherStart() {
+      dispatch(setModal('teacherStart'))
+    },
+    openTeacherEnd() {
+      dispatch(setModal('teacherEnd'))
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(TeacherDash)

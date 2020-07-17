@@ -37,14 +37,16 @@ export default class Chart extends React.Component {
 
     const chartData = {
       labels: data.times
-        ? data.times.map(time => time.time - firstTime)
-        : [1, 2, 3, 4, 5],
+        ? data.times.map(
+            time => Math.floor((time.time - firstTime) * 100) / 100
+          )
+        : [],
       datasets: [
         {
           label: [`${compare ? 'Student Data' : 'Class Data'}`],
           data: data.times
             ? data.times.map(time => time[this.state.metric])
-            : [50, 100, 150, 200, 250],
+            : [],
           backgroundColor: compare
             ? ['rgb(13, 221, 220, .2)']
             : ['rgb(208, 226, 101, .2)'],
@@ -94,9 +96,6 @@ export default class Chart extends React.Component {
                   backgroundColor: 'rgb(179, 255, 0)'
                 }
               },
-              // time: {
-              //   unit: 'minute',
-              // },
               plugins: {
                 datalabels: {
                   align: 260
@@ -122,13 +121,6 @@ export default class Chart extends React.Component {
                 ],
                 xAxes: [
                   {
-                    // time: {
-                    //   unit: 'minute',
-                    // },
-                    // ticks: {
-                    //   suggestedMin: 0,
-                    //   suggestedMax: 30,
-                    // },
                     scaleLabel: {
                       labelString: 'Session Minutes',
                       display: true,

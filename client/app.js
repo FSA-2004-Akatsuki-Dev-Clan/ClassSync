@@ -1,15 +1,21 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-import {Navbar} from './components'
+import {Navbar, ModalSelector} from './components'
 import Routes from './routes'
 
-const App = () => {
-  return (
-    <div>
-      <Navbar />
-      <Routes />
-    </div>
-  )
+const App = ({modal}) => (
+  <div>
+    <Navbar />
+    <Routes />
+    <ModalSelector modal={modal} />
+  </div>
+)
+
+const mapState = state => {
+  return {
+    modal: state.status.modal
+  }
 }
 
-export default App
+export default connect(mapState)(App)
