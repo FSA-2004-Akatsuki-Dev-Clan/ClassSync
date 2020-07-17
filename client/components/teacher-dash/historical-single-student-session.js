@@ -34,24 +34,22 @@ class HistoricalSingleStudentSession extends React.Component {
     let studFaceScoreAvg
     let studKeyStrokeAvg
     let studWordsSpokenAvg
+
     if (this.props.sessionId) {
-      ;(studClickAvg =
-        singleStudentSession.studentSessions[this.props.sessionId].clickCount),
-        (studFaceScoreAvg =
-          singleStudentSession.studentSessions[this.props.sessionId].faceCount /
-          singleStudentSession.studentSessions[this.props.sessionId]
-            .faceDetects),
-        (studKeyStrokeAvg =
-          singleStudentSession.studentSessions[this.props.sessionId].keyCount),
-        (studWordsSpokenAvg =
-          singleStudentSession.studentSessions[this.props.sessionId].wordCount)
+      studClickAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].clickCount,
+      studFaceScoreAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].faceCount /
+          singleStudentSession.studentSessions[this.props.sessionId].faceDetects * 100,
+        studKeyStrokeAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount,
+        studWordsSpokenAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
     }
+
     let studentSessionArray = [
       studClickAvg,
       studFaceScoreAvg,
       studKeyStrokeAvg,
       studWordsSpokenAvg
     ]
+
     console.log('---------- Right here', this.props)
 
     // console.log('i am in the historical single student sess props ', this.props)

@@ -66,6 +66,8 @@ class HistoricalSingleStudent extends React.Component {
       )[0]
     }
 
+    console.log('Session Id: ', this.state.sessionId)
+
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
