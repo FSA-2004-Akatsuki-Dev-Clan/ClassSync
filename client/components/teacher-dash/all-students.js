@@ -49,7 +49,9 @@ class AllStudents extends React.Component {
             >
               Back to Student List
             </button>
-            <SingleStudent studentId={this.state.selectedStudentId} />
+            {liveStudents.find(
+              student => student.id === this.state.selectedStudentId
+            ) && <SingleStudent studentId={this.state.selectedStudentId} />}
           </div>
         ) : (
           <div>

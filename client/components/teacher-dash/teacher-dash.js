@@ -98,10 +98,12 @@ const TeacherDash = ({
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
             </Grid>
-            <Grid item xs={12}>
-              <h3>Students In Session</h3>
-              <AllStudents />
-            </Grid>
+            {liveSession.faceDetects && (
+              <Grid item xs={12}>
+                <h3>Students In Session</h3>
+                <AllStudents />
+              </Grid>
+            )}
           </Grid>
 
           <Grid item xs={12} sm={12} className={classes.gridStyling}>
