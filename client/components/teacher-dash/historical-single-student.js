@@ -1,12 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {SingleTable} from '../'
 import {fetchSession} from '../../store/session'
-import {fetchStudentSess} from '../../store/historical-session'
-import {BarGraph} from '../'
-import {session} from 'passport'
-import {Grid} from '@material-ui/core'
-import {HistoricalSingleStudentSession} from '../'
+import {fetchStudentSess} from '../../store/single-student-session'
+import {BarGraph, HistoricalSingleStudentSession, SingleTable} from '../'
+import {
+  Card,
+  Grid,
+  CardActionArea,
+  CardContent,
+  Typography
+} from '@material-ui/core'
 
 class HistoricalSingleStudent extends React.Component {
   constructor() {
@@ -79,7 +82,6 @@ class HistoricalSingleStudent extends React.Component {
 
 const mapState = state => {
   return {
-    studentSession: state.studentSession,
     students: state.students,
     sessions: state.sessions
   }
