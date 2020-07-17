@@ -37,8 +37,8 @@ class HistoricalSingleStudentSession extends React.Component {
 
     if (this.props.sessionId) {
       studClickAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].clickCount,
-        studFaceScoreAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].faceCount /
-          singleStudentSession.studentSessions[this.props.sessionId - 1].faceDetects,
+        studFaceScoreAvg = Math.round(singleStudentSession.studentSessions[this.props.sessionId - 1].faceCount /
+          singleStudentSession.studentSessions[this.props.sessionId - 1].faceDetects * 100),
         studKeyStrokeAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount,
         studWordsSpokenAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
     }
