@@ -1,8 +1,9 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/core/styles'
-import {fetchStudents} from '../../store/students'
 import {connect} from 'react-redux'
-import {SingleStudent} from '../'
+import {fetchStudentSess} from '../../store/historical-session'
+import {fetchStudents} from '../../store/historical-session'
+import {HistoricalSingleStudent} from '../'
+import {makeStyles} from '@material-ui/core/styles'
 import {
   Card,
   Grid,
@@ -10,34 +11,21 @@ import {
   CardContent,
   Typography
 } from '@material-ui/core'
-import {StudentsCard} from './students-card'
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 345
-//   },
-//   media: {
-//     height: 140
-//   }
-// })
-
-// const classes = useStyles()
-
-class AllStudents extends React.Component {
+class HistoricalSession extends React.Component {
   constructor() {
     super()
     this.state = {
       selectedStudentId: null
     }
-    this.checkStudentAlert = this.checkStudentAlert.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getStudents()
-  }
+  //   componentDidMount() {
+  //     this.props.getStudents()
+  //   }
 
   render() {
-    const {liveStudents, liveSession} = this.props
+    const {students} = this.props
 
     return (
       <div>
@@ -49,29 +37,14 @@ class AllStudents extends React.Component {
             >
               Back to Student List
             </button>
-            {liveStudents.find(
-              student => student.id === this.state.selectedStudentId
-            ) && <SingleStudent studentId={this.state.selectedStudentId} />}
+            <HistoricalSingleStudent studentId={this.state.selectedStudentId} />
           </div>
         ) : (
           <div>
-            {liveStudents.map(student => (
+            {students.map(student => (
               <div key={student.id}>
                 <Grid item xs={2}>
-                  {this.checkStudentAlert(student, liveSession).map(metric => {
-                    if (metric)
-                      return (
-                        <i
-                          className="fa fa-caret-down"
-                          style={{color: 'red', fontSize: '30px'}}
-                        />
-                      )
-                  })}
-                  {/* <i
-                    className="fa fa-caret-down"
-                    style={{color: 'red', fontSize: '30px'}}
-                  /> */}
-                  <Card maxWidth="345px">
+                  <Card width="100%">
                     <CardActionArea
                       onClick={() =>
                         this.setState({selectedStudentId: student.id})
@@ -107,29 +80,35 @@ class AllStudents extends React.Component {
       </div>
     )
   }
-
-  checkStudentAlert(student, session) {
-    return [
-      student.faceScore < session.faceScore / 2,
-      student.wordCount < session.wordCount / 2,
-      student.keyCount < session.keyCount / 2,
-      student.clickCount < session.clickCount / 2
-    ]
-  }
 }
 
 const mapState = state => {
   return {
-    students: state.students,
-    liveStudents: state.liveStudents,
-    liveSession: state.liveSession
+    studentSession: state.studentSession,
+    students: state.students
   }
 }
 
 const mapDispatch = dispatch => {
   return {
+    getStudentHis: id => dispatch(fetchStudentSess(id)),
     getStudents: () => dispatch(fetchStudents())
   }
 }
 
-export default connect(mapState, mapDispatch)(AllStudents)
+export default connect(mapState, mapDispatch)(HistoricalSession)
+
+{
+  /* <div>
+        {students.map(student => (
+          <div key={student.id}>
+            <h1>{student.firstName}</h1>
+          </div>
+        ))}
+
+        <button type="button" onClick={() => this.handleClick(3)}>
+          {' '}
+          Get Student History
+        </button>
+      </div> */
+}

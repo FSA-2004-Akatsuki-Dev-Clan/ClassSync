@@ -24,6 +24,20 @@ router.get('/:studentid', async (req, res, next) => {
   }
 })
 
+router.get('/allSessions/:id', async (req, res, next) => {
+  try {
+    const studentSess = await Student.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: {model: StudentSession}
+    })
+    res.json(studentSess)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/save', async (req, res, next) => {
   try {
     const studentData = req.body

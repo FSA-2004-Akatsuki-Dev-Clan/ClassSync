@@ -39,46 +39,46 @@ const Student = db.define('students', {
     type: Sequelize.STRING
   },
   faceCountAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceCountAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceCountAvg')
+    // }
   },
   faceAttemptAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceAttemptAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceAttemptAvg')
+    // }
   },
   faceScoreAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('faceScoreAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('faceScoreAvg')
+    // }
   },
   wordsSpokenAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('wordsSpokenAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('wordsSpokenAvg')
+    // }
   },
   mouseClickAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('mouseClickAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('mouseClickAvg')
+    // }
   },
   keyStrokeAvg: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('keyStrokeAvg')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('keyStrokeAvg')
+    // }
   },
   numberOfSessions: {
-    type: Sequelize.INTEGER,
-    get() {
-      return () => this.getDataValue('numberOfSessions')
-    }
+    type: Sequelize.INTEGER
+    // get() {
+    //   return () => this.getDataValue('numberOfSessions')
+    // }
   }
 })
 
@@ -99,30 +99,30 @@ Student.prototype.avgData = function({
   keyCount = 0
 }) {
   const faceCountAvg = Math.ceil(
-    (this.faceCountAvg() * this.numberOfSessions() + faceCount) /
-      (this.numberOfSessions() + 1)
+    (this.faceCountAvg * this.numberOfSessions + faceCount) /
+      (this.numberOfSessions + 1)
   )
   const faceAttemptAvg = Math.ceil(
-    (this.faceAttemptAvg() * this.numberOfSessions() + faceDetects) /
-      (this.numberOfSessions() + 1)
+    (this.faceAttemptAvg * this.numberOfSessions + faceDetects) /
+      (this.numberOfSessions + 1)
   )
   const faceScoreAvg = Math.ceil(
-    (this.faceScoreAvg() * this.numberOfSessions() + faceScore) /
-      (this.numberOfSessions() + 1)
+    (this.faceScoreAvg * this.numberOfSessions + faceScore) /
+      (this.numberOfSessions + 1)
   )
   const wordsSpokenAvg = Math.ceil(
-    (this.wordsSpokenAvg() * this.numberOfSessions() + wordCount) /
-      (this.numberOfSessions() + 1)
+    (this.wordsSpokenAvg * this.numberOfSessions + wordCount) /
+      (this.numberOfSessions + 1)
   )
   const mouseClickAvg = Math.ceil(
-    (this.mouseClickAvg() * this.numberOfSessions() + clickCount) /
-      (this.numberOfSessions() + 1)
+    (this.mouseClickAvg * this.numberOfSessions + clickCount) /
+      (this.numberOfSessions + 1)
   )
   const keyStrokeAvg = Math.ceil(
-    (this.keyStrokeAvg() * this.numberOfSessions() + keyCount) /
-      (this.numberOfSessions() + 1)
+    (this.keyStrokeAvg * this.numberOfSessions + keyCount) /
+      (this.numberOfSessions + 1)
   )
-  const numberOfSessions = this.numberOfSessions() + 1
+  const numberOfSessions = this.numberOfSessions + 1
   return {
     faceCountAvg,
     faceAttemptAvg,
