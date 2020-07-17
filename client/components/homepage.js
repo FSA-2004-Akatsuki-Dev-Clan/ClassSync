@@ -56,7 +56,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const HomePage = ({user, logout, liveLogout}) => {
+const HomePage = ({user, live, logout, liveLogout}) => {
   const classes = myStyles()
 
   return (
@@ -70,7 +70,7 @@ const HomePage = ({user, logout, liveLogout}) => {
                 variant="contained"
                 color="#a2c221"
                 startIcon={<Avatar src="/LogOut.png" />}
-                onClick={logout}
+                onClick={live ? liveLogout : logout}
               >
                 Log Out
               </Button>
@@ -153,7 +153,8 @@ const HomePage = ({user, logout, liveLogout}) => {
 
 const mapState = state => {
   return {
-    user: state.user
+    user: state.user,
+    live: state.status.live
   }
 }
 

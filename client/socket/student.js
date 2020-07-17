@@ -92,6 +92,15 @@ const openStudentSocket = () => {
     }
   })
 
+  studentSocket.on('rejoin', () => {
+    console.log('Reconnected to live session')
+
+    const {live, modal} = store.getState().status
+
+    if (!live && !modal) store.dispatch(setModal('studentStart'))
+    else if (!live) cancelSession()
+  })
+
   return studentSocket
 }
 

@@ -31,14 +31,15 @@ module.exports = io => {
           logouts[user.id] = false
           io.to(socket.id).emit('rejoin')
           io.to(teacher.socket).emit('student-rejoin', {
-            ...user,
+            first: user.firstName,
+            last: user.lastName,
             studentId: user.id
           })
-          io.to(socket.id).emit('start-session')
         } else if (user.id) {
           logouts[user.id] = false
           io.to(teacher.socket).emit('student-join', {
-            ...user,
+            first: user.firstName,
+            last: user.lastName,
             studentId: user.id
           })
           io.to(socket.id).emit('start-session')
@@ -128,7 +129,7 @@ module.exports = io => {
             sessionData,
             studentData
           )
-      }, 15000)
+      }, 7500)
     })
 
     // accept message from student => their data on the session is initialized if they are joining for the first time

@@ -87,6 +87,11 @@ const openTeacherSocket = () => {
     }
   })
 
+  teacherSocket.on('rejoin', () => {
+    console.log('Reconnected to live session')
+    store.dispatch(setLive(true))
+  })
+
   teacherSocket.on('student-logout', student => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))

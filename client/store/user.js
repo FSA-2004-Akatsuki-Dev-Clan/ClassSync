@@ -166,7 +166,12 @@ export const logout = () => async dispatch => {
     dispatch(removeUser())
 
     //On logout, send logout message to the server
-    socket.emit('logout', res.data)
+
+    do {
+      let user = store.getState().user
+      console.log('user', user)
+      if (!user.id) socket.emit('logout', res.data)
+    } while (user.id)
 
     history.push('/')
   } catch (err) {

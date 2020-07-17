@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from './modal'
 import {makeStyles} from '@material-ui/core/styles'
 import {Button} from '@material-ui/core'
-import {saveLogout, logout, setModal} from '../../store/user'
+import {saveLogout, logout, setModal} from '../../store'
 import store from '../../store'
 
 const myStyles = makeStyles(theme => ({
@@ -38,7 +38,7 @@ const LiveLogout = ({isTeacher, session}) => {
           ? 'Your classroom is still live and logging out will end the session. Are you sure you want to leave?'
           : 'You are in a live session. Are you sure you want to leave?'
       }
-      onOk={logout}
+      onOk={() => store.dispatch(logout())}
       okText={
         isTeacher
           ? dataCollected

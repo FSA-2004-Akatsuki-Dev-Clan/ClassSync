@@ -55,10 +55,20 @@ class AllStudents extends React.Component {
           <div>
             {liveStudents.map(student => (
               <div key={student.id}>
-                {this.checkStudentAlert(student, liveSession) && (
-                  <i className="fa fa-caret-down" style={{color: 'red'}} />
-                )}
                 <Grid item xs={2}>
+                  {this.checkStudentAlert(student, liveSession).map(metric => {
+                    if (metric)
+                      return (
+                        <i
+                          className="fa fa-caret-down"
+                          style={{color: 'red', fontSize: '30px'}}
+                        />
+                      )
+                  })}
+                  {/* <i
+                    className="fa fa-caret-down"
+                    style={{color: 'red', fontSize: '30px'}}
+                  /> */}
                   <Card maxWidth="345px">
                     <CardActionArea
                       onClick={() =>
@@ -97,12 +107,12 @@ class AllStudents extends React.Component {
   }
 
   checkStudentAlert(student, session) {
-    return (
-      student.faceScore < session.faceScore / 1.5 ||
-      student.wordCount < session.wordCount / 1.5 ||
-      student.keyCount < session.keyCount / 1.5 ||
-      student.clickCount < session.clickCount / 1.5
-    )
+    return [
+      student.faceScore < session.faceScore / 2,
+      student.wordCount < session.wordCount / 2,
+      student.keyCount < session.keyCount / 2,
+      student.clickCount < session.clickCount / 2
+    ]
   }
 }
 
