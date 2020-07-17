@@ -48,7 +48,9 @@ export default function(state = initialState, action) {
       //loop over the incoming student data objects, find its corresponding student in the store =>
       //if there isn't one yet, add it to the new liveStudents array; if there is, update it with the new data
       currentStudents.forEach(student => {
-        let liveStudent = state.find(liveStudent => liveStudent.id === student.id)
+        let liveStudent = state.find(
+          liveStudent => liveStudent.id === student.id
+        )
 
         liveStudents.push(
           liveStudent
