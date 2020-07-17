@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, setModal} from '../store'
 import {makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Navbar = ({logoff, user, live}) => {
+const Navbar = ({logout, liveLogout, user, live}) => {
   const classes = useStyles()
   const [auth, setAuth] = React.useState(true)
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -65,7 +65,11 @@ const Navbar = ({logoff, user, live}) => {
                   <Link className={classes.link} to="/session">
                     {user.isTeacher ? 'Dashboard' : 'Student Session'}
                   </Link>
-                  <a className={classes.link} href="#" onClick={logoff}>
+                  <a
+                    className={classes.link}
+                    href="#"
+                    onClick={live ? liveLogout : logout}
+                  >
                     Logout
                   </a>
                 </div>
@@ -134,7 +138,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    logoff() {
+    liveLogout() {
+      dispatch(setModal('liveLogout'))
+    },
+    logout() {
       dispatch(logout())
     }
   }

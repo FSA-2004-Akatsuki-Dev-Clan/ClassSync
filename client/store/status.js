@@ -6,6 +6,7 @@ const SET_LIVE = 'SET_LIVE'
 const SET_TITLE = 'SET_TITLE'
 const SET_MODAL = 'SET_MODAL'
 const STUDENT_ALERT = 'STUDENT_ALERT'
+const SET_SAVED = 'SET_SAVED'
 
 /**
  * INITIAL STATE
@@ -15,7 +16,8 @@ const initialState = {
   live: false,
   title: '',
   modal: null,
-  alert: {}
+  alert: {},
+  saved: false
 }
 
 /**
@@ -27,6 +29,7 @@ export const setLive = bool => ({type: SET_LIVE, bool})
 export const setTitle = title => ({type: SET_TITLE, title})
 export const setModal = modal => ({type: SET_MODAL, modal})
 export const studentAlert = student => ({type: STUDENT_ALERT, student})
+export const setSaved = bool => ({type: SET_SAVED, bool})
 
 /**
  * REDUCER
@@ -48,6 +51,9 @@ export default function(state = initialState, action) {
 
     case STUDENT_ALERT:
       return {...state, alert: {...action.student}}
+
+    case SET_SAVED:
+      return {...state, saved: action.bool}
 
     default:
       return state

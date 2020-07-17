@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {logout} from '../store'
+import {setModal, logout} from '../store'
 import {makeStyles} from '@material-ui/core/styles'
 import {
   Grid,
@@ -56,7 +56,7 @@ const myStyles = makeStyles(theme => ({
   }
 }))
 
-const HomePage = ({user, logout}) => {
+const HomePage = ({user, logout, liveLogout}) => {
   const classes = myStyles()
 
   return (
@@ -159,6 +159,9 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
+    liveLogout() {
+      dispatch(setModal('liveLogout'))
+    },
     logout() {
       dispatch(logout())
     }

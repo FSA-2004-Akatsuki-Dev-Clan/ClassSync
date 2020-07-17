@@ -3,7 +3,13 @@ import history from '../history'
 import store from '.'
 import openTeacherSocket from '../socket/teacher'
 import openStudentSocket from '../socket/student'
-import {resetSessionData, resetStudentData, setLive, setTitle} from '.'
+import {
+  resetSessionData,
+  resetStudentData,
+  setLive,
+  setTitle,
+  setSaved
+} from '.'
 
 let socket
 
@@ -25,6 +31,7 @@ export const startSession = async ({title, activityType, details, url}) => {
     store.dispatch(setTitle(title))
     store.dispatch(resetSessionData())
     store.dispatch(resetStudentData())
+    store.dispatch(setSaved(false))
   } catch (err) {
     console.log(
       'There was a problem trying to create a new session in the database',
@@ -35,8 +42,8 @@ export const startSession = async ({title, activityType, details, url}) => {
 }
 
 //if confirmed, sends message to server to end the session
-export const endSession = async () => {
-  socket.emit('end-session')
+export const endSession = save => {
+  socket.emit('end-session', save)
 
   store.dispatch(setLive(false))
 
@@ -45,6 +52,14 @@ export const endSession = async () => {
   while (reInvites.childNodes.length) {
     reInvites.removeChild(reInvites.childNodes[0])
   }
+}
+
+export const saveSession = () => {
+  socket.emit('save-data')
+}
+
+export const saveLogout = () => {
+  socket.emit('save-logout')
 }
 
 /**
@@ -81,6 +96,16 @@ export const me = () => async dispatch => {
       } while (!socket)
 
       history.push(res.data ? '/session' : '/')
+
+      const {status, liveSession} = store.getState()
+
+      if (
+        !status.saved &&
+        !status.live &&
+        liveSession.faceDetects &&
+        !status.modal
+      )
+        store.dispatch(setModal('teacherSave'))
     }
   } catch (err) {
     console.error(err)
@@ -120,6 +145,16 @@ export const auth = (
     } while (!socket)
 
     history.push('/session')
+
+    const {status, liveSession} = store.getState()
+
+    if (
+      !status.saved &&
+      !status.live &&
+      liveSession.faceDetects &&
+      !status.modal
+    )
+      store.dispatch(setModal('teacherSave'))
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
