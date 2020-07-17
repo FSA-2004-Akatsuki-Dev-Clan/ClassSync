@@ -8,63 +8,10 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 
   render() {
-
-    const {specificSess, singleStudentSession} = this.props
-    let sessClickAvg
-    let sessFaceScoreAvg
-    let sessKeyStrokeAvg
-    let sessWordsSpokenAvg
-
-    if (specificSess) {
-      sessClickAvg = Math.round(specificSess.sessClickTot / 30)
-      sessFaceScoreAvg = Math.round(specificSess.sessFaceScore / 30)
-      sessKeyStrokeAvg = Math.round(specificSess.sessKeyStrokeTot / 30)
-      sessWordsSpokenAvg = Math.round(specificSess.sessWordsSpokenTot / 30)
-    }
-
-    let specificSessAverages = [
-      sessClickAvg,
-      sessFaceScoreAvg,
-      sessKeyStrokeAvg,
-      sessWordsSpokenAvg
-    ]
-
-    let studClickAvg
-    let studFaceScoreAvg
-    let studKeyStrokeAvg
-    let studWordsSpokenAvg
-    
-    if (this.props.sessionId) {
- 
-      studClickAvg =
-        singleStudentSession.studentSessions[this.props.sessionId-1].clickCount,
-        studFaceScoreAvg =
-          singleStudentSession.studentSessions[this.props.sessionId-1].faceCount /
-          singleStudentSession.studentSessions[this.props.sessionId-1]
-            .faceDetects,
-        studKeyStrokeAvg =
-          singleStudentSession.studentSessions[this.props.sessionId-1].keyCount,
-        studWordsSpokenAvg =
-          singleStudentSession.studentSessions[this.props.sessionId-1].wordCount
-    }
-    let studentSessionArray = [
-      studClickAvg,
-      studFaceScoreAvg,
-      studKeyStrokeAvg,
-      studWordsSpokenAvg
-    ]
-
+    console.log(this.props)
     return (
       <div>
-        <div>
-          <Grid item xs={12} container direction="row">
-            <BarGraph
-              data={specificSessAverages}
-              student={studentSessionArray}
-            />
-          </Grid>
-        </div>
-        {specificSess && <h1>{specificSess.title}</h1>}
+        <h1>Hello World</h1>
       </div>
     )
   }
