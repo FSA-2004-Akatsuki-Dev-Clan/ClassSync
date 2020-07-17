@@ -1,8 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchStudentSessions} from '../../store/single-student-session'
-import {Grid} from '@material-ui/core'
-import BarGraph from '../bar-graph'
 
 class HistoricalSingleStudentSession extends React.Component {
   componentDidMount() {
@@ -54,17 +52,10 @@ class HistoricalSingleStudentSession extends React.Component {
 
     // console.log('i am in the historical single student sess props ', this.props)
     // console.log('i am singlestudent session ====>',this.props.singleStudentSession)
+
     return (
       <div>
-        <div>
-          <Grid item xs={12} container direction="row">
-            <BarGraph
-              data={specificSessAverages}
-              student={studentSessionArray}
-            />
-          </Grid>
-        </div>
-        {specificSess && <h1>{specificSess.title}</h1>}
+        <h1>Hello World</h1>
       </div>
     )
   }
@@ -72,7 +63,7 @@ class HistoricalSingleStudentSession extends React.Component {
 
 const mapState = state => {
   return {
-    singleStudentSession: state.singleStudentSession
+    singleStudentSession: state.studentSessions
   }
 }
 

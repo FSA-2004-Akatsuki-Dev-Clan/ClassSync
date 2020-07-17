@@ -64,7 +64,6 @@ module.exports = io => {
     //On socket disconnect without having logged out, identify whether student or teacher =>
     //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
     socket.on('disconnect', () => {
-
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 

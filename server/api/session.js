@@ -35,6 +35,7 @@ router.put('/save', async (req, res, next) => {
   try {
     const rawData = req.body.rawTotals
     const sessionData = {}
+    console.log('->>>>>>> this should be session data', req.body)
     const sessionToClose = await Session.findByPk(+req.body.id)
 
     sessionData.sessFaceCountTot = rawData.faceCount
