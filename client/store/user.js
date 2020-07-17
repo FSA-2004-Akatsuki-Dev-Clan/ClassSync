@@ -72,7 +72,7 @@ export const me = () => async dispatch => {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
 
-    //on loading up the session user, import the appropriate socket functionality, and send reconnect message to server
+    //on loading up the session user, import the appropriate socket functionality
     if (res.data) {
       do {
         let user = store.getState().user
@@ -112,7 +112,7 @@ export const auth = (
     dispatch(getUser(res.data))
     console.log(res.data)
 
-    //on login/signup, import the appropriate socket functionality and send reconnect message to server
+    //on login/signup, import the appropriate socket functionality
     do {
       let user = store.getState().user
       if (user.id)

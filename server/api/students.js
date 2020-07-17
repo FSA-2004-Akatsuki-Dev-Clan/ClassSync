@@ -26,7 +26,6 @@ router.get('/:studentid', async (req, res, next) => {
 
 router.put('/save', async (req, res, next) => {
   try {
-    // console.log('i am req.body ========>', req.body)
     const studentData = req.body
 
     for (let id in studentData) {

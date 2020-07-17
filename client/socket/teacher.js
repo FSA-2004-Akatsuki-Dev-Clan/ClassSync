@@ -10,6 +10,7 @@ import axios from 'axios'
 
 let teacherSocket
 
+//if cancel message from student => give option to resend a start message from server, or create a button to do so later
 export const reinvite = socket => {
   teacherSocket.emit('re-invite', socket)
 }
@@ -29,7 +30,6 @@ export const makeReinviteButton = ({first, last, studentId, socket}) => {
 const openTeacherSocket = () => {
   teacherSocket = openSocket()
 
-  //if cancel message from student => give option to resend a start message from server, or create a button to do so later
   teacherSocket.on('cancel', student => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))

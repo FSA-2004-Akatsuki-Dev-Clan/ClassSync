@@ -23,7 +23,6 @@ export const cancelSession = () => {
 export const acceptSession = async () => {
   const student = store.getState().user
 
-  //if accepted, loads up faceapi library we've chosen above, resets and starts monitoring/data sending functions
   await loadFaceAPI()
 
   // await stopMonitor()
@@ -38,7 +37,6 @@ export const acceptSession = async () => {
 const openStudentSocket = () => {
   studentSocket = openSocket()
 
-  //when a request to start the session is received, the student hits OK or Cancel, and the respective response is emitted
   studentSocket.on('start-session', (title, url) => {
     store.dispatch(setAssignment(url))
     store.dispatch(setTitle(title))
@@ -49,7 +47,7 @@ const openStudentSocket = () => {
     else if (!live) cancelSession()
   })
 
-  //if a message is received that the session is over, the timed activity logging interval and  is stopped
+  //if a message is received that the session is over, the timed activity logging interval is stopped
   studentSocket.on('end-session', async () => {
     const {live, modal} = store.getState().status
 

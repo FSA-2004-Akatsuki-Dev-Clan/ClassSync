@@ -92,9 +92,6 @@ export default class Chart extends React.Component {
                   backgroundColor: 'rgb(179, 255, 0)'
                 }
               },
-              // time: {
-              //   unit: 'minute',
-              // },
               plugins: {
                 datalabels: {
                   align: 260
@@ -120,13 +117,6 @@ export default class Chart extends React.Component {
                 ],
                 xAxes: [
                   {
-                    // time: {
-                    //   unit: 'minute',
-                    // },
-                    // ticks: {
-                    //   suggestedMin: 0,
-                    //   suggestedMax: 30,
-                    // },
                     scaleLabel: {
                       labelString: 'Session Minutes',
                       display: true,
