@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchSession} from '../../store/session'
@@ -19,13 +20,10 @@ class HistoricalSingleStudent extends React.Component {
     }
   }
 
-  // handleClick(id) {
-  //   this.props.getStudentHis(this.state.sessionId)
-  // }
-
   componentDidMount() {
     this.props.getSessions()
   }
+
   render() {
     const {students, studentId, sessions} = this.props
     let classClickAvg = 0
@@ -58,23 +56,60 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.wordsSpokenAvg
     ]
 
+    let selectSess
+    if (this.state.sessionId) {
+      selectSess = sessions.filter(
+        session => session.id === this.state.sessionId
+      )[0]
+    }
+
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
         <h1>Sessions</h1>
         <div>
           {sessions.map(session => (
-            <div value={session.id} key={session.id}>
-              <a>{session.title}</a>
+            <div key={session.id}>
+              <Grid item xs={2}>
+                <Card width="100%">
+                  <CardActionArea
+                    onClick={() => this.setState({sessionId: session.id})}
+                  >
+                    <img
+                      src="../../Assignment.jpg"
+                      height="150px"
+                      title="Contemplative Reptile"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {`${session.title}`}
+                      </Typography>
+                      {/* <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {student.grade}
+                          {student.email}
+                        </Typography> */}
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
             </div>
           ))}
         </div>
+
         <Grid item xs={12} container direction="row">
           <BarGraph data={classAvg} student={singledatas} />
           <SingleTable data={singleStudent} />
         </Grid>
 
-        <HistoricalSingleStudentSession studentId={studentId} />
+        <HistoricalSingleStudentSession
+          studentId={studentId}
+          specificSess={selectSess}
+          sessionId={this.state.sessionId}
+        />
       </div>
     )
   }
@@ -83,7 +118,8 @@ class HistoricalSingleStudent extends React.Component {
 const mapState = state => {
   return {
     students: state.students,
-    sessions: state.sessions
+    sessions: state.sessions,
+    singleStudentSession: state.singleStudentSession
   }
 }
 
@@ -94,4 +130,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
+export default connect(mapState, mapDispatch)(HistoricalSingleStudent)n
