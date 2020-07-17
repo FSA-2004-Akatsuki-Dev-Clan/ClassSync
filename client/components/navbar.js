@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Navbar = ({handleClick, user}) => {
+const Navbar = ({logoff, user, live}) => {
   const classes = useStyles()
   const [auth, setAuth] = React.useState(true)
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -59,7 +59,7 @@ const Navbar = ({handleClick, user}) => {
                   <Link className={classes.link} to="/session">
                     {user.isTeacher ? 'Dashboard' : 'Student Session'}
                   </Link>
-                  <a className={classes.link} href="#" onClick={handleClick}>
+                  <a className={classes.link} href="#" onClick={logoff}>
                     Logout
                   </a>
                 </div>
@@ -85,9 +85,6 @@ const Navbar = ({handleClick, user}) => {
                 >
                   <AccountCircle />
                 </IconButton>
-                {user.id && (
-                  <span>Welcome to your classroom, {user.firstName}!</span>
-                )}
                 {/* <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
@@ -105,6 +102,10 @@ const Navbar = ({handleClick, user}) => {
                   <MenuItem>Profile</MenuItem>
                   <MenuItem>My account</MenuItem>
                 </Menu> */}
+                {user.id && (
+                  <span>Welcome to your classroom, {user.firstName}!</span>
+                )}
+                {live && <i className="fa fa-dot-circle-o" style="color:red" />}
               </div>
             )}
           </Toolbar>
@@ -119,13 +120,14 @@ const Navbar = ({handleClick, user}) => {
  */
 const mapState = state => {
   return {
-    user: state.user
+    user: state.user,
+    live: state.status.live
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
+    logoff() {
       dispatch(logout())
     }
   }

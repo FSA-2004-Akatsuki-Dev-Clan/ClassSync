@@ -29,6 +29,7 @@ class AllStudents extends React.Component {
     this.state = {
       selectedStudentId: null
     }
+    this.checkStudentAlert = this.checkStudentAlert.bind(this)
   }
 
   // componentDidMount() {
@@ -54,6 +55,9 @@ class AllStudents extends React.Component {
           <div>
             {liveStudents.map(student => (
               <div key={student.id}>
+                {this.checkStudentAlert(student, liveSession) && (
+                  <i className="fa fa-caret-down" style="color:red" />
+                )}
                 <Grid item xs={2}>
                   <Card maxWidth="345px">
                     <CardActionArea
@@ -89,6 +93,15 @@ class AllStudents extends React.Component {
           </div>
         )}
       </div>
+    )
+  }
+
+  checkStudentAlert(student, session) {
+    return (
+      student.faceScore < session.faceScore / 1.5 ||
+      student.wordCount < session.wordCount / 1.5 ||
+      student.keyCount < session.keyCount / 1.5 ||
+      student.clickCount < session.clickCount / 1.5
     )
   }
 }
