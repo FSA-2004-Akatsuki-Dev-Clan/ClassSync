@@ -88,7 +88,7 @@ recognition.onresult = event => {
 }
 
 //monitoring/activity logging script
-export const startMonitor = (studentSocket, student) => {
+export const startMonitor = async (studentSocket, student) => {
   let mediaConfigObj = {
     audio: true,
     video: true
@@ -97,7 +97,7 @@ export const startMonitor = (studentSocket, student) => {
   //The webcam/microphone streams are accessed
   navigator.mediaDevices
     .getUserMedia(mediaConfigObj)
-    .then(mediaStreamObj => {
+    .then(async mediaStreamObj => {
       console.log('connected to media stream!', mediaStreamObj)
 
       data = {...initialData}
@@ -143,15 +143,15 @@ export const startMonitor = (studentSocket, student) => {
 }
 
 //stops all monitoring functions and clears the data-sending interval, resets data object
-export const stopMonitor = () => {
+export const stopMonitor = async () => {
   clearInterval(serverTransmitInterval)
 
   if (mediaStream) {
-    mediaStream.getAudioTracks().forEach(track => {
+    mediaStream.getAudioTracks().forEach(async track => {
       track.stop()
     })
 
-    mediaStream.getVideoTracks().forEach(track => {
+    mediaStream.getVideoTracks().forEach(async track => {
       track.stop()
     })
   }

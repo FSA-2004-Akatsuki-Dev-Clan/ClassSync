@@ -64,7 +64,6 @@ module.exports = io => {
     //On socket disconnect without having logged out, identify whether student or teacher =>
     //if teacher, set timeout to end session if they don't return; If student in session, inform the teacher
     socket.on('disconnect', () => {
-      console.log('disconnect')
       if (socket.id === teacher.socket && !teacher.logout) {
         console.log(`The teacher disconnected from socket ${socket.id}`)
 
@@ -101,7 +100,7 @@ module.exports = io => {
 
     //start message from teacher => session data is initialized, new session instance is created in database
     //Students are sent start message; Interval is set to send the teacher data pings
-    socket.on('start-session', (id, url) => {
+    socket.on('start-session', async (id, url) => {
       sessionData = {id}
       studentData = {}
       logouts = {}
