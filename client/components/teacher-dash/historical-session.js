@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchStudentSess} from '../../store/historical-session'
-import {fetchStudents} from '../../store/historical-session'
+import {fetchStudents} from '../../store/students'
 import {HistoricalSingleStudent} from '../'
 import {makeStyles} from '@material-ui/core/styles'
 import {
@@ -20,9 +20,9 @@ class HistoricalSession extends React.Component {
     }
   }
 
-  //   componentDidMount() {
-  //     this.props.getStudents()
-  //   }
+    componentDidMount() {
+      this.props.getStudents()
+    }
 
   render() {
     const {students} = this.props
