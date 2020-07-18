@@ -75,7 +75,7 @@ class HistoricalSingleStudent extends React.Component {
                     onClick={() => this.setState({sessionId: session.id})}
                   >
                     <img
-                      src="../../Assignment.jpg"
+                      src="../../assignment.png"
                       height="150px"
                       title="Contemplative Reptile"
                     />
