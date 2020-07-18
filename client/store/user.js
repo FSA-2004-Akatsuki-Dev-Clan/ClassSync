@@ -9,7 +9,7 @@ import {
   setLive,
   setTitle,
   setSaved,
-  setModal
+  setModal,
 } from '.'
 
 let socket
@@ -23,7 +23,7 @@ export const startSession = async ({title, activityType, details, url}) => {
     const {data} = await axios.post('/api/session', {
       title,
       activityType,
-      details
+      details,
     })
     const sessionId = data
     socket.emit('start-session', title, sessionId, url)
@@ -43,7 +43,7 @@ export const startSession = async ({title, activityType, details, url}) => {
 }
 
 //if confirmed, sends message to server to end the session
-export const endSession = save => {
+export const endSession = (save) => {
   socket.emit('end-session', save)
 
   store.dispatch(setLive(false))
@@ -77,13 +77,13 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const getUser = (user) => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
  * THUNK CREATORS
  */
-export const me = () => async dispatch => {
+export const me = () => async (dispatch) => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
@@ -120,7 +120,7 @@ export const auth = (
   email,
   password,
   method
-) => async dispatch => {
+) => async (dispatch) => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {
@@ -128,7 +128,7 @@ export const auth = (
       lastName,
       gradeLevel,
       email,
-      password
+      password,
     })
   } catch (authError) {
     return dispatch(getUser({error: authError}))
@@ -161,18 +161,16 @@ export const auth = (
   }
 }
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   try {
     const res = await axios.post('/auth/logout')
     dispatch(removeUser())
 
     //On logout, send logout message to the server
-
-    do {
-      let user = store.getState().user
-      console.log('user', user)
-      if (!user.id) socket.emit('logout', res.data)
-    } while (user.id)
+    while (store.getState().user.id) {
+      console.log('user not logged out')
+    }
+    socket.emit('logout', res.data)
 
     history.push('/')
   } catch (err) {
@@ -184,7 +182,7 @@ export const logout = () => async dispatch => {
  * REDUCER
  */
 
-export default function(state = defaultUser, action) {
+export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user
