@@ -16,6 +16,9 @@ npm run start-dev: start developer environment with local server and webpack
 
 Visit http://localhost:8080 to fire it up locally
 
+Or If you have time click the project link and log in as a teacher kylalara1@gmail.com, password 123, 
+grab a google form embed link, and send it via our platform, and monitor a friend once they sign up.
+You also can role play as one of our star Pupils Pierre Parks pierreparkes1@gmail.com password 123.
 If you want to run the server and/or webpack separately, you can also npm run start-server and npm run build-client.
 
 # Customize:
