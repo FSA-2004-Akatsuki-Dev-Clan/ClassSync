@@ -5,9 +5,9 @@ router.get('/:id', async (req, res, next) => {
   try {
     const studentSess = await StudentSession.findAll({
       where: {
-        sessionId: req.params.id
+        sessionId: req.params.id,
       },
-      include: {model: Student}
+      include: {model: Student},
     })
     res.json(studentSess)
   } catch (error) {
@@ -19,10 +19,10 @@ router.get('/singleStudent/:id', async (req, res, next) => {
   try {
     const studentSess = await StudentSession.findOne({
       where: {
-        sessionId: +req.params.id,
-        studentId: +req.body.studentId
+        // sessionId: +req.params.id,
+        studentId: +req.body.studentId,
       },
-      include: {model: Session}
+      include: {model: Session},
     })
     res.json(studentSess)
   } catch (error) {

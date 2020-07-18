@@ -6,14 +6,14 @@ import store, {
   studentAlert,
   setModal,
   setSaved,
-  logout
+  logout,
 } from '../store'
 import axios from 'axios'
 
 let teacherSocket
 
 //if cancel message from student => give option to resend a start message from server, or create a button to do so later
-export const reinvite = socket => {
+export const reinvite = (socket) => {
   teacherSocket.emit('re-invite', socket)
 }
 
@@ -32,7 +32,7 @@ export const makeReinviteButton = ({first, last, studentId, socket}) => {
 const openTeacherSocket = () => {
   teacherSocket = openSocket()
 
-  teacherSocket.on('cancel', student => {
+  teacherSocket.on('cancel', (student) => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentCancel'))
@@ -46,7 +46,7 @@ const openTeacherSocket = () => {
       addSessionData({
         time,
         attendance: sessionData.attendance,
-        ...sessionData.averages
+        ...sessionData.averages,
       })
     )
   })
@@ -54,7 +54,7 @@ const openTeacherSocket = () => {
   teacherSocket.on('save-data', async (session, student) => {
     try {
       if (session.rawTotals && session.rawTotals.faceDetects) {
-        student.sessionId = +session.id
+        // student.sessionId = +session.id
         await axios.put(`api/session/save`, session)
         await axios.put('api/students/save', student)
       } else store.dispatch(setModal('noServerData'))
@@ -71,7 +71,7 @@ const openTeacherSocket = () => {
   teacherSocket.on('save-logout', async (session, student) => {
     try {
       if (session.rawTotals && session.rawTotals.faceDetects) {
-        student.sessionId = +session.id
+        // student.sessionId = +session.id
         await axios.put(`api/session/save`, session)
         await axios.put('api/students/save', student)
       } else store.dispatch(setModal('noServerData'))
@@ -92,28 +92,28 @@ const openTeacherSocket = () => {
     store.dispatch(setLive(true))
   })
 
-  teacherSocket.on('student-logout', student => {
+  teacherSocket.on('student-logout', (student) => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentLogout'))
     }
   })
 
-  teacherSocket.on('student-disconnect', student => {
+  teacherSocket.on('student-disconnect', (student) => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentDisconnect'))
     }
   })
 
-  teacherSocket.on('student-rejoin', student => {
+  teacherSocket.on('student-rejoin', (student) => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentRejoin'))
     }
   })
 
-  teacherSocket.on('student-join', student => {
+  teacherSocket.on('student-join', (student) => {
     if (!store.getState().status.modal) {
       store.dispatch(studentAlert(student))
       store.dispatch(setModal('studentJoin'))
