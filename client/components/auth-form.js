@@ -24,7 +24,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Classync
+        ClassSync
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -34,7 +34,6 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    // marginTop: '100px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -44,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#dc004e'
   },
   form: {
-    width: '100%' // Fix IE 11 issue.
+    width: '100%'
   },
   buttonStyle: {
     marginTop: '10px',

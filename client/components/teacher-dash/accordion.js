@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   heading: {
+    alignContent: 'center',
+    alignText: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },

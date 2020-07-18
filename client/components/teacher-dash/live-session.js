@@ -20,7 +20,7 @@ const myStyles = makeStyles(theme => ({
   },
   cardStyling: {
     color: 'white',
-    background: 'linear-gradient(45deg, #8bfe6b 30%, #53ebff 90%)'
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
   }
 }))
 
@@ -28,7 +28,7 @@ const LiveSession = ({session}) => {
   const classes = myStyles()
   return (
     <Grid className={classes.fragment} container direction="row">
-      <React.Fragment className={classes.fragment}>
+      <React.Fragment>
         <Grid item xs={5}>
           <Card>
             <Grid
