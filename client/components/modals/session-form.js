@@ -43,9 +43,6 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%',
-    background='red',
-    backgroundColor='red',
-    borderColor='red',
   },
   buttonStyle: {
     marginTop: '10px',
