@@ -8,6 +8,7 @@ import store, {
   setSaved,
   logout,
 } from '../store'
+import {fetchSession} from '../store/session'
 import axios from 'axios'
 
 let teacherSocket
@@ -60,6 +61,7 @@ const openTeacherSocket = () => {
       } else store.dispatch(setModal('noServerData'))
 
       store.dispatch(setSaved(true))
+      store.dispatch(fetchSession())
     } catch (err) {
       console.log(
         'There was a problem saving the session data in the database',
@@ -77,6 +79,7 @@ const openTeacherSocket = () => {
       } else store.dispatch(setModal('noServerData'))
 
       store.dispatch(setSaved(true))
+      store.dispatch(fetchSession())
 
       logout()
     } catch (err) {
