@@ -18,9 +18,12 @@ const myStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  cardStyling: {
+  imageStyling: {
     color: 'white',
-    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
+  },
+  cardStyling: {
+    minHeight: 320
   }
 }))
 
@@ -30,7 +33,7 @@ const LiveSession = ({session}) => {
     <Grid className={classes.fragment} container direction="row">
       <React.Fragment>
         <Grid item xs={5}>
-          <Card>
+          <Card className={classes.cardStyling}>
             <Grid
               item
               xs={12}
@@ -39,10 +42,11 @@ const LiveSession = ({session}) => {
               direction="row"
             >
               <Grid item xs={8}>
-                <Card className={classes.cardStyling}>
+                <Card className={classes.imageStyling}>
                   <img src="../../graph.png" height="50px" />
                 </Card>
               </Grid>
+              
             </Grid>
             <h1>{session.attendance || 0}</h1>
             Totals Students Transmitting Data
@@ -59,7 +63,7 @@ const LiveSession = ({session}) => {
         </Grid>
         <Grid>&nbsp; &nbsp; &nbsp; &nbsp;</Grid>
         <Grid item xs={5}>
-          <Card>{session !== {} && <Chart data={session} />}</Card>
+          <Card className={classes.cardStyling}>{session !== {} && <Chart data={session} />}</Card>
         </Grid>
       </React.Fragment>
     </Grid>

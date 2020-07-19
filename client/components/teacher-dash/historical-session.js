@@ -15,7 +15,8 @@ import {
 
 const styles = theme => ({
   root: {
-    minWidth: 275
+    minWidth: 275,
+    minHeight: 225
   },
   buttonStyle: {
     background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
@@ -73,9 +74,9 @@ class HistoricalSession extends React.Component {
                         }
                       >
                         <img
-                          src="../../default-profile-pic.jpg"
-                          height="80px"
-                          title="Contemplative Reptile"
+                          src={student.imageUrl}
+                          height="120px"
+                          title={`${student.firstName}'s profile picture`}
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="h2" textAlign='center'>

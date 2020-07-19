@@ -56,13 +56,13 @@ export default class BarGraph extends React.Component {
         {
           label: ['Student Averages'],
           data: student,
-          backgroundColor: ['rgb(170, 120, 250, .2)'],
+          backgroundColor: ['rgb(1, 184, 181)', 'rgb(1, 184, 181)', 'rgb(1, 184, 181)', 'rgb(1, 184, 181)'],
           fontColor: 'rgb(170, 120, 250)'
         },
         {
           label: ['Class Averages'],
           data: data,
-          backgroundColor: ['rgb(170, 120, 250, .2)'],
+          backgroundColor: ['rgb(207, 226, 101)', 'rgb(207, 226, 101)', 'rgb(207, 226, 101)', 'rgb(207, 226, 101)'],
           fontColor: 'rgb(170, 120, 250)'
         }
       ]

@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import Avatar from '@material-ui/core/Avatar'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 
@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2)
+  },
+  toolbarButtons: {
+    marginLeft: 'auto',
   },
   title: {
     flexGrow: 1
@@ -86,14 +89,20 @@ const Navbar = ({logout, liveLogout, user, live}) => {
               )}
             </nav>
             {auth && (
-              <div>
+              <div className={classes.toolbarButtons}>
+                {user.id && (
+                  <span>
+                    Welcome to your classroom, {user.firstName}! {'   '}
+                  </span>
+                )}
+
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <Avatar alt="Remy Sharp" src={user.imageUrl} />
                 </IconButton>
                 {/* <Menu
                   id="menu-appbar"
@@ -112,11 +121,6 @@ const Navbar = ({logout, liveLogout, user, live}) => {
                   <MenuItem>Profile</MenuItem>
                   <MenuItem>My account</MenuItem>
                 </Menu> */}
-                {user.id && (
-                  <span>
-                    Welcome to your classroom, {user.firstName}! {'   '}
-                  </span>
-                )}
               </div>
             )}
           </Toolbar>

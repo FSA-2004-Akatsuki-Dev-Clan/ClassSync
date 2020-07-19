@@ -3,7 +3,8 @@ const teacherSeed = [
     firstName: 'Kyla',
     lastName: 'Lara',
     email: 'kylalara1@gmail.com',
-    password: '123'
+    password: '123',
+    imageUrl: 'https://images.generated.photos/y3gwqBgy_TfhuzyiuvzEPR5-7Kf6cA4gKEG7X0oG2H0/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0NjIwMzUuanBn.jpg'
   }
   // {
   //   firstName: 'Safah',

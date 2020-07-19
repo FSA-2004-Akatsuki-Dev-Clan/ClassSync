@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchSession } from '../../store/session'
 import { fetchStudentSess } from '../../store/single-student-session'
 import { withStyles } from '@material-ui/styles';
-import { BarGraph, HistoricalSingleStudentSession, SingleTable } from '../'
+import { BarGraph, HistoricalSingleStudentSession, SingleTable, GridList } from '../'
 import {
   Card,
   Grid,
@@ -14,11 +14,10 @@ import {
 
 const styles = theme => ({
   root: {
-    alignContent: 'center',
+    justifyContent: 'center',
     textAlign: 'center',
     justify: 'center',
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   h1: {
     textAlign: 'center'
@@ -32,6 +31,10 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     display: "flex",
+    minHeight: 275
+  },
+  graph: {
+    minHeight: 275
   },
   cardStyling: {
     color: 'white',
@@ -91,12 +94,12 @@ class HistoricalSingleStudent extends React.Component {
     }
 
     return (
-      <Grid item xs={12} className={classes.root} container direction='row'>
+      <Grid className={classes.root} container direction='row'>
 
         <h2>{singleStudent.firstName}'s Overall Session Averages vs Class Averages</h2>
 
-        <Grid item xs={12} container direction="row">
-          <Grid item xs={5} container direction="row">
+        <Grid item xs={12} container direction="row" justify="center" >
+          <Grid item xs={5} >
             <Card>
               <Grid
                 item
@@ -105,21 +108,30 @@ class HistoricalSingleStudent extends React.Component {
                 container
                 direction="row">
 
-                <Grid item xs={10}>
+                <Grid item xs={10} className={classes.root}>
                   <Card className={classes.cardStyling}>
                     <img src="../../graph.png" height="50px" />
                   </Card>
                 </Grid>
 
+                <Grid>&nbsp;</Grid>
+
                 <SingleTable data={singleStudent} />
+
               </Grid>
             </Card>
           </Grid>
+
+          <Grid>&nbsp; &nbsp; &nbsp; &nbsp;</Grid>
+
           <Grid item xs={5}>
             <Card>
-              <BarGraph data={classAvg} student={singledatas} />
+              <Grid className={classes.graph}>
+                <BarGraph data={classAvg} student={singledatas} />
+              </Grid>
             </Card>
           </Grid>
+
         </Grid>
 
         <h2>{singleStudent.firstName}'s Single Session Averages vs Class Averages</h2>
@@ -137,7 +149,7 @@ class HistoricalSingleStudent extends React.Component {
                       height="150px"
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography gutterBottom variant="h5" component="h3">
                         {`${session.title}`}
                       </Typography>
                       {/* <Typography
@@ -155,12 +167,15 @@ class HistoricalSingleStudent extends React.Component {
             </div>
           ))}
         </Grid>
-
+        
+        <Grid item xs={12}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
+        
         <HistoricalSingleStudentSession
           studentId={studentId}
           specificSess={selectSess}
           sessionId={this.state.sessionId}
         />
+
       </Grid>
     )
   }
