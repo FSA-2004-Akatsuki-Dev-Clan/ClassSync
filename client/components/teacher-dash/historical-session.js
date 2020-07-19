@@ -33,7 +33,7 @@ class HistoricalSession extends React.Component {
   constructor() {
     super()
     this.state = {
-      selectedStudentId: null
+      selectedStudentId: null,
     }
   }
 
@@ -106,17 +106,17 @@ class HistoricalSession extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     studentSession: state.studentSession,
-    students: state.students
+    students: state.students,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getStudentHis: id => dispatch(fetchStudentSess(id)),
-    getStudents: () => dispatch(fetchStudents())
+    getStudentHis: (id) => dispatch(fetchStudentSess(id)),
+    getStudents: () => dispatch(fetchStudents()),
   }
 }
 

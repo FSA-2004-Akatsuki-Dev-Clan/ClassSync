@@ -9,7 +9,7 @@ import {
   Grid,
   CardActionArea,
   CardContent,
-  Typography
+  Typography,
 } from '@material-ui/core'
 
 const styles = theme => ({
@@ -46,7 +46,7 @@ class HistoricalSingleStudent extends React.Component {
   constructor() {
     super()
     this.state = {
-      sessionId: null
+      sessionId: null,
     }
   }
 
@@ -62,7 +62,7 @@ class HistoricalSingleStudent extends React.Component {
     let classWordsAvg = 0
 
     sessions.forEach(
-      session => (
+      (session) => (
         (classClickAvg += session.sessClickTot / 30),
         (classFaceScoreAvg += session.sessFaceScore / 30),
         (classKeyAvg += session.sessKeyStrokeTot / 30),
@@ -83,13 +83,13 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.mouseClickAvg,
       singleStudent.faceScoreAvg,
       singleStudent.keyStrokeAvg,
-      singleStudent.wordsSpokenAvg
+      singleStudent.wordsSpokenAvg,
     ]
 
     let selectSess
     if (this.state.sessionId) {
       selectSess = sessions.filter(
-        session => session.id === this.state.sessionId
+        (session) => session.id === this.state.sessionId
       )[0]
     }
 
@@ -134,7 +134,7 @@ class HistoricalSingleStudent extends React.Component {
 
         </Grid>
 
-        <h2>{singleStudent.firstName}'s Single Session Averages vs Class Averages</h2>
+        <h2>{singleStudent.firstName} {singleStudent.lastName}'s Single Session Averages vs Class Averages</h2>
 
         <Grid item xs={12} className={classes.root} container direction='row'>
           {sessions.map(session => (
@@ -145,7 +145,7 @@ class HistoricalSingleStudent extends React.Component {
                     onClick={() => this.setState({ sessionId: session.id })}
                   >
                     <img
-                      src="../../Assignment.jpg"
+                      src="../../assignment.png"
                       height="150px"
                     />
                     <CardContent>
@@ -170,29 +170,33 @@ class HistoricalSingleStudent extends React.Component {
         
         <Grid item xs={12}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
         
-        <HistoricalSingleStudentSession
-          studentId={studentId}
-          specificSess={selectSess}
-          sessionId={this.state.sessionId}
-        />
+{this.state.sessionId <= 4 ? (
+          <HistoricalSingleStudentSession
+            studentId={studentId}
+            specificSess={selectSess}
+            sessionId={this.state.sessionId}
+          />
+        ) : (
+          ''
+        )}        
 
       </Grid>
     )
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     students: state.students,
     sessions: state.sessions,
-    singleStudentSession: state.singleStudentSession
+    singleStudentSession: state.singleStudentSession,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getStudentHis: id => dispatch(fetchStudentSess(id)),
-    getSessions: () => dispatch(fetchSession())
+    getStudentHis: (id) => dispatch(fetchStudentSess(id)),
+    getSessions: () => dispatch(fetchSession()),
   }
 }
 

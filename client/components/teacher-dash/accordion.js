@@ -28,10 +28,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     alignSelf: 'center',
   }
-}));
+}))
 
 export default function SimpleAccordion() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -46,12 +46,11 @@ export default function SimpleAccordion() {
           <div className={classes.root}>
             <img className={classes.image} src="/student-roster-past-sessions.png" height="70px" />
           </div>
-          {/* <Typography className={classes.heading}>Past Sessions</Typography> */}
         </AccordionSummary>
         <AccordionDetails className={classes.root}>
           <HistoricalSession />
         </AccordionDetails>
       </Accordion>
     </div>
-  );
+  )
 }

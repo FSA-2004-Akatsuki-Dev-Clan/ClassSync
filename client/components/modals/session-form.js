@@ -21,13 +21,13 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
     border: 0,
-    color: 'red'
+    color: 'red',
   },
   dashboardGrid: {
     display: 'flex',
     background: 'grey',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   gridStyling: {
     textAlign: 'center'
@@ -68,6 +68,34 @@ const SessionForm = ({ title, details, url, handleChange }) => {
   return (
     <Grid item xs={12} className={classes.gridStyling}>
         {/* <label htmlFor="url">Assignment URL:</label>
+    <Grid item xs={12} classes={classes.gridStyling}>
+      <Grid item xs={12} sm={12}>
+        <label htmlFor="title">Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={title}
+          onChange={(evt) => handleChange(evt.target)}
+        />
+        <label htmlFor="activityType">Activity Type:</label>
+        <select
+          name="activityType"
+          onChange={(evt) => handleChange(evt.target)}
+        >
+          <option value="discussion">Discussion</option>
+          <option value="writing">Writing</option>
+          <option value="reading">Reading</option>
+        </select>
+        <label htmlFor="details">Details:</label>
+        <input
+          type="textarea"
+          name="details"
+          value={details}
+          onChange={(evt) => handleChange(evt.target)}
+        />
+        <label htmlFor="url">
+          {'Assignment URL (embedded form links only:'}
+        </label>
         <input
           type="text"
           name="url"

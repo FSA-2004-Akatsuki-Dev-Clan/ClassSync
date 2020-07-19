@@ -36,7 +36,7 @@ class HistoricalSingleStudentSession extends React.Component {
       sessClickAvg,
       sessFaceScoreAvg,
       sessKeyStrokeAvg,
-      sessWordsSpokenAvg
+      sessWordsSpokenAvg,
     ]
 
     let studClickAvg
@@ -45,18 +45,28 @@ class HistoricalSingleStudentSession extends React.Component {
     let studWordsSpokenAvg
 
     if (this.props.sessionId) {
-      studClickAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].clickCount,
-        studFaceScoreAvg = Math.round(singleStudentSession.studentSessions[this.props.sessionId - 1].faceCount /
-          singleStudentSession.studentSessions[this.props.sessionId - 1].faceDetects * 100),
-        studKeyStrokeAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount,
-        studWordsSpokenAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
+      console.log('sessionId', this.props.sessionId)
+      studClickAvg =
+        singleStudentSession.studentSessions[this.props.sessionId - 1]
+          .clickCount
+      studFaceScoreAvg = Math.round(
+        (singleStudentSession.studentSessions[this.props.sessionId - 1]
+          .faceCount /
+          singleStudentSession.studentSessions[this.props.sessionId - 1]
+            .faceDetects) *
+          100
+      )
+      studKeyStrokeAvg =
+        singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount
+      studWordsSpokenAvg =
+        singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
     }
 
     let studentSessionArray = [
       studClickAvg,
       studFaceScoreAvg,
       studKeyStrokeAvg,
-      studWordsSpokenAvg
+      studWordsSpokenAvg,
     ]
 
     return (
@@ -79,15 +89,15 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    singleStudentSession: state.singleStudentSession
+    singleStudentSession: state.singleStudentSession,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    fetchStudentSessions: id => dispatch(fetchStudentSessions(id))
+    fetchStudentSessions: (id) => dispatch(fetchStudentSessions(id)),
   }
 }
 
