@@ -29,7 +29,7 @@ describe('Teacher model', () => {
       })
     })
 
-    describe('student attributes', () => {
+    describe('teacher attributes', () => {
       it('creates a firstname attribute', () => {
         expect(clark.firstName).to.equal('Clark')
       })
