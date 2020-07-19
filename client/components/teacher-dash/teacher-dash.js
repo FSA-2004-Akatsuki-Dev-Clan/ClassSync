@@ -5,28 +5,32 @@ import {Grid, Button} from '@material-ui/core'
 import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
-import {LiveSession, AllStudents, SessionForm
-   // ,HistoricalSession
-  , SimpleAccordion} from '../'
+import {
+  LiveSession,
+  AllStudents,
+  SessionForm,
+  // ,HistoricalSession
+  SimpleAccordion,
+} from '../'
 import {setModal, endSession} from '../../store/'
 
-const myStyles = makeStyles(theme => ({
+const myStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     background: 'linear-gradient(45deg, #FE6888, #FF8E53, 90%)',
     border: 0,
-    color: 'red'
+    color: 'red',
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   dashboardGrid: {
     display: 'flex',
     background: 'grey',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonStyle: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -35,11 +39,11 @@ const myStyles = makeStyles(theme => ({
     color: 'white',
     height: 48,
     padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
   gridStyling: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }))
 
 const TeacherDash = ({
@@ -48,8 +52,9 @@ const TeacherDash = ({
   liveSession,
   live,
   title,
+  saved,
   openTeacherStart,
-  openTeacherEnd
+  openTeacherEnd,
 }) => {
   const classes = myStyles()
 
@@ -95,16 +100,25 @@ const TeacherDash = ({
             {/* <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid> */}
-            {live && <h1>Live Session: {title}</h1>}
+            {liveSession.faceDetects || live ? (
+              <h1>
+                {live ? 'Live Session: ' : 'Most Recent Session: '}
+                {title}
+              </h1>
+            ) : (
+              ''
+            )}
             <Grid container item xs={12}>
               <LiveSession session={liveSession} />
               <Grid container item xs={6} />
             </Grid>
-            {liveSession.faceDetects && (
+            {liveSession.faceDetects ? (
               <Grid item xs={12}>
                 <h3>Students In Session</h3>
                 <AllStudents />
               </Grid>
+            ) : (
+              ''
             )}
           </Grid>
 
@@ -114,29 +128,30 @@ const TeacherDash = ({
               {/* <ClassworkRow /> */}
             </Grid>
           </Grid>
-          <SimpleAccordion/>
+          <SimpleAccordion />
         </div>
       </Grid>
     </div>
   )
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     liveSession: state.liveSession,
     live: state.status.live,
-    title: state.status.title
+    title: state.status.title,
+    saved: state.status.saved,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     openTeacherStart() {
       dispatch(setModal('teacherStart'))
     },
     openTeacherEnd() {
       dispatch(setModal('teacherEnd'))
-    }
+    },
   }
 }
 
