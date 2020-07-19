@@ -8,14 +8,14 @@ import {
   Grid,
   CardActionArea,
   CardContent,
-  Typography
+  Typography,
 } from '@material-ui/core'
 
 class HistoricalSingleStudent extends React.Component {
   constructor() {
     super()
     this.state = {
-      sessionId: null
+      sessionId: null,
     }
   }
 
@@ -31,7 +31,7 @@ class HistoricalSingleStudent extends React.Component {
     let classWordsAvg = 0
 
     sessions.forEach(
-      session => (
+      (session) => (
         (classClickAvg += session.sessClickTot / 30),
         (classFaceScoreAvg += session.sessFaceScore / 30),
         (classKeyAvg += session.sessKeyStrokeTot / 30),
@@ -52,22 +52,28 @@ class HistoricalSingleStudent extends React.Component {
       singleStudent.mouseClickAvg,
       singleStudent.faceScoreAvg,
       singleStudent.keyStrokeAvg,
-      singleStudent.wordsSpokenAvg
+      singleStudent.wordsSpokenAvg,
     ]
 
     let selectSess
     if (this.state.sessionId) {
       selectSess = sessions.filter(
-        session => session.id === this.state.sessionId
+        (session) => session.id === this.state.sessionId
       )[0]
     }
 
     return (
       <div>
         <h1>{singleStudent.firstName}</h1>
+
+        <Grid item xs={12} container direction="row">
+          <BarGraph data={classAvg} student={singledatas} />
+          <SingleTable data={singleStudent} />
+        </Grid>
+
         <h1>Sessions</h1>
         <div>
-          {sessions.map(session => (
+          {sessions.map((session) => (
             <div key={session.id}>
               <Grid item xs={2}>
                 <Card width="100%">
@@ -99,11 +105,6 @@ class HistoricalSingleStudent extends React.Component {
           ))}
         </div>
 
-        <Grid item xs={12} container direction="row">
-          <BarGraph data={classAvg} student={singledatas} />
-          <SingleTable data={singleStudent} />
-        </Grid>
-
         <HistoricalSingleStudentSession
           studentId={studentId}
           specificSess={selectSess}
@@ -114,20 +115,19 @@ class HistoricalSingleStudent extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     students: state.students,
     sessions: state.sessions,
-    singleStudentSession: state.singleStudentSession
+    singleStudentSession: state.singleStudentSession,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getStudentHis: id => dispatch(fetchStudentSess(id)),
-    getSessions: () => dispatch(fetchSession())
+    getStudentHis: (id) => dispatch(fetchStudentSess(id)),
+    getSessions: () => dispatch(fetchSession()),
   }
 }
 
 export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
-

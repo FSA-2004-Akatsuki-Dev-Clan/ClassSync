@@ -125,7 +125,7 @@ const TeacherDash = ({
           <Grid item xs={12} sm={12} className={classes.gridStyling}>
             <h3>Past Sessions</h3>
             <Grid container item xs={12} spacing={3}>
-              {/* <ClassworkRow /> */}
+              <ClassworkRow />
             </Grid>
           </Grid>
           <SimpleAccordion />
