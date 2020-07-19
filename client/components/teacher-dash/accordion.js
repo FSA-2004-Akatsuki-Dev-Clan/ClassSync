@@ -10,6 +10,7 @@ import {HistoricalSession} from '../'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    backgroundColor: '#f8fcd9'
   },
   heading: {
     alignContent: 'center',
@@ -26,7 +27,7 @@ export default function SimpleAccordion() {
 
   return (
     <div className={classes.root}>
-      <Accordion>
+      <Accordion className={classes.root}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -34,7 +35,7 @@ export default function SimpleAccordion() {
         >
           <Typography className={classes.heading}>Past Sessions</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails className={classes.root}>
           <HistoricalSession/>
         </AccordionDetails>
       </Accordion>

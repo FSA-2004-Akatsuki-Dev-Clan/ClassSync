@@ -1,7 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {fetchStudentSessions} from '../../store/single-student-session'
-import {Grid} from '@material-ui/core'
+import { connect } from 'react-redux'
+import { fetchStudentSessions } from '../../store/single-student-session'
+import { Grid, Card } from '@material-ui/core'
 import BarGraph from '../bar-graph'
 
 class HistoricalSingleStudentSession extends React.Component {
@@ -10,7 +10,7 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 
   render() {
-    const {specificSess, singleStudentSession} = this.props
+    const { specificSess, singleStudentSession } = this.props
     let sessClickAvg
     let sessFaceScoreAvg
     let sessKeyStrokeAvg
@@ -42,6 +42,7 @@ class HistoricalSingleStudentSession extends React.Component {
         studKeyStrokeAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].keyCount,
         studWordsSpokenAvg = singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
     }
+
     let studentSessionArray = [
       studClickAvg,
       studFaceScoreAvg,
@@ -51,15 +52,19 @@ class HistoricalSingleStudentSession extends React.Component {
 
     return (
       <div>
+        {specificSess && <h1>{specificSess.title}</h1>}
         <div>
-          <Grid item xs={12} container direction="row">
-            <BarGraph
-              data={specificSessAverages}
-              student={studentSessionArray}
-            />
+          <Grid item xs={12}>
+            <Card>
+              <Grid item xs={12}>
+                <BarGraph
+                  data={specificSessAverages}
+                  student={studentSessionArray}
+                />
+              </Grid>
+            </Card>
           </Grid>
         </div>
-        {specificSess && <h1>{specificSess.title}</h1>}
       </div>
     )
   }
