@@ -50,6 +50,10 @@ const Session = db.define('sessions', {
   numOfStudents: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  imageUrl: {
+    type: Sequelize.TEXT,
+    defaultValue: '/assignment.png'
   }
 })
 

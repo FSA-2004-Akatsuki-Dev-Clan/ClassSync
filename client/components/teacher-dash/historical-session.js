@@ -15,8 +15,8 @@ import {
 
 const styles = theme => ({
   root: {
-    minWidth: 275,
-    minHeight: 225
+    minWidth: 250,
+    minHeight: 225,
   },
   buttonStyle: {
     background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',

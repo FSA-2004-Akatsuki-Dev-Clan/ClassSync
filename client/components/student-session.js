@@ -28,10 +28,10 @@ const StudentSession = ({ student, status }) => (
           ? 'The class session is live!'
           : 'Please await class session start by the teacher'}
       </h1>
+      {!status.live ? (
       <Grid container justify='center' alignItems="center">
         <img src='https://i.giphy.com/media/6NVOQr1I5H1MA/giphy.webp' />
-      </Grid>
-      {status.live && (
+      </Grid>) : (
         <div id="is-Live">
           <Iframe
             url={

@@ -145,6 +145,7 @@ module.exports = (io) => {
           socket: socket.id,
           firstName: student.firstName,
           lastName: student.lastName,
+          imageUrl: student.imageUrl,
           data: {},
         }
         if (!sessionData.rawTotals) {

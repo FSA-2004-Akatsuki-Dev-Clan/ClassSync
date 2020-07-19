@@ -56,8 +56,10 @@ const LiveSession = ({session}) => {
             <Grid item xs={12} container direction="row">
               &nbsp;
             </Grid>
-            <Grid item xs={12} container direction="row">
-              {session !== {} && <Table data={session} />}
+            <Grid item xs={12} container direction="row" justify="center">
+              {session !== {} && 
+              <Table data={session} 
+              />}
             </Grid>
           </Card>
         </Grid>
