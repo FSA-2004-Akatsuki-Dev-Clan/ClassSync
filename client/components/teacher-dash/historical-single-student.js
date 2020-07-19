@@ -64,7 +64,9 @@ class HistoricalSingleStudent extends React.Component {
 
     return (
       <div>
-        <h1>{singleStudent.firstName}</h1>
+        <h1>
+          {singleStudent.firstName} {singleStudent.lastName}
+        </h1>
 
         <Grid item xs={12} container direction="row">
           <BarGraph data={classAvg} student={singledatas} />
