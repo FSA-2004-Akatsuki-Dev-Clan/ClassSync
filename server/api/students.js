@@ -4,7 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const students = await Student.findAll()
+    const students = await Student.findAll({order: [['lastName', 'ASC']]})
+    // const students = await Student.findAll({order: [['id', 'ASC']]})
     res.json(students)
   } catch (err) {
     next(err)

@@ -107,11 +107,15 @@ class HistoricalSingleStudent extends React.Component {
           ))}
         </div>
 
-        <HistoricalSingleStudentSession
-          studentId={studentId}
-          specificSess={selectSess}
-          sessionId={this.state.sessionId}
-        />
+        {this.state.sessionId <= 4 ? (
+          <HistoricalSingleStudentSession
+            studentId={studentId}
+            specificSess={selectSess}
+            sessionId={this.state.sessionId}
+          />
+        ) : (
+          ''
+        )}
       </div>
     )
   }
