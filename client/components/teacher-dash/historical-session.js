@@ -9,20 +9,20 @@ import {
   Grid,
   CardActionArea,
   CardContent,
-  Typography
+  Typography,
 } from '@material-ui/core'
 
 class HistoricalSession extends React.Component {
   constructor() {
     super()
     this.state = {
-      selectedStudentId: null
+      selectedStudentId: null,
     }
   }
 
-    componentDidMount() {
-      this.props.getStudents()
-    }
+  componentDidMount() {
+    this.props.getStudents()
+  }
 
   render() {
     const {students} = this.props
@@ -41,7 +41,7 @@ class HistoricalSession extends React.Component {
           </div>
         ) : (
           <div>
-            {students.map(student => (
+            {students.map((student) => (
               <div key={student.id}>
                 <Grid item xs={2}>
                   <Card width="100%">
@@ -82,17 +82,17 @@ class HistoricalSession extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     studentSession: state.studentSession,
-    students: state.students
+    students: state.students,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getStudentHis: id => dispatch(fetchStudentSess(id)),
-    getStudents: () => dispatch(fetchStudents())
+    getStudentHis: (id) => dispatch(fetchStudentSess(id)),
+    getStudents: () => dispatch(fetchStudents()),
   }
 }
 

@@ -15,8 +15,8 @@ router.get('/:studentid', async (req, res, next) => {
   try {
     const singleStudent = await Student.findOne({
       where: {
-        id: req.params.studentid
-      }
+        id: req.params.studentid,
+      },
     })
     res.json(singleStudent)
   } catch (error) {
@@ -28,9 +28,9 @@ router.get('/allSessions/:id', async (req, res, next) => {
   try {
     const studentSess = await Student.findOne({
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
-      include: {model: StudentSession}
+      include: {model: StudentSession},
     })
     res.json(studentSess)
   } catch (error) {
@@ -41,10 +41,12 @@ router.get('/allSessions/:id', async (req, res, next) => {
 router.put('/save', async (req, res, next) => {
   try {
     const studentData = req.body
+    console.log('studentData', studentData)
 
     for (let id in studentData) {
       if (studentData.hasOwnProperty(id)) {
         // const saveObj = studentData[id].data
+        console.log('id', id)
         const student = await Student.findByPk(+id)
         // await StudentSession.create(saveObj)
         const updatedObj = await student.avgData({...studentData[id].data})
