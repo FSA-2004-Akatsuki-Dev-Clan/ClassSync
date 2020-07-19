@@ -3,14 +3,24 @@ import { connect } from 'react-redux'
 import { fetchSession } from '../../store/session'
 import { fetchStudentSess } from '../../store/single-student-session'
 import { withStyles } from '@material-ui/styles';
-import { BarGraph, HistoricalSingleStudentSession, SingleTable, GridList } from '../'
+import { BarGraph, HistoricalSingleStudentSession, SingleTable } from '../'
 import {
   Card,
   Grid,
   CardActionArea,
   CardContent,
   Typography,
+  // GridListTile,
+  // GridListTileBar,
+  // IconButton,
+  // StarBorderIcon,
+  // GridList
 } from '@material-ui/core'
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const styles = theme => ({
   root: {
@@ -39,6 +49,27 @@ const styles = theme => ({
   cardStyling: {
     color: 'white',
     background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
+  },
+  rootGridList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    // backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    transform: 'translateZ(0)',
+  },
+  title: {
+    // color: theme.palette.primary.light,
+  },
+  titleBar: {
+    background:
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  },
+  gridListTile: {
+    width: '100px'
   }
 });
 
@@ -134,51 +165,80 @@ class HistoricalSingleStudent extends React.Component {
 
         </Grid>
 
-        <h2>{singleStudent.firstName} {singleStudent.lastName}'s Single Session Averages vs Class Averages</h2>
+        <h2>{singleStudent.firstName} {singleStudent.lastName}'s Past Sessions</h2>
 
         <Grid item xs={12} className={classes.root} container direction='row'>
-          {sessions.map(session => (
-            <div key={session.id}>
-              <Grid item xs={12} sm={6} md={3} className={classes.cards}>
-                <Card width="100%">
-                  <CardActionArea
-                    onClick={() => this.setState({ sessionId: session.id })}
-                  >
-                    <img
-                      src="../../assignment.png"
-                      height="150px"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h3">
-                        {`${session.title}`}
-                      </Typography>
-                      {/* <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          {student.grade}
-                          {student.email}
-                        </Typography> */}
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            </div>
-          ))}
+
+
+          <div className={classes.rootGridList}>
+            <GridList className={classes.gridList} cols={2.5}>
+              {sessions.map((tile) => (
+                <GridListTile 
+                className={classes.gridListTile}
+                key={tile.id}
+                onClick={() => this.setState({ sessionId: tile.id })}
+                >
+                  <img src={tile.imageUrl} alt={tile.title} />
+                  <GridListTileBar
+                    title={tile.title}
+                    classes={{
+                      root: classes.titleBar,
+                      title: classes.title,
+                    }}
+                    actionIcon={
+                      <IconButton aria-label={`star ${tile.title}`}>
+                        <StarBorderIcon className={classes.title} />
+                      </IconButton>
+                    }
+                  />
+                </GridListTile>
+              ))}
+            </GridList>
+          </div>
+
+
+          {/*{sessions.map(session => (
+            // <div key={session.id}>
+            //   <Grid item xs={12} sm={6} md={3} className={classes.cards}>
+            //     <Card width="100%">
+            //       <CardActionArea
+            //         onClick={() => this.setState({ sessionId: session.id })}
+            //       >
+            //         <img
+            //           src={session.imageUrl}
+            //           height="150px"
+            //         />
+            //         <CardContent>
+            //           <Typography gutterBottom variant="h5" component="h3">
+            //             {`${session.title}`}
+            //           </Typography>
+            //           {/* <Typography
+            //               variant="body2"
+            //               color="textSecondary"
+            //               component="p"
+            //             >
+            //               {student.grade}
+            //               {student.email}
+            //             </Typography> */}
+          {/* //         </CardContent>
+            //       </CardActionArea>*/ }
+          {/* //     </Card>
+            //   </Grid> */}
+          {/* // </div>
+         // ))} */}
         </Grid>
-        
+
         <Grid item xs={12}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
-        
-{this.state.sessionId <= 4 ? (
+
+        {(this.state.sessionId && this.state.sessionId <= 4) ? (
           <HistoricalSingleStudentSession
             studentId={studentId}
             specificSess={selectSess}
             sessionId={this.state.sessionId}
           />
         ) : (
-          ''
-        )}        
+            ''
+          )}
 
       </Grid>
     )

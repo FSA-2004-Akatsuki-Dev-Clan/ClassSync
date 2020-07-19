@@ -32,6 +32,7 @@ export default function(state = initialState, action) {
         id: +studentId,
         firstName: action.students[studentId].firstName,
         lastName: action.students[studentId].lastName,
+        imageUrl: action.students[studentId].imageUrl,
         time: action.time,
         ...action.students[studentId].data
       }))

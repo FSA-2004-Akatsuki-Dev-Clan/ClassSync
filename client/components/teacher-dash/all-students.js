@@ -1,27 +1,56 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/core/styles'
-import {fetchStudents} from '../../store/students'
-import {connect} from 'react-redux'
-import {SingleStudent} from '../'
+import { withStyles } from '@material-ui/core/styles'
+import { fetchStudents } from '../../store/students'
+import { connect } from 'react-redux'
+import { SingleStudent } from '../'
 import {
   Card,
   Grid,
   CardActionArea,
   CardContent,
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core'
-import {StudentsCard} from './students-card'
+import { StudentsCard } from './students-card'
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 345
-//   },
-//   media: {
-//     height: 140
-//   }
-// })
-
-// const classes = useStyles()
+const styles = theme => ({
+  root: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    justify: 'center',
+    alignItems: 'center',
+  },
+  h1: {
+    textAlign: 'center'
+  },
+  cards: {
+    minWidth: 250
+  },
+  fragment: {
+    textAlign: 'center',
+    justify: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: "flex",
+    minHeight: 275
+  },
+  graph: {
+    minHeight: 275
+  },
+  cardStyling: {
+    color: 'white',
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
+  },
+  buttonStyle: {
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+  },
+});
 
 class AllStudents extends React.Component {
   constructor() {
@@ -37,73 +66,80 @@ class AllStudents extends React.Component {
   }
 
   render() {
-    const {liveStudents, liveSession} = this.props
+    const { liveStudents, liveSession, classes } = this.props
 
     return (
       <div>
         {this.state.selectedStudentId ? (
           <div>
-            <button
+            <Button
+              className={classes.buttonStyle}
               type="button"
-              onClick={() => this.setState({selectedStudentId: null})}
+              onClick={() => this.setState({ selectedStudentId: null })}
             >
               Back to Student List
-            </button>
+            </Button>
             {liveStudents.find(
               student => student.id === this.state.selectedStudentId
             ) && <SingleStudent studentId={this.state.selectedStudentId} />}
           </div>
         ) : (
-          <div>
-            {liveStudents.map(student => (
-              <div key={student.id}>
-                <Grid item xs={2}>
-                  {this.checkStudentAlert(student, liveSession).map(metric => {
-                    if (metric)
-                      return (
-                        <i
-                          className="fa fa-caret-down"
-                          style={{color: 'red', fontSize: '30px'}}
-                        />
-                      )
-                  })}
-                  {/* <i
+            <div>
+              <Grid item xs={12} className={classes.root} container direction='row'>
+
+                {liveStudents.map(student => (
+                  <div key={student.id}>
+                    <div>
+                    <Grid item xs={12} sm={6} md={3} className={classes.cards}>
+                      {this.checkStudentAlert(student, liveSession).map(metric => {
+                        if (metric)
+                          return (
+                            <i
+                              className="fa fa-caret-down"
+                              style={{ color: 'red', fontSize: '30px' }}
+                            />
+                          )
+                      })}
+                      {/* <i
                     className="fa fa-caret-down"
                     style={{color: 'red', fontSize: '30px'}}
                   /> */}
-                  <Card maxWidth="345px">
-                    <CardActionArea
-                      onClick={() =>
-                        this.setState({selectedStudentId: student.id})
-                      }
-                    >
-                      <img
-                        src="../../default-profile-pic.jpg"
-                        height="150px"
-                        title="Contemplative Reptile"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {`${student.firstName || 'New'} ${
-                            student.lastName
-                          }` || 'Student'}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
+                      <Card maxWidth="345px">
+                        <CardActionArea
+                          onClick={() =>
+                            this.setState({ selectedStudentId: student.id })
+                          }
                         >
-                          {student.grade}
-                          {student.email}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              </div>
-            ))}
-          </div>
-        )}
+                          <img
+                            src={student.imageUrl}
+                            height="120px"
+                            title={`${student.firstName}'s profile picture`}
+                          />
+                          <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                              {`${student.firstName || 'New'} ${
+                                student.lastName
+                                }` || 'Student'}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              {student.grade}
+                              {student.email}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                  <Grid>&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
+                      </Card>
+                    </Grid>
+                  </div>
+                    </div>
+                ))}
+              </Grid>
+            </div>
+          )}
       </div>
     )
   }
@@ -132,4 +168,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(AllStudents)
+export default connect(mapState, mapDispatch)(withStyles(styles)(AllStudents))

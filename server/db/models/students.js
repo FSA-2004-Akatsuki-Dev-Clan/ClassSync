@@ -81,7 +81,8 @@ const Student = db.define('students', {
     // }
   },
   imageUrl: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    defaultValue: '/default-profile-pic.jpg'
   }
 })
 

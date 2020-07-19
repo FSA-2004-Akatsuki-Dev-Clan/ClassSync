@@ -10,7 +10,8 @@ const sessionSeed = [
     sessWordsSpokenTot: 7500,
     sessClickTot: 1650,
     sessKeyStrokeTot: 4500,
-    numOfStudents: 30
+    numOfStudents: 30,
+    imageUrl: '/biology.jpg'
   },
   {
     title: 'English',
@@ -23,7 +24,8 @@ const sessionSeed = [
     sessWordsSpokenTot: 3200,
     sessClickTot: 1650,
     sessKeyStrokeTot: 9500,
-    numOfStudents: 30
+    numOfStudents: 30,
+    imageUrl: '/english.jpg'
   },
   {
     title: 'Coding',
@@ -36,7 +38,8 @@ const sessionSeed = [
     sessWordsSpokenTot: 9500,
     sessClickTot: 1050,
     sessKeyStrokeTot: 7500,
-    numOfStudents: 30
+    numOfStudents: 30,
+    imageUrl: '/coding.jpg'
   },
   {
     title: 'Algorithms',
@@ -49,7 +52,8 @@ const sessionSeed = [
     sessWordsSpokenTot: 10200,
     sessClickTot: 1350,
     sessKeyStrokeTot: 9700,
-    numOfStudents: 30
+    numOfStudents: 30,
+    imageUrl: '/algorithms.jpg'
   }
 ]
 

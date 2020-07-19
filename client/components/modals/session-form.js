@@ -67,41 +67,6 @@ const SessionForm = ({ title, details, url, handleChange }) => {
 
   return (
     <Grid item xs={12} className={classes.gridStyling}>
-        {/* <label htmlFor="url">Assignment URL:</label>
-    <Grid item xs={12} classes={classes.gridStyling}>
-      <Grid item xs={12} sm={12}>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={(evt) => handleChange(evt.target)}
-        />
-        <label htmlFor="activityType">Activity Type:</label>
-        <select
-          name="activityType"
-          onChange={(evt) => handleChange(evt.target)}
-        >
-          <option value="discussion">Discussion</option>
-          <option value="writing">Writing</option>
-          <option value="reading">Reading</option>
-        </select>
-        <label htmlFor="details">Details:</label>
-        <input
-          type="textarea"
-          name="details"
-          value={details}
-          onChange={(evt) => handleChange(evt.target)}
-        />
-        <label htmlFor="url">
-          {'Assignment URL (embedded form links only:'}
-        </label>
-        <input
-          type="text"
-          name="url"
-          value={url}
-          onChange={(evt) => handleChange(evt.target)}
-        /> */}
       <form
         className={classes.form}
         noValidate
@@ -153,6 +118,19 @@ const SessionForm = ({ title, details, url, handleChange }) => {
           autoComplete="details"
           autoFocus
           value={details}
+          onChange={evt => handleChange(evt.target)}
+        />
+         <TextField
+          variant="outlined"
+          required
+          fullWidth
+          id="url"
+          label="Assignment URL (embedded form links only)"
+          name="url"
+          type="text"
+          autoComplete="url"
+          autoFocus
+          value={url}
           onChange={evt => handleChange(evt.target)}
         />
       </form>

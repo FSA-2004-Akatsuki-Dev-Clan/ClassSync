@@ -36,7 +36,7 @@ const customStyles = {
   }
 }
 
-const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
+const Modal = ({text, onOk, okText, onCancel, cancelText, children, customStyle}) => {
   const classes = myStyles()
 
   return (
@@ -50,7 +50,6 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
           <h3 textalign="center">{text}</h3>
         </header>
 
-        {children}
 
         <Grid
           item
@@ -58,10 +57,11 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
           className={classes.gridStyling}
           container
           direction="column"
-        >
+          >
+            {children}
           {okText && (
             <Button
-              className={classes.buttonStyle}
+              className={customStyle || classes.buttonStyle}
               type="button"
               onClick={() => {
                 if (onOk) onOk()

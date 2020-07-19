@@ -13,6 +13,17 @@ const myStyles = makeStyles(theme => ({
     color: 'red'
   },
   buttonStyle: {
+    marginTop: '10px',
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+  },
+  buttonStyle2: {
+    marginTop: '10px',
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     borderRadius: 3,
     border: 0,
@@ -33,6 +44,7 @@ const TeacherEnd = ({session}) => {
 
   return (
     <Modal
+    customStyle={classes.buttonStyle2}
       text={
         dataCollected
           ? 'You are about to end the session. Do you want to save this dataset?'
@@ -46,9 +58,17 @@ const TeacherEnd = ({session}) => {
       }
       cancelText="Cancel and Continue Session"
     >
+      {/* <Grid
+          item
+          xs={12}
+          className={classes.gridStyling}
+          container
+          direction="column"
+        > */}
       {dataCollected && (
         <Button
           className={classes.buttonStyle}
+          fullWidth
           type="button"
           onClick={() => {
             endSession(true)
@@ -58,6 +78,7 @@ const TeacherEnd = ({session}) => {
           End Session and Save Data
         </Button>
       )}
+       {/* </Grid> */}
     </Modal>
   )
 }
