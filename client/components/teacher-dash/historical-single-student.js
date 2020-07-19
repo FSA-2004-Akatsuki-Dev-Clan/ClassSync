@@ -1,8 +1,9 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {fetchSession} from '../../store/session'
-import {fetchStudentSess} from '../../store/single-student-session'
-import {BarGraph, HistoricalSingleStudentSession, SingleTable} from '../'
+import { connect } from 'react-redux'
+import { fetchSession } from '../../store/session'
+import { fetchStudentSess } from '../../store/single-student-session'
+import { withStyles } from '@material-ui/styles';
+import { BarGraph, HistoricalSingleStudentSession, SingleTable, GridList } from '../'
 import {
   Card,
   Grid,
@@ -10,6 +11,36 @@ import {
   CardContent,
   Typography,
 } from '@material-ui/core'
+
+const styles = theme => ({
+  root: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    justify: 'center',
+    alignItems: 'center',
+  },
+  h1: {
+    textAlign: 'center'
+  },
+  cards: {
+    minWidth: 275
+  },
+  fragment: {
+    textAlign: 'center',
+    justify: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: "flex",
+    minHeight: 275
+  },
+  graph: {
+    minHeight: 275
+  },
+  cardStyling: {
+    color: 'white',
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
+  }
+});
 
 class HistoricalSingleStudent extends React.Component {
   constructor() {
@@ -24,7 +55,7 @@ class HistoricalSingleStudent extends React.Component {
   }
 
   render() {
-    const {students, studentId, sessions} = this.props
+    const { students, studentId, sessions, classes } = this.props
     let classClickAvg = 0
     let classFaceScoreAvg = 0
     let classKeyAvg = 0
@@ -63,32 +94,62 @@ class HistoricalSingleStudent extends React.Component {
     }
 
     return (
-      <div>
-        <h1>
-          {singleStudent.firstName} {singleStudent.lastName}
-        </h1>
+      <Grid className={classes.root} container direction='row'>
 
-        <Grid item xs={12} container direction="row">
-          <BarGraph data={classAvg} student={singledatas} />
-          <SingleTable data={singleStudent} />
+        <h2>{singleStudent.firstName}'s Overall Session Averages vs Class Averages</h2>
+
+        <Grid item xs={12} container direction="row" justify="center" >
+          <Grid item xs={5} >
+            <Card>
+              <Grid
+                item
+                xs={12}
+                className={classes.fragment}
+                container
+                direction="row">
+
+                <Grid item xs={10} className={classes.root}>
+                  <Card className={classes.cardStyling}>
+                    <img src="../../graph.png" height="50px" />
+                  </Card>
+                </Grid>
+
+                <Grid>&nbsp;</Grid>
+
+                <SingleTable data={singleStudent} />
+
+              </Grid>
+            </Card>
+          </Grid>
+
+          <Grid>&nbsp; &nbsp; &nbsp; &nbsp;</Grid>
+
+          <Grid item xs={5}>
+            <Card>
+              <Grid className={classes.graph}>
+                <BarGraph data={classAvg} student={singledatas} />
+              </Grid>
+            </Card>
+          </Grid>
+
         </Grid>
 
-        <h1>Sessions</h1>
-        <div>
-          {sessions.map((session) => (
+        <h2>{singleStudent.firstName} {singleStudent.lastName}'s Single Session Averages vs Class Averages</h2>
+
+        <Grid item xs={12} className={classes.root} container direction='row'>
+          {sessions.map(session => (
             <div key={session.id}>
-              <Grid item xs={2}>
+              <Grid item xs={12} sm={6} md={3} className={classes.cards}>
                 <Card width="100%">
                   <CardActionArea
-                    onClick={() => this.setState({sessionId: session.id})}
+                    onClick={() => this.setState({ sessionId: session.id })}
                   >
                     <img
                       src="../../assignment.png"
                       height="150px"
-                      title="Contemplative Reptile"
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography gutterBottom variant="h5" component="h3">
                         {`${session.title}`}
                       </Typography>
                       {/* <Typography
@@ -105,9 +166,11 @@ class HistoricalSingleStudent extends React.Component {
               </Grid>
             </div>
           ))}
-        </div>
-
-        {this.state.sessionId <= 4 ? (
+        </Grid>
+        
+        <Grid item xs={12}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
+        
+{this.state.sessionId <= 4 ? (
           <HistoricalSingleStudentSession
             studentId={studentId}
             specificSess={selectSess}
@@ -115,8 +178,9 @@ class HistoricalSingleStudent extends React.Component {
           />
         ) : (
           ''
-        )}
-      </div>
+        )}        
+
+      </Grid>
     )
   }
 }
@@ -136,4 +200,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
+export default connect(mapState, mapDispatch)(withStyles(styles)(HistoricalSingleStudent))
+

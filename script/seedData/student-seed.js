@@ -11,7 +11,8 @@ const studentSeed = [
     wordsSpokenAvg: 380,
     mouseClickAvg: 44,
     keyStrokeAvg: 342,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/zHEge6zVdzguHTYltExEphScb8ektF84EJmYzX4ZmV0/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAwNzUwMzEuanBn.jpg'
   },
   {
     firstName: 'Omar',
@@ -25,7 +26,8 @@ const studentSeed = [
     wordsSpokenAvg: 230,
     mouseClickAvg: 78,
     keyStrokeAvg: 210,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/Yex-2TnCQrnS7x6GYQ8ThoWjaQjCHyPAfPYEdH07zDQ/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA2ODMxOTAuanBn.jpg'
   },
   {
     firstName: 'Milly',
@@ -39,7 +41,8 @@ const studentSeed = [
     wordsSpokenAvg: 102,
     mouseClickAvg: 50,
     keyStrokeAvg: 142,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/5Awen8vCW9DjWhahE0mQj7J-e8PG_uHm-V3-hHsI6Wk/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAwODQ3ODEuanBn.jpg'
   },
   {
     firstName: 'Lauryn',
@@ -53,7 +56,8 @@ const studentSeed = [
     wordsSpokenAvg: 160,
     mouseClickAvg: 23,
     keyStrokeAvg: 321,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/AvicXkwKuxYzya4I-qSiold7eSpahnuo_X6EynB_jHk/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA4MzEzODIuanBn.jpg'
   },
   {
     firstName: 'Kuba',
@@ -67,7 +71,8 @@ const studentSeed = [
     wordsSpokenAvg: 170,
     mouseClickAvg: 54,
     keyStrokeAvg: 222,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl:'https://images.generated.photos/4bE0yxpLotCkeOMzoE7uJ7G4ZFpq4kk1sultSqYfiUA/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAxOTI4NzcuanBn.jpg'
   },
   {
     firstName: 'Holli',
@@ -81,7 +86,8 @@ const studentSeed = [
     wordsSpokenAvg: 130,
     mouseClickAvg: 65,
     keyStrokeAvg: 134,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/jLcdthlyDzdL-C9Pb-RHQXdzfiPXatuiH1GZtu3cwrU/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0MTQxNTEuanBn.jpg'
   },
   {
     firstName: 'Kaidan',
@@ -95,7 +101,8 @@ const studentSeed = [
     wordsSpokenAvg: 302,
     mouseClickAvg: 89,
     keyStrokeAvg: 240,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/NjbOO-wquPtkDyidf06d4dsKSRV1mGU7MU1P1RokQRg/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0MDYxMjkuanBn.jpg'
   },
   {
     firstName: 'Amelia-Lily',
@@ -109,7 +116,8 @@ const studentSeed = [
     wordsSpokenAvg: 197,
     mouseClickAvg: 67,
     keyStrokeAvg: 340,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/nPGXbZo3GJsYcteh4by__Mshk0d5wx61xZM-8CKNPJw/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA4MTQ1MTUuanBn.jpg'
   },
   {
     firstName: 'Pearce',
@@ -123,7 +131,8 @@ const studentSeed = [
     wordsSpokenAvg: 176,
     mouseClickAvg: 90,
     keyStrokeAvg: 189,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/1PubQZ60EnoyB8fHNeFtC5PacgYhrzB-euanu1U2cQ0/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAzNDk0NDYuanBn.jpg'
   },
   {
     firstName: 'Kye',
@@ -137,7 +146,8 @@ const studentSeed = [
     wordsSpokenAvg: 324,
     mouseClickAvg: 91,
     keyStrokeAvg: 280,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/Qptf5U02E0CqoL4RXYnHKZZw_yzhwH9Hndda6A5kubY/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNDkyMjMuanBn.jpg'
   },
   {
     firstName: 'Israr',
@@ -151,7 +161,8 @@ const studentSeed = [
     wordsSpokenAvg: 289,
     mouseClickAvg: 93,
     keyStrokeAvg: 264,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/RDpR3jEBcbZKuFYkJJ16yG_X83Sh8PaFcBv9nmsHsm8/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA1ODAwNDIuanBn.jpg'
   },
   {
     firstName: 'Safiya',
@@ -165,7 +176,8 @@ const studentSeed = [
     wordsSpokenAvg: 267,
     mouseClickAvg: 91,
     keyStrokeAvg: 259,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/h5WDwJtRkl_7rCoWkS9sCZ35tuVXN6lUIHQUJiE5SM8/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA3MTk5OTguanBn.jpg'
   },
   {
     firstName: 'Roland',
@@ -179,7 +191,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 85,
     keyStrokeAvg: 307,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/z7tasFFa4V19hJ60PGwHqHz_ZI4mqZpq6Xljjuuxix8/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA2NzYwMTAuanBn.jpg'
   },
   {
     firstName: 'Claude',
@@ -193,7 +206,8 @@ const studentSeed = [
     wordsSpokenAvg: 180,
     mouseClickAvg: 65,
     keyStrokeAvg: 192,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/Z4qVGAjXcFKc1wlnlI9I0FqzmbU0YMlwK42FcmcsEyo/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0NzE2MzkuanBn.jpg'
   },
   {
     firstName: 'Shahzaib',
@@ -207,7 +221,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 90,
     keyStrokeAvg: 337,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/CeobGXqzeYKnn3h7o7MvwGdJh7iX0jm08FpSxJ4YrI4/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA1NjU1NzcuanBn.jpg'
   },
   {
     firstName: 'Kerry',
@@ -221,7 +236,8 @@ const studentSeed = [
     wordsSpokenAvg: 179,
     mouseClickAvg: 83,
     keyStrokeAvg: 270,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/2BJviK4S_Ar6M1FiUC31zZENbX3D1qEiiYCkbLLZ6b4/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAwNTUyMzYuanBn.jpg'
   },
   {
     firstName: 'Donell',
@@ -235,7 +251,8 @@ const studentSeed = [
     wordsSpokenAvg: 275,
     mouseClickAvg: 56,
     keyStrokeAvg: 137,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/SgKaqsp6PpXSp4qs1oTT2TRJA6wFh5gRtojyiDiJWFw/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA2Mzg1NDUuanBn.jpg'
   },
   {
     firstName: 'Zakariyah',
@@ -249,7 +266,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 99,
     keyStrokeAvg: 190,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/xwasTit3wJ3N413cL3kR1qQpN3KIQpTbGHe1tgUyAJ8/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA5MDUxMjIuanBn.jpg'
   },
   {
     firstName: 'Ubaid',
@@ -263,7 +281,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 90,
     keyStrokeAvg: 120,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/xx6AT4aFEKErfl3mwHePhNs8ZkeJ23TSKKykWHp2XqY/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0NTU5ODguanBn.jpg'
   },
   {
     firstName: 'Paul',
@@ -277,7 +296,8 @@ const studentSeed = [
     wordsSpokenAvg: 108,
     mouseClickAvg: 59,
     keyStrokeAvg: 243,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/R-1DcqdIAjcw3jFp4TE_mOdFs_G5pyXCi0w_aYeqwZw/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAxODg4MzQuanBn.jpg'
   },
   {
     firstName: 'Xander',
@@ -291,7 +311,8 @@ const studentSeed = [
     wordsSpokenAvg: 302,
     mouseClickAvg: 83,
     keyStrokeAvg: 218,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/Sn3qzzH8HUeMGKwjryqASZEuTBdwOm6T4hEHt96LG8c/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA5NDA0OTIuanBn.jpg'
   },
   {
     firstName: 'Millicent',
@@ -305,7 +326,8 @@ const studentSeed = [
     wordsSpokenAvg: 319,
     mouseClickAvg: 121,
     keyStrokeAvg: 279,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/HTtEuPc8J37UE4kstvfp_f7odZhznPwQCVSVzCoX8wo/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA4NjA3NjguanBn.jpg'
   },
   {
     firstName: 'Aaisha',
@@ -319,7 +341,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 90,
     keyStrokeAvg: 120,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/1EUV5oL8sHx7GV7nKx9uQZQWUJeSEjopvXx58eU_VjE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA4NDc3MTIuanBn.jpg'
   },
   {
     firstName: 'Uzma',
@@ -333,7 +356,8 @@ const studentSeed = [
     wordsSpokenAvg: 292,
     mouseClickAvg: 87,
     keyStrokeAvg: 167,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/M88-v7EWv94Vfg04gxvpr4AvgTVFqxstBoqOFNmVv70/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA5Mzc4NDkuanBn.jpg'
   },
   {
     firstName: 'Sullivan',
@@ -347,7 +371,8 @@ const studentSeed = [
     wordsSpokenAvg: 301,
     mouseClickAvg: 90,
     keyStrokeAvg: 120,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/rgLD0_to_AIu1EYBx6v7FSoO1tl35nC6KWBo6l7r-wc/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyMDY5ODYuanBn.jpg'
   },
   {
     firstName: 'Hamid',
@@ -361,7 +386,8 @@ const studentSeed = [
     wordsSpokenAvg: 141,
     mouseClickAvg: 90,
     keyStrokeAvg: 197,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/ojclM9F7CQb_aGJsNXfyjvCaEWZ1Q018kCGh9aw_Qy4/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA4ODg2OTIuanBn.jpg'
   },
   {
     firstName: 'Hailie',
@@ -375,7 +401,8 @@ const studentSeed = [
     wordsSpokenAvg: 249,
     mouseClickAvg: 92,
     keyStrokeAvg: 269,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/UYXGC2O-San9Vi1Fq_IHdgjZPlnhL6yFK1heSrR1i6U/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyOTEzMDAuanBn.jpg'
   },
   {
     firstName: 'Saeed',
@@ -389,7 +416,8 @@ const studentSeed = [
     wordsSpokenAvg: 178,
     mouseClickAvg: 83,
     keyStrokeAvg: 212,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/STdLj4_kJYChKdF-15kmYcmG4C2y5N7a_lQsAPyrDGU/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAwNjMwMzkuanBn.jpg'
   },
   {
     firstName: 'Caiden',
@@ -403,7 +431,8 @@ const studentSeed = [
     wordsSpokenAvg: 141,
     mouseClickAvg: 90,
     keyStrokeAvg: 197,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl:'https://images.generated.photos/-oxIcmyISqbLdA-bhwq6GKN8R8u-C_RTbrbQxld-Ym4/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA0MTUxMzEuanBn.jpg'
   },
   {
     firstName: 'Bjorn',
@@ -417,7 +446,8 @@ const studentSeed = [
     wordsSpokenAvg: 141,
     mouseClickAvg: 90,
     keyStrokeAvg: 197,
-    numberOfSessions: 10
+    numberOfSessions: 10,
+    imageUrl: 'https://images.generated.photos/EEHB7XUslu2mHi7KaEbmMnlgEUph4-fB9AAJjGAFfYQ/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAxODY2NDUuanBn.jpg'
   }
   // {
   //   firstName: "Katarina",

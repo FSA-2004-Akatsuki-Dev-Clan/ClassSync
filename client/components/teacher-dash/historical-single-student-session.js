@@ -1,8 +1,17 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {fetchStudentSessions} from '../../store/single-student-session'
-import {Grid} from '@material-ui/core'
+import { connect } from 'react-redux'
+import { fetchStudentSessions } from '../../store/single-student-session'
+import { withStyles } from '@material-ui/styles';
+import { Grid, Card } from '@material-ui/core'
 import BarGraph from '../bar-graph'
+
+
+const styles = theme => ({
+  graph: {
+    minHeight: 275,
+    minWidth: 600
+  }
+})
 
 class HistoricalSingleStudentSession extends React.Component {
   componentDidMount() {
@@ -10,7 +19,7 @@ class HistoricalSingleStudentSession extends React.Component {
   }
 
   render() {
-    const {specificSess, singleStudentSession} = this.props
+    const { specificSess, singleStudentSession, classes } = this.props
     let sessClickAvg
     let sessFaceScoreAvg
     let sessKeyStrokeAvg
@@ -52,6 +61,7 @@ class HistoricalSingleStudentSession extends React.Component {
       studWordsSpokenAvg =
         singleStudentSession.studentSessions[this.props.sessionId - 1].wordCount
     }
+
     let studentSessionArray = [
       studClickAvg,
       studFaceScoreAvg,
@@ -61,15 +71,19 @@ class HistoricalSingleStudentSession extends React.Component {
 
     return (
       <div>
+        {specificSess && <h1>{specificSess.title}</h1>}
         <div>
-          <Grid item xs={12} container direction="row">
-            <BarGraph
-              data={specificSessAverages}
-              student={studentSessionArray}
-            />
+          <Grid item xs={12}>
+            <Card className={classes.graph}>
+              <Grid item xs={12}>
+                <BarGraph
+                  data={specificSessAverages}
+                  student={studentSessionArray}
+                />
+              </Grid>
+            </Card>
           </Grid>
         </div>
-        {specificSess && <h1>{specificSess.title}</h1>}
       </div>
     )
   }
@@ -87,4 +101,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(HistoricalSingleStudentSession)
+export default connect(mapState, mapDispatch)(withStyles(styles)(HistoricalSingleStudentSession))

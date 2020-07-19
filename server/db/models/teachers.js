@@ -35,6 +35,9 @@ const Teacher = db.define('teachers', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  imageUrl: {
+    type: Sequelize.TEXT
   }
 })
 

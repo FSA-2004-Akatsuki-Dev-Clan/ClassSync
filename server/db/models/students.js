@@ -79,6 +79,9 @@ const Student = db.define('students', {
     // get() {
     //   return () => this.getDataValue('numberOfSessions')
     // }
+  },
+  imageUrl: {
+    type: Sequelize.TEXT
   }
 })
 

@@ -12,7 +12,7 @@ const myStyles = makeStyles(theme => ({
     color: 'red'
   },
   buttonStyle: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
     borderRadius: 3,
     border: 0,
     color: 'white',
@@ -47,7 +47,7 @@ const Modal = ({text, onOk, okText, onCancel, cancelText, children}) => {
     >
       <div>
         <header>
-          <h3 textAlign="center">{text}</h3>
+          <h3 textalign="center">{text}</h3>
         </header>
 
         {children}
