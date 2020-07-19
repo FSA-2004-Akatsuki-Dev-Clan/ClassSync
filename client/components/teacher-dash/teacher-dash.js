@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import {Grid, Button} from '@material-ui/core'
-import ClassworkRow from './classwork-row'
+// import ClassworkRow from './classwork-row'
 // import HomeworkRow from './homework-row'
 // import {StudentsCard} from './students-card'
 import {
@@ -123,9 +123,9 @@ const TeacherDash = ({
           </Grid>
 
           <Grid item xs={12} sm={12} className={classes.gridStyling}>
-            <h3>Past Sessions</h3>
+            <h3>Recent Sessions</h3>
             <Grid container item xs={12} spacing={3}>
-              <ClassworkRow />
+              {/* <ClassworkRow /> */}
             </Grid>
           </Grid>
           <SimpleAccordion />

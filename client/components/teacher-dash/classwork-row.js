@@ -2,15 +2,15 @@ import React from 'react'
 import {Grid, Paper} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
-const myStyles = makeStyles(theme => ({
+const myStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary
-  }
+    color: theme.palette.text.secondary,
+  },
 }))
 
 const classworkObject = {
@@ -18,14 +18,14 @@ const classworkObject = {
     'Assignment 1',
     'Assignment 2',
     'Assignment 3',
-    'Assignment 4'
-  ]
+    'Assignment 4',
+  ],
 }
 
 export default function ClassworkRow() {
   return (
     <React.Fragment>
-      {classworkObject.assignmentName.map(assignment => {
+      {classworkObject.assignmentName.map((assignment) => {
         return (
           <Grid item xs={3} key={assignment[11]}>
             <Paper
@@ -40,3 +40,20 @@ export default function ClassworkRow() {
     </React.Fragment>
   )
 }
+
+const mapState = (state) => {
+  return {
+    students: state.students,
+    sessions: state.sessions,
+    singleStudentSession: state.singleStudentSession,
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    getStudentHis: (id) => dispatch(fetchStudentSess(id)),
+    getSessions: () => dispatch(fetchSession()),
+  }
+}
+
+export default connect(mapState, mapDispatch)(HistoricalSingleStudent)
