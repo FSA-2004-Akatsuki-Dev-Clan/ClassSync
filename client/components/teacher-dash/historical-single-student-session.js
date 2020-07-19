@@ -36,6 +36,7 @@ class HistoricalSingleStudentSession extends React.Component {
     let studWordsSpokenAvg
 
     if (this.props.sessionId) {
+      console.log('sessionId', this.props.sessionId)
       studClickAvg =
         singleStudentSession.studentSessions[this.props.sessionId - 1]
           .clickCount
