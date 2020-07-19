@@ -3,7 +3,7 @@ const {Session, StudentSession} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
-    const sessions = await Session.findAll()
+    const sessions = await Session.findAll({order: [['updatedAt', 'DESC']]})
 
     res.json(sessions)
   } catch (error) {

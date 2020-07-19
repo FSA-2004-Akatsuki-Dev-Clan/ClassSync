@@ -14,9 +14,9 @@ class Session extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 
