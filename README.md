@@ -10,7 +10,7 @@ git clone https://github.com/FSA-2004-Akatsuki-Dev-Clan/ClassSync
 
 npm install
 
-createdb class-sync: create postgres database
+createdb class-sync: create postgres database 
 
 npm run start-dev: start developer environment with local server and webpack
 
