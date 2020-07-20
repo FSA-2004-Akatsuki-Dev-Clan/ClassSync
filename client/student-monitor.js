@@ -172,7 +172,7 @@ export const startMonitor = async (studentSocket, student) => {
         // await recognition.start()
 
         data = {...initialData}
-      }, 7500)
+      }, 4000)
     })
     .catch(function(err) {
       console.log(
