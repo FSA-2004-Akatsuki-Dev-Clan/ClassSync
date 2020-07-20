@@ -125,7 +125,7 @@ class HistoricalSingleStudent extends React.Component {
     return (
       <Grid className={classes.root} container direction="row">
         <h2>
-          {student.firstName}'s Overall Session Averages vs Class Averages
+          {student.firstName} {student.lastName}'s Engagement Metrics
         </h2>
 
         <Grid item xs={12} container direction="row" justify="center">
@@ -162,9 +162,7 @@ class HistoricalSingleStudent extends React.Component {
           </Grid>
         </Grid>
 
-        <h2>
-          {student.firstName} {student.lastName}'s Past Sessions
-        </h2>
+        <h2>{student.firstName}'s Past Sessions</h2>
 
         <Grid item xs={12} className={classes.root} container direction="row">
           <div className={classes.rootGridList}>

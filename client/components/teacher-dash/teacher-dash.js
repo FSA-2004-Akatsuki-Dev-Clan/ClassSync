@@ -1,14 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
-import { Grid, Button } from '@material-ui/core'
+import {connect} from 'react-redux'
+import {makeStyles} from '@material-ui/core/styles'
+import {Grid, Button} from '@material-ui/core'
 import RecentSessions from './recent-sessions'
-import {
-  LiveSession,
-  AllStudents,
-  SessionForm,
-  SimpleAccordion,
-} from '../'
+import {LiveSession, AllStudents, SessionForm, SimpleAccordion} from '../'
 import {setModal, endSession} from '../../store/'
 
 const myStyles = makeStyles((theme) => ({
@@ -17,7 +12,7 @@ const myStyles = makeStyles((theme) => ({
     background: 'linear-gradient(45deg, #FE6888, #FF8E53, 90%)',
     border: 0,
     backgroundColor: '#f8fcd9',
-    zeroMinWidth: true
+    zeroMinWidth: true,
   },
   paper: {
     padding: theme.spacing(2),
@@ -40,11 +35,11 @@ const myStyles = makeStyles((theme) => ({
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
   gridStyling: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   h1: {
-    margin: 0
-  }
+    margin: 0,
+  },
 }))
 
 const TeacherDash = ({
@@ -63,7 +58,9 @@ const TeacherDash = ({
     <div className={classes.root}>
       <Grid item xs={12}>
         <Grid>&nbsp;</Grid>
-        <h1 style={{ textAlign: 'center' }} className={classes.h1}>DASHBOARD</h1>
+        <h1 style={{textAlign: 'center'}} className={classes.h1}>
+          DASHBOARD
+        </h1>
         <Grid>&nbsp;</Grid>
         <div id="teacher-session">
           <Grid item xs={12} className={classes.gridStyling}>
@@ -87,19 +84,19 @@ const TeacherDash = ({
                     </div>
                   </div>
                 ) : (
-                    <div id="end">
-                      <Button
-                        className={classes.buttonStyle}
-                        type="button"
-                        onClick={openTeacherEnd}
-                      >
-                        End Session
+                  <div id="end">
+                    <Button
+                      className={classes.buttonStyle}
+                      type="button"
+                      onClick={openTeacherEnd}
+                    >
+                      End Session
                     </Button>
-                    </div>
-                  )}
+                  </div>
+                )}
               </div>
               <div id="re-invites"> </div>
-            <Grid>&nbsp;</Grid>
+              <Grid>&nbsp;</Grid>
             </Grid>
             {/* <Grid item xs={12} container direction="row">
               &nbsp;
@@ -125,28 +122,18 @@ const TeacherDash = ({
               ''
             )}
           </Grid>
- </div>
-          <Grid item xs={12} sm={12} className={classes.gridStyling}>
-            <h3>Recent Sessions</h3>
-            <Grid container item xs={12} spacing={3}>
-              <RecentSessions />
-            </Grid>
+        </div>
+        <Grid item xs={12} sm={12} className={classes.gridStyling}>
+          <h3>Recent Class Sessions</h3>
+          <Grid container item xs={12} spacing={3}>
+            <RecentSessions />
           </Grid>
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-          <Grid item xs={12} className={classes.gridStyling}>
-            <SimpleAccordion />
-          </Grid>
+        </Grid>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp;
+        <Grid item xs={12} className={classes.gridStyling}>
+          <SimpleAccordion />
+        </Grid>
       </Grid>
     </div>
   )

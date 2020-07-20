@@ -4,20 +4,20 @@ import {Grid} from '@material-ui/core'
 const Table = ({data}) => (
   <React.Fragment>
     <Grid item xs={3}>
-      <p>{data.faceScore || '--'}</p>
-      <p>Percent Time In Front of Webcam</p>
+      <p>{data.faceScore || '--'}%</p>
+      <h4>Time On Webcam</h4>
     </Grid>
     <Grid item xs={3}>
       <p>{data.wordCount || '--'}</p>
-      <p>Words Spoken</p>
+      <h4>Words Spoken</h4>
     </Grid>
     <Grid item xs={3}>
       <p>{data.clickCount || '--'}</p>
-      <p>Mouse Clicks</p>
+      <h4>Mouse Clicks</h4>
     </Grid>
     <Grid item xs={3}>
       <p>{data.keyCount || '--'}</p>
-      <p>Key Presses</p>
+      <h4>Key Presses</h4>
     </Grid>
   </React.Fragment>
 )
