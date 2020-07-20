@@ -133,7 +133,7 @@ module.exports = (io) => {
           sessionData,
           studentData
         )
-      }, 7500)
+      }, 4000)
     })
 
     // accept message from student => their data on the session is initialized if they are joining for the first time
