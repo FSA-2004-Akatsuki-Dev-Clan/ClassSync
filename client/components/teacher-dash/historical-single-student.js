@@ -1,9 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { fetchSession } from '../../store/session'
-import { fetchStudentSess } from '../../store/single-student-session'
-import { withStyles } from '@material-ui/styles';
-import { BarGraph, HistoricalSingleStudentSession, SingleTable } from '../'
+import {connect} from 'react-redux'
+import {fetchSession} from '../../store/session'
+import {fetchStudentSess} from '../../store/single-student-session'
+import {withStyles} from '@material-ui/styles'
+import {BarGraph, HistoricalSingleStudentSession, SingleTable} from '../'
 import {
   Card,
   Grid,
@@ -16,13 +16,13 @@ import {
   // StarBorderIcon,
   // GridList
 } from '@material-ui/core'
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
+import IconButton from '@material-ui/core/IconButton'
+import StarBorderIcon from '@material-ui/icons/StarBorder'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     justifyContent: 'center',
     textAlign: 'center',
@@ -30,25 +30,25 @@ const styles = theme => ({
     alignItems: 'center',
   },
   h1: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   cards: {
-    minWidth: 275
+    minWidth: 275,
   },
   fragment: {
     textAlign: 'center',
     justify: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    display: "flex",
-    minHeight: 275
+    display: 'flex',
+    minHeight: 275,
   },
   graph: {
-    minHeight: 275
+    minHeight: 275,
   },
   cardStyling: {
     color: 'white',
-    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)'
+    background: 'linear-gradient(45deg, #01b8b6 30%, #d0e265 90%)',
   },
   rootGridList: {
     display: 'flex',
@@ -69,9 +69,9 @@ const styles = theme => ({
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
   gridListTile: {
-    width: '100px'
-  }
-});
+    width: '100px',
+  },
+})
 
 class HistoricalSingleStudent extends React.Component {
   constructor() {
@@ -86,7 +86,7 @@ class HistoricalSingleStudent extends React.Component {
   }
 
   render() {
-    const { students, studentId, sessions, classes } = this.props
+    const {students, student, sessions, classes} = this.props
     let classClickAvg = 0
     let classFaceScoreAvg = 0
     let classKeyAvg = 0
@@ -108,13 +108,11 @@ class HistoricalSingleStudent extends React.Component {
 
     const classAvg = [classClickA, classFaceScoreA, classKeyA, classWordsA]
 
-    const singleStudent = students[studentId - 1]
-
     const singledatas = [
-      singleStudent.mouseClickAvg,
-      singleStudent.faceScoreAvg,
-      singleStudent.keyStrokeAvg,
-      singleStudent.wordsSpokenAvg,
+      student.mouseClickAvg,
+      student.faceScoreAvg,
+      student.keyStrokeAvg,
+      student.wordsSpokenAvg,
     ]
 
     let selectSess
@@ -125,20 +123,21 @@ class HistoricalSingleStudent extends React.Component {
     }
 
     return (
-      <Grid className={classes.root} container direction='row'>
+      <Grid className={classes.root} container direction="row">
+        <h2>
+          {student.firstName}'s Overall Session Averages vs Class Averages
+        </h2>
 
-        <h2>{singleStudent.firstName}'s Overall Session Averages vs Class Averages</h2>
-
-        <Grid item xs={12} container direction="row" justify="center" >
-          <Grid item xs={5} >
+        <Grid item xs={12} container direction="row" justify="center">
+          <Grid item xs={5}>
             <Card>
               <Grid
                 item
                 xs={12}
                 className={classes.fragment}
                 container
-                direction="row">
-
+                direction="row"
+              >
                 <Grid item xs={10} className={classes.root}>
                   <Card className={classes.cardStyling}>
                     <img src="../../graph.png" height="50px" />
@@ -147,8 +146,7 @@ class HistoricalSingleStudent extends React.Component {
 
                 <Grid>&nbsp;</Grid>
 
-                <SingleTable data={singleStudent} />
-
+                <SingleTable data={student} />
               </Grid>
             </Card>
           </Grid>
@@ -162,21 +160,20 @@ class HistoricalSingleStudent extends React.Component {
               </Grid>
             </Card>
           </Grid>
-
         </Grid>
 
-        <h2>{singleStudent.firstName} {singleStudent.lastName}'s Past Sessions</h2>
+        <h2>
+          {student.firstName} {student.lastName}'s Past Sessions
+        </h2>
 
-        <Grid item xs={12} className={classes.root} container direction='row'>
-
-
+        <Grid item xs={12} className={classes.root} container direction="row">
           <div className={classes.rootGridList}>
             <GridList className={classes.gridList} cols={2.5}>
               {sessions.map((tile) => (
-                <GridListTile 
-                className={classes.gridListTile}
-                key={tile.id}
-                onClick={() => this.setState({ sessionId: tile.id })}
+                <GridListTile
+                  className={classes.gridListTile}
+                  key={tile.id}
+                  onClick={() => this.setState({sessionId: tile.id})}
                 >
                   <img src={tile.imageUrl} alt={tile.title} />
                   <GridListTileBar
@@ -195,7 +192,6 @@ class HistoricalSingleStudent extends React.Component {
               ))}
             </GridList>
           </div>
-
 
           {/*{sessions.map(session => (
             // <div key={session.id}>
@@ -221,25 +217,26 @@ class HistoricalSingleStudent extends React.Component {
             //               {student.email}
             //             </Typography> */}
           {/* //         </CardContent>
-            //       </CardActionArea>*/ }
+            //       </CardActionArea>*/}
           {/* //     </Card>
             //   </Grid> */}
           {/* // </div>
          // ))} */}
         </Grid>
 
-        <Grid item xs={12}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
+        <Grid item xs={12}>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </Grid>
 
-        {(this.state.sessionId && this.state.sessionId <= 4) ? (
+        {this.state.sessionId && this.state.sessionId <= 4 ? (
           <HistoricalSingleStudentSession
-            studentId={studentId}
+            studentId={student.id}
             specificSess={selectSess}
             sessionId={this.state.sessionId}
           />
         ) : (
-            ''
-          )}
-
+          ''
+        )}
       </Grid>
     )
   }
@@ -260,5 +257,7 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(withStyles(styles)(HistoricalSingleStudent))
-
+export default connect(
+  mapState,
+  mapDispatch
+)(withStyles(styles)(HistoricalSingleStudent))
