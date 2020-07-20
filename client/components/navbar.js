@@ -10,26 +10,28 @@ import Avatar from '@material-ui/core/Avatar'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   appBar: {
-    backgroundColor: '#63621f'
+    backgroundColor: '#63621f',
+    // position: 'sticky',
+    // width: '98%',
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   toolbarButtons: {
     marginLeft: 'auto',
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   link: {
     color: '#01b8b6',
     fontSize: '0.9rem',
-    fontFamily: 'Montserrat'
+    fontFamily: 'Montserrat',
   },
   buttonStyle: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -38,8 +40,8 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     height: 48,
     padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
-  }
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
 }))
 
 const Navbar = ({logout, liveLogout, user, live}) => {
@@ -50,7 +52,7 @@ const Navbar = ({logout, liveLogout, user, live}) => {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar position="static" className={classes.appBar}>
+        <AppBar className={classes.appBar}>
           <Toolbar>
             {live && (
               <i
@@ -133,21 +135,21 @@ const Navbar = ({logout, liveLogout, user, live}) => {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     user: state.user,
-    live: state.status.live
+    live: state.status.live,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     liveLogout() {
       dispatch(setModal('liveLogout'))
     },
     logout() {
       dispatch(logout())
-    }
+    },
   }
 }
 

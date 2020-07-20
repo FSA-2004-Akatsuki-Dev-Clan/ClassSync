@@ -6,15 +6,27 @@ export default class Chart extends React.Component {
   constructor() {
     super()
     this.state = {
-      metric: 'wordCount'
+      metric: 'wordCount',
     }
   }
 
   render() {
     const {data, compare} = this.props
 
-    const firstTime = data.times ? data.times[0].time : 0
+    const firstTime = compare
+      ? compare.times[0].time
+      : data.times
+      ? data.times[0].time
+      : 0
 
+    const emptyDataPoints = []
+
+    if (compare) {
+      for (let i = compare.times.length - data.times.length; i > 0; i--) {
+        emptyDataPoints.push(0)
+      }
+    }
+    console.log('empty', emptyDataPoints)
     let yMin, yMax
 
     switch (this.state.metric) {
@@ -35,25 +47,51 @@ export default class Chart extends React.Component {
         yMax = 50
     }
 
-    const chartData = {
-      labels: data.times
-        ? data.times.map(
-            time => Math.floor((time.time - firstTime) * 100) / 100
-          )
-        : [],
-      datasets: [
-        {
-          label: [`${compare ? 'Student Data' : 'Class Data'}`],
-          data: data.times
-            ? data.times.map(time => time[this.state.metric])
+    const chartData = !compare
+      ? {
+          labels: data.times
+            ? data.times.map(
+                (time) => Math.floor((time.time - firstTime) * 100) / 100
+              )
             : [],
-          backgroundColor: compare
-            ? ['rgb(13, 221, 220, .2)']
-            : ['rgb(208, 226, 101, .2)'],
-          fontColor: compare ? 'rgb(13, 221, 220)' : 'rgb(208, 226, 101)'
+          datasets: [
+            {
+              label: [`${data.firstName ? 'Student Data' : 'Class Average'}`],
+              data: data.times
+                ? data.times.map((time) => time[this.state.metric])
+                : [],
+              backgroundColor: ['rgb(13, 221, 220, .2)'],
+              fontColor: 'rgb(13, 221, 220)',
+            },
+          ],
         }
-      ]
-    }
+      : {
+          labels: compare.times
+            ? compare.times.map(
+                (time) => Math.floor((time.time - firstTime) * 100) / 100
+              )
+            : [],
+          datasets: [
+            {
+              label: ['Student Data'],
+              data: data.times
+                ? emptyDataPoints.concat(
+                    data.times.map((time) => time[this.state.metric])
+                  )
+                : [],
+              backgroundColor: ['rgb(13, 221, 220, .2)'],
+              fontColor: 'rgb(13, 221, 220)',
+            },
+            {
+              label: ['Class Average'],
+              data: compare.times
+                ? compare.times.map((time) => time[this.state.metric])
+                : [],
+              backgroundColor: ['rgb(208, 226, 101, .2)'],
+              fontColor: 'rgb(208, 226, 101)',
+            },
+          ],
+        }
 
     // chartData.datasets.push({
     //   label: ['Class Average'],
@@ -62,16 +100,16 @@ export default class Chart extends React.Component {
     //   fontColor: 'rgb(208, 226, 101)'
     // })
 
-    if (compare) {
-      chartData.datasets.push({
-        label: ['Class Average'],
-        data: compare.times
-          ? compare.times.map(time => time[this.state.metric])
-          : [],
-        backgroundColor: ['rgb(208, 226, 101, .2)'],
-        fontColor: 'rgb(208, 226, 101)'
-      })
-    }
+    // if (compare) {
+    //   chartData.datasets.push({
+    //     label: ['Class Average'],
+    //     data: compare.times
+    //       ? compare.times.map((time) => time[this.state.metric])
+    //       : [],
+    //     backgroundColor: ['rgb(208, 226, 101, .2)'],
+    //     fontColor: 'rgb(208, 226, 101)',
+    //   })
+    // }
 
     return (
       <div>
@@ -79,7 +117,7 @@ export default class Chart extends React.Component {
         <select
           name="metric"
           value={this.state.metric}
-          onChange={evt => this.setState({metric: evt.target.value})}
+          onChange={(evt) => this.setState({metric: evt.target.value})}
         >
           <option value="wordCount">Words Spoken</option>
           <option value="clickCount">Mouse Clicks</option>
@@ -93,20 +131,20 @@ export default class Chart extends React.Component {
               elements: {
                 point: {
                   radius: 3,
-                  backgroundColor: 'rgb(179, 255, 0)'
-                }
+                  backgroundColor: 'rgb(179, 255, 0)',
+                },
               },
               plugins: {
                 datalabels: {
-                  align: 260
-                }
+                  align: 260,
+                },
               },
               scales: {
                 yAxes: [
                   {
                     ticks: {
                       suggestedMin: yMin,
-                      suggestedMax: yMax
+                      suggestedMax: yMax,
                     },
                     scaleLabel: {
                       labelString:
@@ -115,9 +153,9 @@ export default class Chart extends React.Component {
                           : 'Count',
                       display: true,
                       fontSize: 15,
-                      fontColor: 'rgb(195, 190, 204)'
-                    }
-                  }
+                      fontColor: 'rgb(195, 190, 204)',
+                    },
+                  },
                 ],
                 xAxes: [
                   {
@@ -125,17 +163,17 @@ export default class Chart extends React.Component {
                       labelString: 'Session Minutes',
                       display: true,
                       fontSize: 15,
-                      fontColor: 'rgb(195, 190, 204)'
-                    }
-                  }
-                ]
+                      fontColor: 'rgb(195, 190, 204)',
+                    },
+                  },
+                ],
               },
               title: {
                 text: this.state.metric,
                 fontSize: 25,
                 spanGaps: true,
-                fontColor: 'rgb(195, 190, 204)'
-              }
+                fontColor: 'rgb(195, 190, 204)',
+              },
             }}
           />
         </div>

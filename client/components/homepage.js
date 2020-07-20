@@ -9,38 +9,38 @@ import {
   CssBaseline,
   Paper,
   Avatar,
-  ButtonGroup
+  ButtonGroup,
 } from '@material-ui/core'
 
-const myStyles = makeStyles(theme => ({
+const myStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     zeroMinWidth: true,
-    backgroundColor: '#f8fcd9'
+    backgroundColor: '#f8fcd9',
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   image: {
     alignItems: 'center',
     textAlign: 'center',
     alignContent: 'center',
     alignSelf: 'center',
-    justify: 'center'
+    justify: 'center',
   },
   h1: {
     textAlign: 'center',
-    color: '#393a34'
+    color: '#393a34',
   },
   h2: {
     textAlign: 'center',
-    color: '#393a34'
+    color: '#393a34',
   },
   imageButtons: {
     position: 'relative',
-    width: '100%'
+    width: '100%',
   },
   buttons: {
     position: 'absolute',
@@ -52,8 +52,8 @@ const myStyles = makeStyles(theme => ({
     fontSize: '16px',
     padding: '8px 8px',
     border: 'none',
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 }))
 
 const HomePage = ({user, live, logout, liveLogout}) => {
@@ -151,21 +151,21 @@ const HomePage = ({user, live, logout, liveLogout}) => {
   )
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     user: state.user,
-    live: state.status.live
+    live: state.status.live,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     liveLogout() {
       dispatch(setModal('liveLogout'))
     },
     logout() {
       dispatch(logout())
-    }
+    },
   }
 }
 
