@@ -23,7 +23,7 @@ You can simulate a session locally by logging in as the teacher in one tab and a
 
 At this time the app is optimized for and most functional on Google Chrome. We plan to continue testing and expand compatibility to all major browsers as we build out this project.
 
-# Tech Stack/Core Dependencies
+## Tech Stack/Core Dependencies
 
 - React + Redux, Node.js, Express, PostgreSQL, Sequelize
 - [Socket.io](https://socket.io/)
@@ -33,7 +33,7 @@ At this time the app is optimized for and most functional on Google Chrome. We p
 - [Material-UI](https://material-ui.com/)
 - [react-modal](http://reactcommunity.org/react-modal/)
 
-# Local Setup
+## Local Setup
 ```
 git clone https://github.com/FSA-2004-Akatsuki-Dev-Clan/ClassSync
 ```
@@ -56,7 +56,7 @@ If you want to run the server and/or webpack separately, you can also npm run st
 
 Visit http://localhost:8080 to start trying out live sessions! Default logins and passwords same as listed above under the production link 
 
-# Authors
+## Authors
 
 Barish Poole | Joel McGill | Charles Pan | Alex Bangiyev
 
