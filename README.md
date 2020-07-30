@@ -59,3 +59,5 @@ Visit http://localhost:8080 to start trying out live sessions! Default logins an
 # Authors
 
 Barish Poole | Joel McGill | Charles Pan | Alex Bangiyev
+
+Copyright (c) July 2020
