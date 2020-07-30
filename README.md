@@ -11,6 +11,8 @@ Video Demo: https://www.youtube.com/watch?v=Kg7UTfmFRIo
 
 Latest Production Link: https://classsync.herokuapp.com
 
+Please forgive temporary errors or downtime as we continually work to update this prototype!
+
 Default teacher login to try out live sessions and examine past data: 
 - kylalara1@gmail.com, password: 123
 
