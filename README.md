@@ -1,40 +1,61 @@
-# ClassSync: An e-Learning Engagement Suite for Remote K-12 Classrooms
+# ClassSync 
+*A Real-Time Engagement Monitoring Web App for Remote K-12 Classrooms*
 
-https://www.youtube.com/watch?v=Kg7UTfmFRIo
+Goal: To provide educators an easy-to-use browser-based tool for tracking actionable data on students’ activity during live remote classroom sessions.
 
-https://classsync.herokuapp.com
+This was a group capstone project at Fullstack Academy in NYC!
 
-Goal: To provide educators a web-based tool for tracking actionable data on students’ activity and habits during live classroom sessions and home assignments.
+Creators: Alex Bangiyev, Barish Poole, Charles Pan, Joel McGill
 
-## Setup
+Video Demo: https://www.youtube.com/watch?v=Kg7UTfmFRIo
 
+Latest Production Link: https://classsync.herokuapp.com
+
+Default teacher login to try out live sessions and examine past data: 
+- kylalara1@gmail.com, password: 123
+
+Student logins:  
+- pierreparkes1@gmail.com, pw 123
+- omarmartin1@gmail.com, pw 123
+- mindycain1@gmail.com, pw 123
+
+You can simulate a session locally by logging in as the teacher in one tab and a student in another incognito window. Or hold fully remote sessions with multiple students logged in on separate machines.
+
+At this time the app is optimized for and most functional on Google Chrome. We plan to continue testing and expand compatibility to all major browsers as we build out this project.
+
+# Tech Stack/Core Dependencies
+
+- React + Redux, Node.js, Express, PostgreSQL, Sequelize
+- [Socket.io](https://socket.io/)
+- [Chart.js](https://www.chartjs.org/)
+- [Web Speech API](https://wicg.github.io/speech-api/)
+- [face-api.js](https://github.com/justadudewhohacks/face-api.js/)
+- [Material-UI](https://material-ui.com/)
+- [react-modal](http://reactcommunity.org/react-modal/)
+
+# Local Setup
+```
 git clone https://github.com/FSA-2004-Akatsuki-Dev-Clan/ClassSync
-
+```
+```
 npm install
-
-createdb class-sync: create postgres database 
-
-npm run start-dev: start developer environment with local server and webpack
-
-Visit http://localhost:8080 to fire it up locally
-
-Or If you have time click the project link and log in as a teacher kylalara1@gmail.com, password 123, 
-grab a google form embed link, and send it via our platform, and monitor a friend once they sign up.
-You also can role play as one of our star Pupils Pierre Parks pierreparkes1@gmail.com password 123.
+```
+Create PostgreSQL database:
+```
+createdb class-sync
+```
+Start developer environment with local server and webpack:
+```
+npm run start-dev
+```
+Seed database with default teacher, students, and dummy past session data:
+```
+npm run seed
+```
 If you want to run the server and/or webpack separately, you can also npm run start-server and npm run build-client.
 
-# Customize:
-
-Create a file called secrets.js in the project root
-This file is listed in .gitignore, and will only be required in your development environment
-Its purpose is to attach the secret environment variables that you will use while developing
-It's very important that you not push it to Github! This information is private! Someone else may use your API keys.
-Example of secrets.js file:
-process.env.GOOGLE_CLIENT_ID = 'Your Google Client ID here' process.env.GOOGLE_CLIENT_SECRET = 'Your Google Client Secret here' process.env.GOOGLE_CALLBACK = '/auth/google/callback'
+Visit http://localhost:8080 to start trying out live sessions! Default logins and passwords same as listed above under the production link 
 
 # Authors
 
-Barish Poole
-Joel McGill
-Charles Pan
-Alex Bangiyev
+Barish Poole | Joel McGill | Charles Pan | Alex Bangiyev
